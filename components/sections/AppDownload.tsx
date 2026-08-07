@@ -1,0 +1,125 @@
+"use client";
+
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { FadeIn } from "@/components/ui/FadeIn";
+
+export function AppDownload() {
+  const [phone, setPhone] = useState("");
+  const reducedMotion = useReducedMotion();
+
+  return (
+    <section className="bg-black">
+      <div className="flex min-h-[520px] flex-col md:min-h-[600px] md:flex-row">
+        {/* Left — orange with phone mockup */}
+        <div className="relative flex w-full items-center justify-center bg-accent-hover py-16 md:w-[42%] md:py-0">
+          <motion.div
+            animate={reducedMotion ? undefined : { y: [0, -12, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="relative z-10 px-8"
+          >
+            <Image
+              src="https://numforlife.com/wp-content/uploads/2025/06/download-2.svg"
+              alt="数易赋能 App"
+              width={280}
+              height={560}
+              className="h-auto w-[220px] md:w-[260px] lg:w-[280px]"
+              priority
+            />
+          </motion.div>
+        </div>
+
+        {/* Right — black with form */}
+        <div className="flex w-full flex-col justify-center bg-black px-8 py-12 md:w-[58%] md:px-12 lg:px-20 lg:py-16">
+          <FadeIn direction="right">
+            <h2 className="font-mono text-[22px] font-semibold text-white md:text-[28px]">
+              Join us on mobile!
+            </h2>
+          </FadeIn>
+
+          <FadeIn direction="right" delay={0.1}>
+            <p className="mt-4 max-w-md font-mono text-sm leading-relaxed font-semibold text-white md:text-base">
+              Download the &ldquo;数易赋能&rdquo; app to easily stay updated on
+              the go.
+            </p>
+          </FadeIn>
+
+          <FadeIn direction="right" delay={0.2} className="mt-8 max-w-md">
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label
+                htmlFor="phone"
+                className="font-mono text-xs text-white/70 md:text-sm"
+              >
+                Phone number
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Add your number"
+                className="mt-2 w-full border-b border-white/50 bg-transparent pb-3 font-mono text-lg text-white outline-none placeholder:text-white/40 focus:border-white"
+              />
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02, backgroundColor: "#FF4E27" }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-6 bg-accent px-8 py-2.5 font-mono text-sm font-medium text-black transition-colors"
+              >
+                Send
+              </motion.button>
+            </form>
+          </FadeIn>
+
+          <FadeIn direction="right" delay={0.3} className="mt-10">
+            <div className="flex flex-wrap items-center gap-5">
+              <div className="flex h-[72px] w-[72px] items-center justify-center bg-white p-1">
+                <svg viewBox="0 0 80 80" className="h-full w-full" aria-hidden>
+                  <rect width="80" height="80" fill="white" />
+                  <rect x="8" y="8" width="20" height="20" fill="black" />
+                  <rect x="52" y="8" width="20" height="20" fill="black" />
+                  <rect x="8" y="52" width="20" height="20" fill="black" />
+                  <rect x="32" y="32" width="8" height="8" fill="black" />
+                  <rect x="44" y="44" width="6" height="6" fill="black" />
+                  <rect x="56" y="56" width="10" height="10" fill="black" />
+                </svg>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <motion.a
+                  href="https://play.google.com/store/apps/details?id=com.wix.android"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.04 }}
+                >
+                  <Image
+                    src="https://numforlife.com/wp-content/uploads/2025/06/Google.png"
+                    alt="Google Play"
+                    width={160}
+                    height={48}
+                    className="h-11 w-auto"
+                  />
+                </motion.a>
+                <motion.a
+                  href="https://apps.apple.com/us/app/spaces-follow-businesses/id1099748482"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.04 }}
+                >
+                  <Image
+                    src="https://numforlife.com/wp-content/uploads/2025/06/apple.avif"
+                    alt="App Store"
+                    width={160}
+                    height={48}
+                    className="h-11 w-auto"
+                  />
+                </motion.a>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  );
+}
