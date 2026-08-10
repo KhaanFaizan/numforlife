@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { navLinks, siteConfig } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { easeOutExpo } from "@/lib/motion";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -47,14 +48,14 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500",
           scrolled
-            ? "glass-panel-dark border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.35)]"
-            : "bg-black/80 backdrop-blur-sm",
+            ? "glass-panel border-b border-border shadow-[0_8px_32px_var(--shadow-color,rgba(0,0,0,0.12))]"
+            : "bg-bg/80 backdrop-blur-sm",
         )}
       >
         <div className="mx-auto flex h-16 max-w-[1400px] items-center px-6 md:h-[72px] md:px-10 lg:px-16">
           <Link
             href="/"
-            className="focus-accent shrink-0 rounded-lg font-sans text-xl font-bold text-white md:text-2xl lg:text-[28px]"
+            className="focus-accent shrink-0 rounded-lg font-sans text-xl font-bold text-fg md:text-2xl lg:text-[28px]"
           >
             {siteConfig.name}
           </Link>
@@ -67,19 +68,20 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="focus-accent rounded-md font-sans text-sm font-normal text-white transition-opacity hover:opacity-70"
+                className="focus-accent rounded-md font-sans text-sm font-normal text-fg transition-opacity hover:opacity-70"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="ml-auto hidden md:block">
+          <div className="ml-auto hidden items-center gap-3 md:flex">
+            <ThemeToggle />
             <motion.a
               href="/admin/login"
               whileHover={reducedMotion ? undefined : { scale: 1.03 }}
               whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-              className="focus-accent inline-flex rounded-full border border-accent/80 px-5 py-2 font-sans text-sm text-white transition-colors hover:bg-accent/10"
+              className="focus-accent inline-flex rounded-full border border-accent/80 px-5 py-2 font-sans text-sm text-fg transition-colors hover:bg-accent/10"
             >
               Login / Sign Up
             </motion.a>
@@ -91,7 +93,7 @@ export function Header() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMobileOpen((v) => !v)}
-            className="focus-accent ml-auto flex h-10 w-10 items-center justify-center rounded-lg text-white md:hidden"
+            className="focus-accent ml-auto flex h-10 w-10 items-center justify-center rounded-lg text-fg md:hidden"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -109,7 +111,7 @@ export function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl md:hidden"
           >
             <motion.nav
               initial={{ opacity: 0, y: 30 }}
@@ -127,7 +129,7 @@ export function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="focus-accent rounded-lg font-sans text-2xl text-white"
+                    className="focus-accent rounded-lg font-sans text-2xl text-fg"
                   >
                     {link.label}
                   </Link>
@@ -136,10 +138,11 @@ export function Header() {
               <Link
                 href="/admin/login"
                 onClick={() => setMobileOpen(false)}
-                className="focus-accent mt-4 rounded-full border border-accent px-8 py-3 font-sans text-sm text-white"
+                className="focus-accent mt-4 rounded-full border border-accent px-8 py-3 font-sans text-sm text-fg"
               >
                 Login / Sign Up
               </Link>
+              <ThemeToggle className="mt-2" />
             </motion.nav>
           </motion.div>
         )}
