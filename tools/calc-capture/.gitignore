@@ -1,0 +1,2 @@
+# Raw HTML captures are large and reproducible via `node capture.mjs --keep-raw`
+raw/
