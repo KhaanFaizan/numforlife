@@ -5,18 +5,19 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { navLinks } from "@/lib/content";
-import { useLiveCMS } from "@/lib/cms/content-provider";
+import type { CMSContent } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
 
 type ContactSectionProps = {
+  content: CMSContent;
   /** When true, content fits in a single viewport (contact page) */
   fitViewport?: boolean;
 };
 
 const columnStackClass = "flex flex-col gap-8 lg:gap-[52px]";
 
-export function ContactSection({ fitViewport = false }: ContactSectionProps) {
-  const { content } = useLiveCMS();
+export function ContactSection({ content, fitViewport = false }: ContactSectionProps) {
+  
   const { footer } = content;
   const [form, setForm] = useState({
     name: "",

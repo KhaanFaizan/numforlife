@@ -1,11 +1,8 @@
-"use client";
-
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Button } from "@/components/ui/Button";
-import { useLiveCMS } from "@/lib/cms/content-provider";
+import type { CMSContent } from "@/lib/cms/types";
 
-export function Hero() {
-  const { content } = useLiveCMS();
+export function Hero({ content }: { content: CMSContent }) {
 
   return (
     <section

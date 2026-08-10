@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { useLiveCMS } from "@/lib/cms/content-provider";
+import type { CMSContent } from "@/lib/cms/types";
 import type { FeatureItem } from "@/lib/cms/types";
 
 const FEATURE_ICON_FALLBACKS: Record<string, string> = {
@@ -79,8 +79,8 @@ function FeatureBlock({
   );
 }
 
-export function EcosystemSection() {
-  const { content } = useLiveCMS();
+export function EcosystemSection({ content }: { content: CMSContent }) {
+  
 
   return (
     <section id="ecosystem" className="bg-bg py-16 md:py-24 lg:py-28">

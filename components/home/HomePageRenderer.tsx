@@ -1,8 +1,5 @@
-"use client";
-
-import type { HomepageBlockType } from "@/lib/cms/types";
-import { useLiveCMS } from "@/lib/cms/content-provider";
-import { PageLoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import type { ComponentType } from "react";
+import type { CMSContent, HomepageBlockType } from "@/lib/cms/types";
 import { Hero } from "@/components/sections/Hero";
 import { ImageGallery } from "@/components/sections/ImageGallery";
 import { BrandTitle } from "@/components/sections/BrandTitle";
@@ -14,31 +11,52 @@ import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
-const blockComponents: Record<HomepageBlockType, React.ComponentType> = {
+/**
+ * Renders the homepage from the CMS block order.
+ *
+ * This is a SERVER component. It previously ran on the client and gated the
+ * whole page behind a hydration check, which meant crawlers received an empty
+ * skeleton — fatal for the SEO migration this project depends on. Content now
+ * arrives as a prop resolved on the server, so the markup is complete in the
+ * first response. Individual sections opt into the client only where they
+ * genuinely need it (animation, form state).
+ */
+
+/** Blocks that render content from the CMS payload. */
+const contentBlocks: Partial<
+  Record<HomepageBlockType, ComponentType<{ content: CMSContent }>>
+> = {
   hero: Hero,
   gallery: ImageGallery,
-  brand: BrandTitle,
-  "app-download": AppDownload,
-  about: AboutSection,
   features: EcosystemSection,
-  results: ResultsSection,
-  partners: PartnersSection,
-  testimonials: TestimonialsSection,
   footer: ContactSection,
 };
 
-export function HomePageRenderer() {
-  const { content, isHydrated } = useLiveCMS();
+/** Blocks whose content is still static. */
+const staticBlocks: Partial<Record<HomepageBlockType, ComponentType>> = {
+  brand: BrandTitle,
+  "app-download": AppDownload,
+  about: AboutSection,
+  results: ResultsSection,
+  partners: PartnersSection,
+  testimonials: TestimonialsSection,
+};
 
-  if (!isHydrated) {
-    return <PageLoadingSkeleton variant="dark" />;
-  }
-
+export function HomePageRenderer({ content }: { content: CMSContent }) {
   return (
     <>
       {content.homepageBlocks.map((block) => {
-        const Component = blockComponents[block.type];
-        return <Component key={block.id} />;
+        const ContentBlock = contentBlocks[block.type];
+        if (ContentBlock) {
+          return <ContentBlock key={block.id} content={content} />;
+        }
+
+        const StaticBlock = staticBlocks[block.type];
+        // An unknown block type must not take the page down — a CMS editor
+        // could publish a type this build does not know about.
+        if (!StaticBlock) return null;
+
+        return <StaticBlock key={block.id} />;
       })}
     </>
   );

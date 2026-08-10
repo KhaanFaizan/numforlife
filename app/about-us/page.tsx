@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPublishedContent } from "@/lib/cms/server";
 import { AboutStorySection } from "@/components/sections/about/AboutStorySection";
 import { AboutBioSection } from "@/components/sections/about/AboutBioSection";
 import { AboutValuesSection } from "@/components/sections/about/AboutValuesSection";
@@ -11,15 +12,17 @@ export const metadata: Metadata = {
   description: "我们的故事与价值使命",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const content = await getPublishedContent();
+
   return (
-    <div className="bg-black pt-[72px] md:pt-[80px]">
+    <div className="bg-bg pt-[72px] md:pt-[80px]">
       <AboutStorySection />
       <AboutBioSection />
       <AboutValuesSection />
       <AboutTeamSection />
       <AboutPartnersSection />
-      <ContactSection />
+      <ContactSection content={content} />
     </div>
   );
 }

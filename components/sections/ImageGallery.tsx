@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { useLiveCMS } from "@/lib/cms/content-provider";
+import type { CMSContent } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
 
 function ParallaxImage({
@@ -47,8 +47,7 @@ function ParallaxImage({
   );
 }
 
-export function ImageGallery() {
-  const { content } = useLiveCMS();
+export function ImageGallery({ content }: { content: CMSContent }) {
   const images = content.gallery.images;
   const sectionRef = useRef<HTMLElement>(null);
 
