@@ -7,6 +7,7 @@ export const siteConfig = {
 };
 
 export const navLinks = [
+  { label: "测算", href: "/celue" },
   { label: "产品服务", href: "/portfolio" },
   { label: "关于我们", href: "/about-us" },
   { label: "联系", href: "/contact-us" },
