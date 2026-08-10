@@ -466,7 +466,32 @@ behaviour" — those remain blocked on the app source (§13 B-1). Everything els
 
 # 10. WooCommerce → PlenorHub (C6, C7)
 
-## 10.1 Channel status — 🔬 RE-VERIFIED 2026-08-10 07:27 UTC
+## 10.0 Channel resolution — ✅ RESOLVED 2026-08-10 08:51 UTC
+
+After the client opted merchants in, we re-tested both candidate channels:
+
+| Channel | Products | Merchants | Verdict |
+|---|---|---|---|
+| `numforlife` | 0 | 0 | Still empty |
+| **`shuyi`** | **1** | **1** | **Live** |
+
+First live product: id **95** "Mapping Your Life Out of Boundaries", merchant **SK** (id 23),
+**10.00 KCC**, category `personal-services`, stock 99, image present.
+
+🏛 **DECISION D-013: use the `shuyi` channel.** It is the only channel with content, **and** it
+matches the KCC ID `client_id` we already verified as registered (§6.1). Identity and commerce
+therefore resolve to the same tenant, which is almost certainly the intended design.
+`numforlife` is registered in neither system.
+
+⚠️ **Two pricing questions this raises:**
+1. Products are priced in **KCC coins**, not fiat. This ties to `yzn_member.coins` (§7.3) and the
+   0/5/10% tier discount (§10.2) — a coherent model, but the website must display KCC pricing and
+   the user's coin balance, not dollars.
+2. The same item appears on the WooCommerce shop as 拓展你的人生地图 at **$19.99**, versus
+   **10.00 KCC** here. The fiat↔KCC relationship and which price is authoritative must be
+   confirmed before launch. Logged as VA-5.
+
+## 10.1 Channel status — 🔬 first verification 2026-08-10 07:27 UTC (superseded by §10.0)
 
 | Endpoint | HTTP | Result |
 |---|---|---|
