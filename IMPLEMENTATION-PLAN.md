@@ -38,13 +38,21 @@ investigation** rather than by asking:
 | Was blocking (v1) | Now | How |
 |---|---|---|
 | KCC `numforlife` client not registered | ✅ **RESOLVED** | 🔬 Probed KCC: `shuyi` client **is registered and works**; and the flow is **non-redirect**, so no callback URLs need registering for either UAT domain |
-| Membership discount rules unknown | ✅ **RESOLVED** | 🔬 Found the rule live in production data: `商城优惠` = **0% / 5% / 10%** |
-| Numerology algorithm at risk | ✅ **DE-RISKED** | 🔬 Captured **12 golden-master fixtures** from the live calculator before WordPress is retired |
-| Database access | ✅ CONFIRMED granted | ⏳ Credentials not yet in our hands (§7) |
+| Membership discount rules unknown | ✅ **RESOLVED** | 🔬 Rule found in production *and* confirmed in the DB: `商城优惠` = **0% / 5% / 10%** |
+| Numerology algorithm at risk | ✅ **DE-RISKED** | 🔬 12 golden-master fixtures captured **and** cross-validated against the app's stored JSON result format |
+| Database access | ✅ **RESOLVED** | 🔬 Credentials supplied 08-10; **connected read-only, 68 tables mapped** (§7) |
 | WooCommerce vs PlenorHub | ✅ **RESOLVED** | Client: full replacement by PlenorHub |
 | Calculation API existence | ✅ **RESOLVED** | Client: none exists — port it |
+| Energy points / credits API missing | ✅ **RESOLVED** | 🔬 Found in DB: `yzn_member.coins` + `yzn_coin_log` (§7.3) |
 
-**Still genuinely blocked:** Tarot source, database credentials, server credentials, PlenorHub
+## ⚠️ One new risk found by inspecting the database
+
+Soon states that users registered in the app can log into both app and website via KCC ID.
+🔬 **The data does not fully support this: only 8 of 51 members (16%) have a `kcc_user_id`.**
+The remaining 43 have no KCC identity, so a KCC-only login would leave them unable to sign in.
+This is the single most important thing to resolve before auth is built — see §6.4 and §13 VA-1.
+
+**Still genuinely blocked:** Tarot deck/interpretation content, server SSH credentials, PlenorHub
 catalog content. See §13.
 
 ---
@@ -207,19 +215,40 @@ Scopes `openid profile email`. Rate limit is 5/min per IP on `/authorize` — su
 429 message. Admin auth uses the same flow, then maps the KCC `sub` to our `admin_users` row for
 role resolution (KCC does not store our roles).
 
-## 6.4 The one open question — ⏳ PENDING, not blocking
+## 6.4 KCC coverage gap — 🔬 VERIFIED, needs a client decision
 
-C3 requires **existing app users** to log in. But 🔬 the app backend authenticates with its own
-`token`+`userid` via `/api/Userinfo/login`, and registers users by email/phone — it does **not**
-visibly use KCC ID. So one of these must be true:
+C3 says app-registered users can log into both app and website via KCC ID. The database shows
+this is **only partially true today**:
 
-- (a) app users already exist in KCC ID and `shuyi` resolves them → SSO works today, or
-- (b) app users live only in the ThinkPHP DB → KCC login will not find them, and the website must
-  authenticate against `/api/Userinfo/login` instead (or the accounts must be provisioned into KCC).
+```sql
+SELECT COUNT(*) total,
+       SUM(kcc_user_id IS NOT NULL AND kcc_user_id<>'') has_kcc
+  FROM yzn_member;
+-- total = 51, has_kcc = 8
+```
 
-**This is answerable with one test credential**, not a discussion. We can settle it in minutes
-once we have a real app account (§13, VERIFIED-ACTION-1). Until then we build the auth layer
-behind a provider interface so either backend can be plugged in without rework — 🏛 D-004.
+| Metric | Value |
+|---|---|
+| Total members | **51** |
+| With `kcc_user_id` | **8** (16%) |
+| With `mall_bound = 1` | **8** (the same cohort) |
+| With `bigk_wallet_id` | **0** |
+
+The schema is clearly *designed* for KCC (`yzn_member.kcc_user_id`, `mall_client_id`,
+`mall_wallet_id`, `mall_bound`), but only a recent cohort is linked. The other 43 members
+authenticate purely through the legacy `yzn_member.password` + `yzn_member_token` mechanism.
+
+**Consequence:** a KCC-only login excludes 84% of the existing user base on day one.
+
+Three possible resolutions — **the client must choose, we should not decide this unilaterally**:
+- **(a) Backfill/provision** the 43 unlinked members into KCC ID before launch (cleanest).
+- **(b) Dual-path login:** try KCC first, fall back to the legacy credential check, and link the
+  KCC id on first successful login (progressive migration — lowest user friction).
+- **(c) KCC-only,** accepting that unlinked users must re-register.
+
+💡 **RECOMMENDATION: (b).** It honours C3 literally, requires no big-bang migration, and
+progressively populates `kcc_user_id` as users return. 🏛 D-004's provider interface already
+supports it. Logged as VA-1 in §13.
 
 ---
 
@@ -255,15 +284,70 @@ none exists we read the DB directly **server-side, read-only**. This honours C2 
 actual security intent simultaneously. Documented as an intentional divergence from a literal
 reading of PRD §5.4.
 
-## 7.3 Data map — ⏳ PENDING credentials
+## 7.3 Data map — 🔬 VERIFIED 2026-08-10
 
-Cannot be produced yet: the phpMyAdmin **URL** is known, but no username/password has reached us
-(§13). The moment credentials arrive we will produce
-`table → columns → relationship → consuming website feature` for: users, KCC identifiers,
-profiles (档案), membership tier/expiry, orders/transactions, credits, and calculation history.
+**Connection:** MySQL **5.7.40** on `43.156.19.185:3306`, database `app_numforlife_com`,
+using the client-supplied **read-only** account (credentials held outside the repo, in env vars
+only — see `tools/db-inspect/README.md`). Port 3306 is directly reachable, so tooling connects
+with a real MySQL client rather than scraping phpMyAdmin. **68 tables.**
 
-**Already known targets from the API surface** (to confirm against schema): users, member
-profiles, VIP tier + fee, order list, ads, mentors, feedback.
+Inspection tooling: `tools/db-inspect/` (credentials read from env vars only — never committed).
+
+### Core map: table → columns → website feature
+
+| Table | Rows | Key columns | Consumed by |
+|---|---|---|---|
+| **`yzn_member`** | 51 | `id`, `username`, `nickname`, `email`, `mobile`, `avatar`, `sex`, `birth_time`, `year/month/day`, `twin_status`, `parent_year/month/day`, `real_name` | Dashboard profile; **pre-fills the calculator** |
+| ″ (identity) | | `kcc_user_id`, `mall_client_id`, `mall_wallet_id`, `mall_bound`, `bigk_wallet_id`, `token` | Auth + KCC mapping (§6.4) |
+| ″ (membership) | | `vip_level_id`, `vip_subscription_start`, `vip_subscription_end` *(NULL = lifetime)*, `vip_time`, `vip_price`, `overduedate`, `is_super`, `super_type` | Membership status, tier gating, discount tier |
+| ″ (credits) | | **`coins`** (KCC Coin balance), `point`, `amount` | **Energy points card** — previously thought missing |
+| **`yzn_vip_levels`** | 3 | `id`, `name` = 基础会员 / 精英会员 / 至尊会员 | Tier naming |
+| **`yzn_vip_fee`** | 3 | `month_fee`, `year_fee`, `three_year_fee`, `five_year_fee`, `lifetime_fee`, `*_gift_coins`, `*_recommended`, `*_info` | **Membership pricing table** |
+| **`yzn_vip_purview`** | 9 | `purview_name`, `base/elitist/supreme_vip_key` + `_value` | Benefit comparison + **all gating** + **discount (row 17)** |
+| `yzn_vip_purview_user_use_info` | 103 | per-user entitlement consumption | Quota display |
+| **`yzn_records`** | 1001 | `userid`, `records_type` (0 数字 / 1 姓名 / 2), `type` (−1 正常 / 0 流年 / 1 流月 / 2 流日), `tarot_type`, `year/month/day`, `result`, `result0..result7`, `status` | **测算记录 / dashboard history** |
+| `yzn_qimen_records` | 44 | 吉时出行 records | History (out of PRD scope — flag) |
+| `yzn_order` / `yzn_order_log` | 199 / 42 | membership & purchase orders | Dashboard order history |
+| `yzn_shop_order` | 4 | 商城订单 | Shop history (PlenorHub migration) |
+| `yzn_coin_log` / `yzn_coin_config` | 134 / 7 | coin movements by `type` | Energy-point history |
+| `yzn_member_token` | 44 | `token`, `user_id`, `expire_time` | Legacy session validation |
+| `yzn_tutor` (+ apply/material) | 3 | mentor profiles | 导师 page (not in PRD — §13) |
+| `yzn_ads` | 3 | `position`, `image_url`, `vip_show` | Banner slots (`vip_show` ties to the 广告 entitlement) |
+| `yzn_daily_data` | 404 | 万年历 | Daily content widget |
+| `yzn_achievement_definition` / `yzn_user_achievement` | 33 / 33 | gamification | Not in PRD |
+| `yzn_task_definition` / `yzn_user_task_progress` | 27 / 0 | tasks | Not in PRD |
+| `yzn_phase3_event` | 94 | event telemetry | Existing analytics — reuse? |
+
+### Membership distribution (live)
+基础 **40** · 精英 **6** · 至尊 **5**. Pricing: Elite $4.99/mo → $34.99/5yr (+50–130 gift coins);
+Supreme $12.99/mo → $89.99/5yr (+120–320 gift coins). Lifetime rows exist but are `0.00`.
+⚠️ Note the WooCommerce shop sells a **$999 lifetime VIP** that has no counterpart here.
+
+### Credits
+43 of 51 members hold coins (max 1055, mean 44.5). `yzn_coin_log.type` values observed: 3, 4, 8, 9
+— the type→label mapping lives in `yzn_coin_config` and must be read, not guessed.
+
+### Stored result format — cross-validates our fixtures 🔬
+`yzn_records.result` is **JSON** (769/821 numerology rows JSON-encoded; older rows use a legacy
+format — the port must tolerate both). Schema:
+
+```
+wuxing.p1..p8, wuxing.main_number, wuxing.secondary_number,
+wuxing.left1..left3, wuxing.right1..right3,
+mainwx (number), mainwxx (string), fullOrder (array[5]), list (array[16])
+```
+
+**`fullOrder` is an array of 5** — independent confirmation of the rotating five-element order we
+discovered from the web calculator (§8.3). Two systems, same finding.
+
+🏛 **DECISION D-010:** the ported calculator emits **this** JSON shape, so website results are
+structurally identical to app results and could later be written to `yzn_records` if the client
+ever wants website previews to appear in the app.
+
+### Privacy discipline
+All inspection used aggregates, schema metadata and one field-shape sample. **No personal data
+(emails, phones, password hashes, names, birth dates) was extracted, logged or committed**, and
+none will be. `yzn_member.password`/`encrypt` are never read.
 
 ## 7.4 Dashboard UX — manutd.com reference (C8)
 Patterns to adapt: a compact identity header, card-grid information hierarchy, clear primary/
@@ -349,9 +433,34 @@ both JS bundles (1.07 MB inspected). No tarot endpoint exists in the 42-route AP
 **uni-app/Vue**. So the tarot implementation is presumably in a separate native/Flutter codebase
 we have not been given.
 
-**Nothing about tarot can be responsibly specified from what we hold.** Per the brief's own
-instruction — "do not invent missing Tarot behaviour" — this stays blocked pending the source
-(§13, BLOCKED-1). Everything else in the project proceeds unaffected.
+## 9.1 What the database told us — 🔬 the blocker is now much narrower
+
+`yzn_records.tarot_type` is a documented enum. **The eight spreads are therefore known:**
+
+| Spread | Chinese/meaning |
+|---|---|
+| `free` | free draw |
+| `daily` | daily card (每日一张牌 — matches the `/tarot/` page's tagline) |
+| `love` | love |
+| `one_card` | single card |
+| `yes_no` | yes/no |
+| `celtic_cross` | Celtic Cross |
+| `tree_of_life` | Tree of Life |
+| `year_ahead` | year ahead |
+
+Usage today: 5 records, all `daily` — tarot is live but lightly used, and results are stored in
+the **same `yzn_records` table** as numerology (so history/records plumbing is shared).
+
+**Still missing, and genuinely not derivable:**
+- 🔬 **No tarot deck, card or meaning tables exist anywhere in the 68-table schema** (verified by
+  searching for `%tarot%`, `%card%`, `%deck%`). The deck art and interpretation text live in the
+  app binary.
+- Card images, upright/reversed copy, per-spread position meanings, preview-depth limits, and
+  how a reading is generated (client-random vs server-authoritative).
+
+➡️ **Revised status:** we can now build the *flow, spreads, records plumbing and result storage*.
+We cannot produce the *deck or interpretations*. Per the brief — "do not invent missing Tarot
+behaviour" — those remain blocked on the app source (§13 B-1). Everything else proceeds.
 
 ---
 
@@ -464,6 +573,9 @@ Command: `node tools/calc-capture/capture.mjs`.
 | D-007 | 08-10 | Capture golden-master fixtures **before** porting; port server-only; reproduce exactly | C4 | Algorithm exists only in WordPress; behaviour must survive migration verbatim | `tests/fixtures/numerology` + server-only module | ✅ Done (capture) |
 | D-008 | 08-10 | Build product UI against `bigk` sample data behind a channel adapter | C6 + 🔬 §10.1 | `numforlife` catalog is empty; must not block UI work | Channel is one env var | ✅ Accepted |
 | D-009 | 08-10 | Tier discount computed server-side from entitlement matrix; PlenorHub prices treated as list prices | C7 + 🔬 §10.2 | PlenorHub has no membership-discount concept; its discount is KCC-wallet based | Pricing helper in `packages/api` | ⚠️ Partial — checkout enforcement unresolved |
+| D-010 | 08-10 | Ported calculator emits the **app's existing `yzn_records.result` JSON shape** (`wuxing.*`, `mainwx`, `mainwxx`, `fullOrder[5]`, `list[16]`) | 🔬 §7.3 | Keeps website and app results structurally identical; allows website previews to be written into `yzn_records` later without a schema change | Numerology module output contract fixed | ✅ Accepted |
+| D-011 | 08-10 | DB inspection tooling isolated in `tools/db-inspect` with its own `package.json`; credentials via env vars only | C2 + security | Keeps `mysql2` out of the app's dependency tree and guarantees no credential ever enters the repo or a client bundle | Tooling separate from `apps/*` | ✅ Active |
+| D-012 | 08-10 | Membership pricing/benefits read from `yzn_vip_fee` + `yzn_vip_levels` + `yzn_vip_purview`, never hardcoded | 🔬 §7.3 | Real pricing already exists (Elite $4.99–34.99, Supreme $12.99–89.99, incl. gift coins) | Membership page fully data-driven | ✅ Accepted |
 
 **Contradictions resolved, not deleted:**
 - *"Use the app database" vs "never connect to the DB directly"* → D-005 (browser ≠ server).
@@ -486,18 +598,18 @@ Command: `node tools/calc-capture/capture.mjs`.
 ## 🟠 VERIFIED — ACTION REQUIRED (small, specific, unblocks a lot)
 | # | Action | Why | Effort |
 |---|---|---|---|
-| VA-1 | **One real app-user test credential** | Settles §6.4 — whether existing app users authenticate via KCC `shuyi` or must go through `/api/Userinfo/login`. Answerable by one login attempt. | 1 min |
+| **VA-1** | **Decide the KCC coverage strategy** — (a) backfill 43 members into KCC, (b) dual-path login with progressive linking *(recommended)*, or (c) KCC-only | 🔬 Only **8 of 51** members have `kcc_user_id`; KCC-only login locks out 84% of existing users (§6.4) | decision |
 | VA-2 | **Export the numerology PHP snippet** (Code Snippets → export) | Removes residual porting risk beyond the captured matrix; guarantees formula parity | 2 min |
 | VA-3 | **Confirm where product checkout happens** and who applies the 5%/10% at payment time | PlenorHub checkout has no membership-discount field (§10.2) | decision |
-| VA-4 | **Decide the fate of existing WooCommerce orders/customers** | No destination in the new architecture | decision |
+| VA-4 | **Decide the fate of existing WooCommerce orders/customers** and the **$999 lifetime VIP** SKU, which has no counterpart in `yzn_vip_fee` (lifetime rows are `0.00`) | No destination in the new architecture | decision |
 
 ## 🔴 STILL BLOCKED
 | # | Blocker | Blocks | Evidence it is genuinely missing |
 |---|---|---|---|
-| B-1 | **Tarot source** (Flutter/native repo or build) + card deck assets, meanings, spreads, preview depth | Tarot Lite entirely | 🔬 Zero tarot routes in either H5 bundle; none in 42 API routes; `/tarot/` is marketing only |
-| B-2 | **Database credentials** (phpMyAdmin user/password or a read-only MySQL user + host/port) | Data map §7.3, user dashboard, 测算记录 | Access was granted in conversation (C2) but **no credentials have reached us**; the URL alone cannot authenticate |
-| B-3 | **Server/SSH + Tencent console credentials**; DNS for `uat.numforlife.com` and `uat-admin.numforlife.com` | All UAT deployment | 🔬 `uat.numforlife.com` does not resolve; we hold no console or SSH login |
-| B-4 | **Products published to the PlenorHub `numforlife` channel** | Live product display (UI unblocked via D-008) | 🔬 §11.1 |
+| B-1 | **Tarot deck assets + interpretation content** (card images, upright/reversed copy, per-spread position meanings, preview depth, and whether readings are server-generated) | Tarot Lite result content only — flow/spreads/storage now unblocked (§9.1) | 🔬 Zero tarot routes in either H5 bundle; none in 42 API routes; **no tarot/card/deck table in any of the 68 DB tables** |
+| B-2 | ~~Database credentials~~ | — | ✅ **RESOLVED 08-10** — connected read-only, 68 tables mapped (§7.3) |
+| B-3 | **SSH/deployment credentials** for the Lighthouse instances + **DNS** for `uat.numforlife.com` and `uat-admin.numforlife.com` | All UAT deployment | Soon states UAT access is granted, but no SSH/console login has reached us and 🔬 neither UAT hostname resolves. Likely a transmission gap rather than a permissions one |
+| B-4 | **Products published to the PlenorHub `numforlife` channel** | Live product display (UI unblocked via D-008) | 🔬 §11.1 — re-verified 08-10, still `total: 0` |
 
 ## 🟡 NON-BLOCKING / LATER
 Energy-point API (not found in the API surface) · app deep-link scheme + universal-link files ·

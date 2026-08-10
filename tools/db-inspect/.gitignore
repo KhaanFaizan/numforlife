@@ -1,0 +1,3 @@
+node_modules/
+# Ad-hoc query scratch files
+q*.mjs

@@ -1,0 +1,7 @@
+{
+  "name": "numforlife-db-inspect",
+  "private": true,
+  "type": "module",
+  "description": "Isolated read-only schema inspection tooling. Not part of the app build.",
+  "dependencies": { "mysql2": "^3.11.0" }
+}
