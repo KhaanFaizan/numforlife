@@ -1,5 +1,6 @@
 import type { CalculatorDefinition } from "../types";
 import { upstreamNumerologyEngine } from "./engine-upstream";
+import { withCache } from "./engine-cached";
 
 export const numerologyCalculator: CalculatorDefinition = {
   kind: "numerology",
@@ -15,8 +16,10 @@ export const numerologyCalculator: CalculatorDefinition = {
  *
  * Swapping the interim upstream engine for a native port is a one-line change
  * here; nothing that consumes it needs to know which implementation is running.
+ * The cache wrapper stays useful either way, though it matters most now, while
+ * every calculation is a round trip to the client's production WordPress.
  */
-export const numerologyEngine = upstreamNumerologyEngine;
+export const numerologyEngine = withCache(upstreamNumerologyEngine);
 
 export { validateNumerologyInput } from "./engine-upstream";
 export { parseNumerologyHtml } from "./parse";
