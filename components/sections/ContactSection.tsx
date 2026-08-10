@@ -29,7 +29,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
     <section
       id="contact"
       className={cn(
-        "w-full bg-black",
+        "w-full bg-bg",
         fitViewport
           ? "flex min-h-[calc(100vh-72px)] flex-col md:min-h-[calc(100vh-80px)] lg:min-h-[95vh]"
           : "pb-6 pt-8 md:pb-10 md:pt-12 lg:min-h-[90vh] lg:pb-16 lg:pt-10",
@@ -47,7 +47,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            "font-sans leading-none font-bold text-white",
+            "font-sans leading-none font-bold text-fg",
             fitViewport
               ? "text-[52px] md:text-[72px] lg:text-[130px] xl:text-[150px]"
               : "text-[56px] md:text-[80px] lg:text-[130px] xl:text-[150px]",
@@ -74,10 +74,10 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
             >
               {footer.email}
             </a>
-            <p className="font-sans text-[15px] font-bold leading-snug text-white md:text-base">
+            <p className="font-sans text-[15px] font-bold leading-snug text-fg md:text-base">
               {footer.contactText}
             </p>
-            <p className="font-sans text-[15px] font-bold leading-snug text-white md:text-base">
+            <p className="font-sans text-[15px] font-bold leading-snug text-fg md:text-base">
               {footer.addressText}
             </p>
           </FadeIn>
@@ -89,7 +89,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-sans text-[15px] font-bold leading-snug text-white transition-opacity hover:opacity-70 md:text-base"
+                  className="font-sans text-[15px] font-bold leading-snug text-fg transition-opacity hover:opacity-70 md:text-base"
                 >
                   {link.label === "联系" ? "联系我们" : link.label}
                 </Link>
@@ -109,7 +109,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
         >
           <div
             className={cn(
-              "w-full rounded-[28px] bg-white px-7 py-8 md:rounded-[32px] md:px-9 md:py-9",
+              "w-full rounded-[28px] bg-surface px-7 py-8 md:rounded-[32px] md:px-9 md:py-9",
               "lg:min-h-[440px] lg:rounded-[44px] lg:px-10 lg:py-10",
             )}
           >
@@ -143,7 +143,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
                 <div key={field.id}>
                   <label
                     htmlFor={field.id}
-                    className="font-sans text-[13px] font-bold text-black md:text-sm"
+                    className="font-sans text-[13px] font-bold text-fg md:text-sm"
                   >
                     {field.label}
                   </label>
@@ -159,7 +159,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
                       }))
                     }
                     className={cn(
-                      "focus-accent-light mt-1.5 w-full border-b border-black/20 bg-transparent pb-2 text-[13px] text-black outline-none transition-colors placeholder:text-black/35 focus:border-black md:text-sm",
+                      "focus-accent mt-1.5 w-full border-b border-border bg-transparent pb-2 text-[13px] text-fg outline-none transition-colors placeholder:text-fg-subtle focus:border-border-strong md:text-sm",
                       field.mono && "font-mono tracking-wide",
                     )}
                   />
@@ -169,7 +169,7 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
               <div>
                 <label
                   htmlFor="message"
-                  className="font-sans text-[13px] font-bold text-black md:text-sm"
+                  className="font-sans text-[13px] font-bold text-fg md:text-sm"
                 >
                   Message
                 </label>
@@ -181,13 +181,13 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
                   onChange={(e) =>
                     setForm((prev) => ({ ...prev, message: e.target.value }))
                   }
-                  className="focus-accent-light mt-1.5 w-full resize-none border-b border-black/20 bg-transparent pb-3 font-sans text-[13px] text-black outline-none transition-colors placeholder:text-black/35 focus:border-black md:text-sm lg:min-h-[52px]"
+                  className="focus-accent mt-1.5 w-full resize-none border-b border-border bg-transparent pb-3 font-sans text-[13px] text-fg outline-none transition-colors placeholder:text-fg-subtle focus:border-border-strong md:text-sm lg:min-h-[52px]"
                 />
               </div>
 
               <button
                 type="submit"
-                className="focus-accent-light mt-1 w-full rounded-full bg-black py-3.5 font-sans text-[13px] font-bold tracking-[0.18em] text-white uppercase transition-colors hover:bg-black/90 md:py-4 md:text-sm"
+                className="focus-accent mt-1 w-full rounded-full bg-bg py-3.5 font-sans text-[13px] font-bold tracking-[0.18em] text-fg uppercase transition-colors hover:bg-bg/90 md:py-4 md:text-sm"
               >
                 Submit
               </button>
@@ -203,13 +203,13 @@ export function ContactSection({ fitViewport = false }: ContactSectionProps) {
             <Link
               key={link.label}
               href={link.href}
-              className="font-sans text-xs font-bold text-white transition-opacity hover:opacity-70"
+              className="font-sans text-xs font-bold text-fg transition-opacity hover:opacity-70"
             >
               {link.label}
             </Link>
           ))}
         </div>
-        <p className="font-sans text-xs font-bold text-white">{footer.copyright}</p>
+        <p className="font-sans text-xs font-bold text-fg">{footer.copyright}</p>
       </div>
     </section>
   );

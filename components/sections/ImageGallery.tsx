@@ -40,7 +40,7 @@ function ParallaxImage({
             height={800}
             className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 rounded-[30px] bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
+          <div className="absolute inset-0 rounded-[30px] bg-bg/0 transition-colors duration-500 group-hover:bg-bg/10" />
         </div>
       </motion.div>
     </div>
@@ -65,7 +65,7 @@ export function ImageGallery() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-black py-8 md:py-12"
+      className="relative bg-bg py-8 md:py-12"
       aria-label="Product gallery"
     >
       <div className="section-container w-full">

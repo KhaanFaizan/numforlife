@@ -13,9 +13,9 @@ export function ProductServicesSection() {
   ];
 
   return (
-    <section className="bg-black px-6 py-16 md:px-10 md:py-20 lg:px-16 lg:py-24 xl:px-24">
+    <section className="bg-bg px-6 py-16 md:px-10 md:py-20 lg:px-16 lg:py-24 xl:px-24">
       <FadeIn className="text-center">
-        <h1 className="font-sans text-3xl font-semibold text-white md:text-[46px] lg:text-[52px]">
+        <h1 className="font-sans text-3xl font-semibold text-fg md:text-[46px] lg:text-[52px]">
           Product Services
         </h1>
       </FadeIn>
@@ -29,7 +29,7 @@ export function ProductServicesSection() {
             {row.map((service, i) => (
               <FadeIn key={service.id} delay={rowIndex * 0.1 + i * 0.08}>
                 <Link href={service.href} className="group block text-center">
-                  <h2 className="font-sans text-lg font-semibold text-white md:text-xl lg:text-2xl">
+                  <h2 className="font-sans text-lg font-semibold text-fg md:text-xl lg:text-2xl">
                     {service.title}
                   </h2>
                   <motion.div

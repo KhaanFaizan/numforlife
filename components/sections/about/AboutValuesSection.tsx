@@ -5,9 +5,9 @@ import { aboutValues } from "@/lib/content";
 
 export function AboutValuesSection() {
   return (
-    <section className="bg-black px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
+    <section className="bg-bg px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
       <FadeIn className="text-center">
-        <h2 className="font-sans text-2xl font-semibold text-white md:text-[46px] lg:text-[52px]">
+        <h2 className="font-sans text-2xl font-semibold text-fg md:text-[46px] lg:text-[52px]">
           Our Values and Mission
         </h2>
       </FadeIn>
@@ -16,10 +16,10 @@ export function AboutValuesSection() {
         {aboutValues.map((value, i) => (
           <FadeIn key={value.title} delay={i * 0.06}>
             <div className="text-center">
-              <h3 className="mx-auto inline-block bg-accent px-2 py-1 font-sans text-xs font-semibold text-black md:text-sm">
+              <h3 className="mx-auto inline-block bg-accent px-2 py-1 font-sans text-xs font-semibold text-accent-fg md:text-sm">
                 {value.title}
               </h3>
-              <p className="mt-5 font-mono text-xs leading-[26px] text-white md:text-[12px]">
+              <p className="mt-5 font-mono text-xs leading-[26px] text-fg md:text-[12px]">
                 {value.text}
               </p>
             </div>

@@ -7,7 +7,7 @@ import { partners } from "@/lib/content";
 
 export function PartnersSection() {
   return (
-    <section className="bg-black py-20 md:py-28">
+    <section className="bg-bg py-20 md:py-28">
       <div className="section-container text-center">
         <FadeIn>
           <SectionLabel>合作伙伴</SectionLabel>

@@ -24,7 +24,7 @@ function CircleArrow({
       onClick={onClick}
       whileHover={reducedMotion ? undefined : { scale: 1.06 }}
       whileTap={reducedMotion ? undefined : { scale: 0.95 }}
-      className="focus-accent-light flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/30 text-black transition-colors hover:border-accent-hover hover:text-accent-hover"
+      className="focus-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-fg transition-colors hover:border-accent-hover hover:text-accent-hover"
     >
       {direction === "left" ? (
         <ChevronLeft size={18} strokeWidth={1.5} />
@@ -56,14 +56,14 @@ export function TestimonialsSection() {
   }, [paginate, reducedMotion]);
 
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-surface py-20 md:py-28">
       <div className="section-container">
         <FadeIn className="text-center">
-          <SectionLabel className="!text-black">合作伙伴</SectionLabel>
+          <SectionLabel className="!text-fg">合作伙伴</SectionLabel>
         </FadeIn>
 
         <FadeIn delay={0.1} className="mt-3 text-center">
-          <SectionHeading dark>STRAIGHT FROM THE FEED</SectionHeading>
+          <SectionHeading>STRAIGHT FROM THE FEED</SectionHeading>
         </FadeIn>
 
         <div className="relative mx-auto mt-14 max-w-3xl md:mt-16">
@@ -93,10 +93,10 @@ export function TestimonialsSection() {
                   transition={{ duration: 0.4, ease: easeOutExpo }}
                   className="text-center"
                 >
-                  <p className="font-mono text-xs leading-5 text-black md:text-sm md:leading-6">
+                  <p className="font-mono text-xs leading-5 text-fg md:text-sm md:leading-6">
                     {testimonials[current].quote}
                   </p>
-                  <h3 className="mt-5 font-sans text-sm font-semibold text-black md:text-base">
+                  <h3 className="mt-5 font-sans text-sm font-semibold text-fg md:text-base">
                     {testimonials[current].author}
                   </h3>
                 </motion.div>
@@ -118,8 +118,8 @@ export function TestimonialsSection() {
                   setCurrent(i);
                 }}
                 className={cn(
-                  "focus-accent-light h-2 w-2 rounded-full transition-all duration-300",
-                  i === current ? "scale-125 bg-black" : "bg-black/20 hover:bg-black/40",
+                  "focus-accent h-2 w-2 rounded-full transition-all duration-300",
+                  i === current ? "scale-125 bg-bg" : "bg-bg/20 hover:bg-bg/40",
                 )}
               />
             ))}

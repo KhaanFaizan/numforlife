@@ -7,15 +7,15 @@ import { aboutPartnerLogos, aboutPartnersText } from "@/lib/content";
 
 export function AboutPartnersSection() {
   return (
-    <section className="bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
+    <section className="bg-surface px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
       <FadeIn className="text-center">
-        <h2 className="font-sans text-2xl font-semibold text-black md:text-[46px] lg:text-[52px]">
+        <h2 className="font-sans text-2xl font-semibold text-fg md:text-[46px] lg:text-[52px]">
           Partners
         </h2>
       </FadeIn>
 
       <FadeIn delay={0.1} className="mx-auto mt-10 max-w-4xl md:mt-14">
-        <p className="text-center font-mono text-xs leading-relaxed text-black md:text-sm md:leading-7">
+        <p className="text-center font-mono text-xs leading-relaxed text-fg md:text-sm md:leading-7">
           {aboutPartnersText}
         </p>
       </FadeIn>

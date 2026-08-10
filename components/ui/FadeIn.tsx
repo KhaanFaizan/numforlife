@@ -59,7 +59,7 @@ export function SectionLabel({
   return (
     <p
       className={cn(
-        "font-sans text-sm font-semibold tracking-wide text-white md:text-base",
+        "font-sans text-sm font-semibold tracking-wide text-fg md:text-base",
         className,
       )}
     >
@@ -71,17 +71,18 @@ export function SectionLabel({
 export function SectionHeading({
   children,
   className,
-  dark = false,
 }: {
   children: React.ReactNode;
   className?: string;
-  dark?: boolean;
 }) {
+  // The old `dark` prop chose black-on-white vs white-on-black. Now that panels
+  // use surface tokens, `text-fg` is correct against every background in both
+  // themes, so the distinction no longer exists.
   return (
     <h2
       className={cn(
         "font-sans text-2xl font-semibold leading-tight md:text-[46px] md:leading-[1.1]",
-        dark ? "text-black" : "text-white",
+        "text-fg",
         className,
       )}
     >

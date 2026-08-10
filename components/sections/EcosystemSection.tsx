@@ -69,10 +69,10 @@ function FeatureBlock({
         />
       </motion.div>
 
-      <h3 className="font-sans text-sm font-semibold text-white md:text-base">
+      <h3 className="font-sans text-sm font-semibold text-fg md:text-base">
         {feature.title}
       </h3>
-      <p className="mx-auto mt-4 max-w-[280px] font-mono text-xs leading-[26px] text-white md:max-w-xs md:text-[12px]">
+      <p className="mx-auto mt-4 max-w-[280px] font-mono text-xs leading-[26px] text-fg md:max-w-xs md:text-[12px]">
         {feature.description}
       </p>
     </motion.div>
@@ -83,16 +83,16 @@ export function EcosystemSection() {
   const { content } = useLiveCMS();
 
   return (
-    <section id="ecosystem" className="bg-black py-16 md:py-24 lg:py-28">
+    <section id="ecosystem" className="bg-bg py-16 md:py-24 lg:py-28">
       <div className="section-container">
         <FadeIn className="text-center">
-          <p className="font-sans text-sm font-semibold text-white md:text-base">
+          <p className="font-sans text-sm font-semibold text-fg md:text-base">
             {content.features.sectionLabel}
           </p>
         </FadeIn>
 
         <FadeIn delay={0.08} className="mt-4 text-center md:mt-6">
-          <h2 className="mx-auto max-w-4xl font-sans text-2xl leading-tight font-semibold text-white md:text-[46px] md:leading-[1.1]">
+          <h2 className="mx-auto max-w-4xl font-sans text-2xl leading-tight font-semibold text-fg md:text-[46px] md:leading-[1.1]">
             {content.features.sectionHeading}
           </h2>
         </FadeIn>

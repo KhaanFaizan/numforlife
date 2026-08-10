@@ -10,7 +10,7 @@ export function AppDownload() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="bg-black">
+    <section className="bg-bg">
       <div className="flex min-h-[520px] flex-col md:min-h-[600px] md:flex-row">
         {/* Left — orange with phone mockup */}
         <div className="relative flex w-full items-center justify-center bg-accent-hover py-16 md:w-[42%] md:py-0">
@@ -31,15 +31,15 @@ export function AppDownload() {
         </div>
 
         {/* Right — black with form */}
-        <div className="flex w-full flex-col justify-center bg-black px-8 py-12 md:w-[58%] md:px-12 lg:px-20 lg:py-16">
+        <div className="flex w-full flex-col justify-center bg-bg px-8 py-12 md:w-[58%] md:px-12 lg:px-20 lg:py-16">
           <FadeIn direction="right">
-            <h2 className="font-mono text-[22px] font-semibold text-white md:text-[28px]">
+            <h2 className="font-mono text-[22px] font-semibold text-fg md:text-[28px]">
               Join us on mobile!
             </h2>
           </FadeIn>
 
           <FadeIn direction="right" delay={0.1}>
-            <p className="mt-4 max-w-md font-mono text-sm leading-relaxed font-semibold text-white md:text-base">
+            <p className="mt-4 max-w-md font-mono text-sm leading-relaxed font-semibold text-fg md:text-base">
               Download the &ldquo;数易赋能&rdquo; app to easily stay updated on
               the go.
             </p>
@@ -49,7 +49,7 @@ export function AppDownload() {
             <form onSubmit={(e) => e.preventDefault()}>
               <label
                 htmlFor="phone"
-                className="font-mono text-xs text-white/70 md:text-sm"
+                className="font-mono text-xs text-fg-muted md:text-sm"
               >
                 Phone number
               </label>
@@ -59,13 +59,13 @@ export function AppDownload() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Add your number"
-                className="mt-2 w-full border-b border-white/50 bg-transparent pb-3 font-mono text-lg text-white outline-none placeholder:text-white/40 focus:border-white"
+                className="mt-2 w-full border-b border-border bg-transparent pb-3 font-mono text-lg text-fg outline-none placeholder:text-fg-subtle focus:border-border-strong"
               />
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02, backgroundColor: "#FF4E27" }}
                 whileTap={{ scale: 0.98 }}
-                className="mt-6 bg-accent px-8 py-2.5 font-mono text-sm font-medium text-black transition-colors"
+                className="mt-6 bg-accent px-8 py-2.5 font-mono text-sm font-medium text-accent-fg transition-colors"
               >
                 Send
               </motion.button>

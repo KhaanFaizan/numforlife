@@ -36,7 +36,7 @@ export function AdminButton({
   return (
     <button
       className={cn(
-        "focus-accent-light inline-flex items-center justify-center gap-2 font-sans font-semibold transition-all active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+        "focus-accent inline-flex items-center justify-center gap-2 font-sans font-semibold transition-all active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className,
@@ -77,7 +77,7 @@ export function AdminLinkButton({
   return (
     <a
       className={cn(
-        "focus-accent-light inline-flex items-center justify-center gap-2 font-sans font-semibold transition-all",
+        "focus-accent inline-flex items-center justify-center gap-2 font-sans font-semibold transition-all",
         variants[variant],
         sizes[size],
         className,

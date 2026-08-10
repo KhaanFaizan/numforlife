@@ -5,9 +5,9 @@ import { aboutStory } from "@/lib/content";
 
 export function AboutStorySection() {
   return (
-    <section className="bg-black px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
+    <section className="bg-bg px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-28">
       <FadeIn className="text-center">
-        <p className="font-sans text-sm font-semibold text-white md:text-base">
+        <p className="font-sans text-sm font-semibold text-fg md:text-base">
           {aboutStory.label}
         </p>
       </FadeIn>
@@ -16,7 +16,7 @@ export function AboutStorySection() {
         {aboutStory.heading.map((line) => (
           <h1
             key={line}
-            className="font-sans text-3xl leading-tight font-semibold tracking-wide text-white md:text-5xl lg:text-[56px] lg:leading-[1.1]"
+            className="font-sans text-3xl leading-tight font-semibold tracking-wide text-fg md:text-5xl lg:text-[56px] lg:leading-[1.1]"
           >
             {line}
           </h1>
@@ -27,7 +27,7 @@ export function AboutStorySection() {
         {aboutStory.paragraphs.map((paragraph) => (
           <p
             key={paragraph.slice(0, 20)}
-            className="text-center font-mono text-xs leading-relaxed text-white md:text-sm md:leading-7"
+            className="text-center font-mono text-xs leading-relaxed text-fg md:text-sm md:leading-7"
           >
             {paragraph}
           </p>

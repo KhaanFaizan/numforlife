@@ -14,7 +14,7 @@ export function AboutSection() {
         backgroundPosition: "center left",
       }}
     >
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-bg/60" />
 
       <div className="section-container relative z-10 text-center">
         <FadeIn>
@@ -22,7 +22,7 @@ export function AboutSection() {
         </FadeIn>
 
         <FadeIn delay={0.1} className="mx-auto mt-6 max-w-3xl">
-          <p className="whitespace-pre-line font-mono text-sm leading-relaxed text-white md:text-base">
+          <p className="whitespace-pre-line font-mono text-sm leading-relaxed text-fg md:text-base">
             {aboutContent.text}
           </p>
         </FadeIn>

@@ -6,12 +6,12 @@ import { aboutBio } from "@/lib/content";
 
 export function AboutBioSection() {
   return (
-    <section className="bg-black px-6 py-12 md:px-10 md:py-16 lg:px-20 lg:py-20">
+    <section className="bg-bg px-6 py-12 md:px-10 md:py-16 lg:px-20 lg:py-20">
       <FadeIn className="mx-auto max-w-3xl space-y-8 md:space-y-10">
         {aboutBio.paragraphs.map((paragraph) => (
           <p
             key={paragraph.slice(0, 20)}
-            className="text-center font-mono text-xs leading-relaxed text-white md:text-sm md:leading-7"
+            className="text-center font-mono text-xs leading-relaxed text-fg md:text-sm md:leading-7"
           >
             {paragraph}
           </p>

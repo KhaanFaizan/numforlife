@@ -63,7 +63,7 @@ export function ResultsSection() {
             </div>
 
             {/* Right — character grid image from reference */}
-            <div className="relative aspect-square bg-white md:aspect-auto md:min-h-[480px]">
+            <div className="relative aspect-square bg-surface md:aspect-auto md:min-h-[480px]">
               <Image
                 src={resultsImages[1].src}
                 alt={resultsImages[1].alt}

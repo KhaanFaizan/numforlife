@@ -33,9 +33,9 @@ export function Button({
 
   const variants = {
     primary:
-      "bg-accent text-black shadow-[0_8px_24px_rgba(255,193,7,0.25)] hover:bg-accent-hover hover:shadow-[0_12px_32px_rgba(255,78,39,0.2)]",
+      "bg-accent text-accent-fg shadow-[0_8px_24px_rgba(255,193,7,0.25)] hover:bg-accent-hover hover:shadow-[0_12px_32px_rgba(255,78,39,0.2)]",
     outline:
-      "border border-white/30 bg-transparent text-white hover:border-accent hover:text-accent",
+      "border border-border bg-transparent text-fg hover:border-accent hover:text-accent",
   };
 
   const classes = cn(baseStyles, variants[variant], className);
