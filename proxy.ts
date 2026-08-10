@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from "@/lib/rate-limit";
+import { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from "@/lib/visitor";
 
 /**
  * Edge proxy (Next 16 renamed `middleware` to `proxy`).

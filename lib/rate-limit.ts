@@ -21,8 +21,9 @@ import "server-only";
  * survives restarts and scales horizontally.
  */
 
-export const VISITOR_COOKIE = "nfl_vid";
-export const VISITOR_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+// Constants live in lib/visitor.ts so proxy.ts (edge runtime) can share them
+// without pulling in this server-only module.
+export { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from "./visitor";
 
 /** Matches the limit the current production calculator applies. */
 export const ANONYMOUS_DAILY_CALCULATIONS = 2;
