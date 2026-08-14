@@ -1,0 +1,18 @@
+export class AuthError extends Error {
+  readonly code: string;
+  readonly status: number;
+
+  constructor(code: string, message: string, status = 401) {
+    super(message);
+    this.name = "AuthError";
+    this.code = code;
+    this.status = status;
+  }
+}
+
+export class AuthConfigError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthConfigError";
+  }
+}

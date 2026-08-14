@@ -1,0 +1,84 @@
+{
+  "title": "配送政策",
+  "path": "/shipping-policy",
+  "wpSlug": "shipping-policy",
+  "capturedAt": "2026-08-11",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "配送政策 Shipping & Delivery Policy"
+    },
+    {
+      "type": "heading",
+      "text": "声明 A Legal Disclaimer"
+    },
+    {
+      "type": "heading",
+      "text": "我们致力于保障用户的合法权益，并提供清晰透明的配送标准。然而，我们保留在不另行通知的情况下，根据适用法规、政策更新、突发状况或国家法律的变更，调整本配送政策的权利。所有调整将在不损害消费者基本权益的前提下执行，并以保障用户体验与平台运营平衡为原则。若您对配送相关政策有任何疑问，欢迎随时联系客户服务团队，我们将尽力协助处理。"
+    },
+    {
+      "type": "heading",
+      "text": "We are committed to protecting users’ rights and providing clear and transparent delivery standards. However, we reserve the right to adjust this policy without prior notice due to applicable laws, policy changes, unforeseen circumstances, or legal amendments. Any adjustments will be implemented without compromising consumers’ fundamental rights and will aim to balance user experience with platform operations. If you have questions, please contact our customer service team."
+    },
+    {
+      "type": "heading",
+      "text": "基础框架 The Basic Framework"
+    },
+    {
+      "type": "paragraph",
+      "text": "本配送政策参考并遵循以下行业与平台规范： 主流电商与跨境物流实践（时效、物流追踪、退换规则）； 各国进出口与海关规定（关税、增值税及清关程序）； 数字产品即时交付特性（无法物理退回）； 用户通知与隐私保护合规要求。 This Delivery Policy is based on and follows: Mainstream e-commerce and cross-border logistics practices (timelines, tracking, return rules); International import/export and customs regulations (duties, VAT, clearance procedures); The nature of digital product delivery (instant, non-returnable); Compliance with user notification and privacy requirements."
+    },
+    {
+      "type": "heading",
+      "text": "条款 The Clause"
+    },
+    {
+      "type": "paragraph",
+      "text": "我们致力于为用户提供高质量的数字服务和优质的使用体验。如果您对所购买的服务不满意，您可以根据以下条款申请退款。"
+    },
+    {
+      "type": "paragraph",
+      "text": "一、交付范围与品类 Delivery Scope & Categories 数字订阅与电子服务 Digital Subscriptions & Services 发货时效：下单后自动交付，最迟 12 小时内完成激活/开通。 交付方式：账号开通、解锁内容、下载链接或激活码等。 Delivery time: Instant fulfillment upon purchase, within 12 hours at the latest. Delivery method: Account activation, unlocked content, download links, or activation codes. 服装与实体产品 Apparel & Physical Goods 配送时效（不含处理时间）： 快递：3–5 个工作日 普通：5–7 个工作日 国际：7–14 个工作日（以目的国清关与派送为准） Delivery timeline (excluding processing time): Express: 3–5 business days Standard: 5–7 business days International: 7–14 business days (depending on customs and local delivery)"
+    },
+    {
+      "type": "paragraph",
+      "text": "二、订单处理与发货 Order Processing & Dispatch 处理时间：通常于 24–48 小时 内完成，周末/节假日顺延。 截单时间：每日 15:00 (GMT+8) 前订单优先处理，逾时顺延。 分包发货：同一订单可能拆分为多个包裹发货。 Processing time: Typically completed within 24–48 hours, excluding weekends/holidays. Cut-off time: Orders placed before 3:00 PM (GMT+8) are prioritized; later orders processed next business day. Split shipments: Orders with multiple items may be shipped in separate parcels."
+    },
+    {
+      "type": "paragraph",
+      "text": "三、运费与费用 Shipping Costs & Charges 运费：以结算页显示为准（可能因地区、重量、活动免邮而不同）。 关税与税费：国际配送可能产生关税或增值税，由收件人承担。 Shipping fees: As displayed at checkout (may vary by region, weight, or promotions). Duties & taxes: International orders may incur import duties or VAT, payable by the recipient."
+    },
+    {
+      "type": "paragraph",
+      "text": "四、地址与配送失败 Address & Delivery Failure 地址错误：因收件信息错误导致投递失败，额外费用由用户承担。 无人签收：承运商通常会尝试 1–3 次投递或留取自提通知，超时未取视为买家原因退回。 Incorrect address: Any additional costs from failed delivery due to incorrect info will be borne by the buyer. Missed delivery: Carriers may attempt delivery 1–3 times or leave a pickup notice; unclaimed packages may be returned at buyer’s expense."
+    },
+    {
+      "type": "paragraph",
+      "text": "五、物流追踪与通知 Tracking & Notifications 追踪：发货后提供运单号与查询链接。 异常协助：若超过 72 小时 无更新或逾期未达，请联系客户服务。 Tracking: Tracking numbers and links provided after dispatch. Assistance: If no updates appear within 72 hours or shipment is delayed, contact customer service."
+    },
+    {
+      "type": "paragraph",
+      "text": "五、物流追踪与通知 Tracking & Notifications 追踪：发货后提供运单号与查询链接。 异常协助：若超过 72 小时 无更新或逾期未达，请联系客户服务。 Tracking: Tracking numbers and links provided after dispatch. Assistance: If no updates appear within 72 hours or shipment is delayed, contact customer service."
+    },
+    {
+      "type": "paragraph",
+      "text": "六、商品签收与验货 Receipt & Inspection 建议：签收时检查外包装与商品完好。 损坏/少件：请在 48 小时内 提交照片凭证以便理赔。 Recommendation: Inspect packaging and items upon receipt. Damage/missing items: Report with photos within 48 hours for claims to be processed."
+    },
+    {
+      "type": "paragraph",
+      "text": "七、预售与定制商品 Pre-orders & Customized Items 预售商品：发货时间以商品页说明为准，可能合单延迟发货。 定制商品：因生产工期较长，发货时间以确认信息为准。 Pre-orders: Shipping timeline based on product page; orders may be delayed until all items are ready. Customized items: Production time may extend delivery; timeline confirmed at purchase."
+    },
+    {
+      "type": "paragraph",
+      "text": "八、不可抗力 Force Majeure 因政策调整、自然灾害、清关管制、航班/船运延误等不可抗力造成的延迟，不视为违约。 Delays caused by force majeure events (e.g., regulatory changes, natural disasters, customs holds, transport delays) are not considered breaches of this policy."
+    },
+    {
+      "type": "paragraph",
+      "text": "九、与退款/售后之衔接 Relation to Refund Policy 配送相关退款/售后问题以《退款政策》为准。 若因物流遗失、破损或错发，核实后将按退款/补发流程处理。 Refunds or after-sales issues related to delivery are subject to the Refund Policy. Lost, damaged, or misdelivered items will be processed according to refund/replacement procedures after verification."
+    },
+    {
+      "type": "paragraph",
+      "text": "十、客服联系方式 Customer Support 📧 邮箱 Email: shuyi.fn@gmail.com 服务时间：工作日 10:00–18:00 (GMT+8) Business hours: Weekdays 10:00–18:00 (GMT+8)"
+    }
+  ]
+}

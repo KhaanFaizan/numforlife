@@ -86,18 +86,16 @@ export function EcosystemSection({ content }: { content: CMSContent }) {
     <section id="ecosystem" className="bg-bg py-16 md:py-24 lg:py-28">
       <div className="section-container">
         <FadeIn className="text-center">
-          <p className="font-sans text-sm font-semibold text-fg md:text-base">
-            {content.features.sectionLabel}
-          </p>
+          <p className="section-eyebrow cjk">{content.features.sectionLabel}</p>
         </FadeIn>
 
         <FadeIn delay={0.08} className="mt-4 text-center md:mt-6">
-          <h2 className="mx-auto max-w-4xl font-sans text-2xl leading-tight font-semibold text-fg md:text-[46px] md:leading-[1.1]">
+          <h2 className="cjk section-heading-lg mx-auto max-w-4xl">
             {content.features.sectionHeading}
           </h2>
         </FadeIn>
 
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-14 sm:grid-cols-2 md:mt-20 lg:grid-cols-3 lg:gap-x-[70px] lg:gap-y-20">
+        <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12 md:mt-20 lg:grid-cols-3 lg:gap-x-[70px] lg:gap-y-20">
           {content.features.items.map((feature, i) => (
             <FeatureBlock key={feature.id} feature={feature} index={i} />
           ))}

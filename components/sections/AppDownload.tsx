@@ -11,29 +11,27 @@ export function AppDownload() {
 
   return (
     <section className="bg-bg">
-      <div className="flex min-h-[520px] flex-col md:min-h-[600px] md:flex-row">
-        {/* Left — orange with phone mockup */}
-        <div className="relative flex w-full items-center justify-center bg-accent-hover py-16 md:w-[42%] md:py-0">
+      <div className="flex min-h-0 flex-col md:min-h-[600px] md:flex-row">
+        <div className="relative flex w-full items-center justify-center bg-accent-hover py-12 sm:py-14 md:w-[42%] md:py-0">
           <motion.div
             animate={reducedMotion ? undefined : { y: [0, -12, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="relative z-10 px-8"
+            className="relative z-10 px-6 sm:px-8"
           >
             <Image
               src="https://numforlife.com/wp-content/uploads/2025/06/download-2.svg"
               alt="数易赋能 App"
               width={280}
               height={560}
-              className="h-auto w-[220px] md:w-[260px] lg:w-[280px]"
+              className="h-auto w-[200px] sm:w-[220px] md:w-[260px] lg:w-[280px]"
               priority
             />
           </motion.div>
         </div>
 
-        {/* Right — black with form */}
-        <div className="flex w-full flex-col justify-center bg-bg px-8 py-12 md:w-[58%] md:px-12 lg:px-20 lg:py-16">
+        <div className="flex w-full flex-col justify-center px-5 py-10 sm:px-6 md:w-[58%] md:px-12 lg:px-20 lg:py-16">
           <FadeIn direction="right">
-            <h2 className="font-mono text-[22px] font-semibold text-fg md:text-[28px]">
+            <h2 className="font-mono text-xl font-semibold text-fg sm:text-[22px] md:text-[28px]">
               Join us on mobile!
             </h2>
           </FadeIn>
@@ -48,33 +46,33 @@ export function AppDownload() {
           <FadeIn direction="right" delay={0.2} className="mt-8 max-w-md">
             <form onSubmit={(e) => e.preventDefault()}>
               <label
-                htmlFor="phone"
+                htmlFor="app-phone"
                 className="font-mono text-xs text-fg-muted md:text-sm"
               >
                 Phone number
               </label>
               <input
-                id="phone"
+                id="app-phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Add your number"
-                className="mt-2 w-full border-b border-border bg-transparent pb-3 font-mono text-lg text-fg outline-none placeholder:text-fg-subtle focus:border-border-strong"
+                className="focus-accent mt-2 w-full border-b border-border bg-transparent pb-3 font-mono text-base text-fg outline-none placeholder:text-fg-subtle focus:border-border-strong sm:text-lg"
               />
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02, backgroundColor: "#FF4E27" }}
                 whileTap={{ scale: 0.98 }}
-                className="mt-6 bg-accent px-8 py-2.5 font-mono text-sm font-medium text-accent-fg transition-colors"
+                className="focus-accent mt-6 min-h-[44px] bg-accent px-8 py-2.5 font-mono text-sm font-medium text-accent-fg transition-colors"
               >
                 Send
               </motion.button>
             </form>
           </FadeIn>
 
-          <FadeIn direction="right" delay={0.3} className="mt-10">
-            <div className="flex flex-wrap items-center gap-5">
-              <div className="flex h-[72px] w-[72px] items-center justify-center bg-white p-1">
+          <FadeIn direction="right" delay={0.3} className="mt-8 sm:mt-10">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center bg-white p-1 sm:h-[72px] sm:w-[72px]">
                 <svg viewBox="0 0 80 80" className="h-full w-full" aria-hidden>
                   <rect width="80" height="80" fill="white" />
                   <rect x="8" y="8" width="20" height="20" fill="black" />
@@ -98,7 +96,7 @@ export function AppDownload() {
                     alt="Google Play"
                     width={160}
                     height={48}
-                    className="h-11 w-auto"
+                    className="h-10 w-auto sm:h-11"
                   />
                 </motion.a>
                 <motion.a
@@ -112,7 +110,7 @@ export function AppDownload() {
                     alt="App Store"
                     width={160}
                     height={48}
-                    className="h-11 w-auto"
+                    className="h-10 w-auto sm:h-11"
                   />
                 </motion.a>
               </div>

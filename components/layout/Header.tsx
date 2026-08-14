@@ -9,11 +9,12 @@ import { cn } from "@/lib/utils";
 import { easeOutExpo } from "@/lib/motion";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
-export function Header() {
+export function Header({ shopEnabled = true }: { shopEnabled?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const reducedMotion = useReducedMotion();
   const menuRef = useRef<HTMLDivElement>(null);
+  const links = shopEnabled ? navLinks : navLinks.filter((link) => link.href !== "/shop");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -52,10 +53,10 @@ export function Header() {
             : "bg-bg/80 backdrop-blur-sm",
         )}
       >
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center px-6 md:h-[72px] md:px-10 lg:px-16">
+        <div className="section-container flex h-16 max-w-[1400px] items-center md:h-[72px] lg:px-16">
           <Link
             href="/"
-            className="focus-accent shrink-0 rounded-lg font-sans text-xl font-bold text-fg md:text-2xl lg:text-[28px]"
+            className="focus-accent shrink-0 rounded-lg font-sans text-lg font-bold text-fg sm:text-xl md:text-2xl lg:text-[28px]"
           >
             {siteConfig.name}
           </Link>
@@ -64,7 +65,7 @@ export function Header() {
             aria-label="Main navigation"
             className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex lg:gap-12"
           >
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -78,7 +79,7 @@ export function Header() {
           <div className="ml-auto hidden items-center gap-3 md:flex">
             <ThemeToggle />
             <motion.a
-              href="/admin/login"
+              href="/login"
               whileHover={reducedMotion ? undefined : { scale: 1.03 }}
               whileTap={reducedMotion ? undefined : { scale: 0.98 }}
               className="focus-accent inline-flex rounded-full border border-accent/80 px-5 py-2 font-sans text-sm text-fg transition-colors hover:bg-accent/10"
@@ -117,9 +118,9 @@ export function Header() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              className="flex h-full flex-col items-center justify-center gap-8 pt-16"
+              className="flex h-full flex-col items-center justify-center gap-6 px-6 pt-20 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-8 md:hidden"
             >
-              {navLinks.map((link, i) => (
+              {links.map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, y: 20 }}
@@ -129,14 +130,14 @@ export function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="focus-accent rounded-lg font-sans text-2xl text-fg"
+                    className="focus-accent rounded-lg font-sans text-xl sm:text-2xl text-fg"
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
               <Link
-                href="/admin/login"
+                href="/login"
                 onClick={() => setMobileOpen(false)}
                 className="focus-accent mt-4 rounded-full border border-accent px-8 py-3 font-sans text-sm text-fg"
               >

@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Work_Sans, Azeret_Mono } from "next/font/google";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ContentProvider } from "@/lib/cms/content-provider";
+import { getPublishedContent } from "@/lib/cms/server";
 import { LayoutShell } from "@/components/layout/LayoutShell";
+import { getSiteFlags } from "@/lib/settings/repository";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/config";
+import { rootMetadata } from "@/lib/seo/metadata";
 import { THEME_COOKIE, resolveTheme } from "@/lib/theme";
 import "./globals.css";
 
@@ -20,11 +25,7 @@ const azeretMono = Azeret_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "数易赋能 – 数易赋能，您的人生导航",
-  description:
-    "We Don't Just Guide — We Empower You to Understand Yourself and Others.",
-};
+export const metadata: Metadata = rootMetadata();
 
 export default async function RootLayout({
   children,
@@ -36,16 +37,25 @@ export default async function RootLayout({
   // prefers-color-scheme media query decide — no flash either way.
   const themePreference = (await cookies()).get(THEME_COOKIE)?.value;
   const theme = resolveTheme(themePreference);
+  const publishedContent = await getPublishedContent();
+  const siteFlags = getSiteFlags();
 
   return (
     <html
       lang="zh-CN"
       data-theme={theme ?? undefined}
+      data-scroll-behavior="smooth"
       className={`${workSans.variable} ${azeretMono.variable}`}
     >
       <body className="min-h-screen bg-bg font-sans text-fg antialiased">
-        <ContentProvider>
-          <LayoutShell>{children}</LayoutShell>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <ContentProvider initialPublished={publishedContent}>
+          <LayoutShell
+            maintenanceMode={siteFlags.maintenance_mode}
+            shopEnabled={siteFlags.shop_enabled}
+          >
+            {children}
+          </LayoutShell>
         </ContentProvider>
       </body>
     </html>

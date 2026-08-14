@@ -1,0 +1,69 @@
+# UAT nginx example — single Next.js process on :3000
+#
+# Both vhosts proxy to the same Node app. Host-based routing in proxy.ts sends
+# /admin traffic on the public hostname to uat-admin, and public pages on the
+# admin hostname back to uat.numforlife.com.
+#
+# Replace SSL paths and upstream IP after DNS + certbot on the Lighthouse box.
+
+upstream numforlife_uat {
+    server 127.0.0.1:3000;
+    keepalive 32;
+}
+
+# Optional: restrict admin vhost to office/VPN IPs (uncomment and edit).
+# geo $admin_allowed {
+#     default 0;
+#     203.0.113.0/24 1;   # example office CIDR
+# }
+
+server {
+    listen 443 ssl http2;
+    server_name uat.numforlife.com;
+
+    ssl_certificate     /etc/letsencrypt/live/uat.numforlife.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/uat.numforlife.com/privkey.pem;
+
+    location / {
+        proxy_pass http://numforlife_uat;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection "";
+    }
+
+    location /api/health {
+        proxy_pass http://numforlife_uat;
+        access_log off;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name uat-admin.numforlife.com;
+
+    ssl_certificate     /etc/letsencrypt/live/uat-admin.numforlife.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/uat-admin.numforlife.com/privkey.pem;
+
+    # if ($admin_allowed = 0) { return 403; }
+
+    add_header X-Robots-Tag "noindex, nofollow" always;
+
+    location / {
+        proxy_pass http://numforlife_uat;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection "";
+    }
+}
+
+server {
+    listen 80;
+    server_name uat.numforlife.com uat-admin.numforlife.com;
+    return 301 https://$host$request_uri;
+}

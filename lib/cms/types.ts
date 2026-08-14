@@ -68,6 +68,13 @@ export type CMSContent = {
   pages: SitePage[];
 };
 
+export type ContentVersionSummary = {
+  id: string;
+  versionNo: number;
+  state: string;
+  createdAt: string;
+};
+
 export const EDITABLE_BLOCK_TYPES: HomepageBlockType[] = [
   "hero",
   "gallery",

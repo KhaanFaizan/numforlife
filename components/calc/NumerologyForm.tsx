@@ -27,7 +27,7 @@ const MODES = [
 ] as const;
 
 const fieldClass =
-  "focus-accent w-full rounded-xl border border-border bg-surface px-4 py-3 font-sans text-sm text-fg outline-none transition-colors focus:border-accent";
+  "focus-accent min-h-[44px] w-full rounded-xl border border-border bg-surface px-4 py-3 font-sans text-base text-fg outline-none transition-colors focus:border-accent sm:text-sm";
 
 const labelClass = "mb-2 block font-sans text-sm font-semibold text-fg";
 
@@ -62,7 +62,7 @@ export function NumerologyForm({ action }: { action: string }) {
           ).map((option) => (
             <label
               key={option.value}
-              className={`focus-accent cursor-pointer rounded-full border px-4 py-2 font-sans text-sm transition-colors ${
+              className={`focus-accent min-h-[44px] cursor-pointer rounded-full border px-4 py-2.5 font-sans text-sm transition-colors ${
                 twin === option.value
                   ? "border-accent bg-accent text-accent-fg"
                   : "border-border text-fg-muted hover:border-accent/50"
@@ -108,7 +108,7 @@ export function NumerologyForm({ action }: { action: string }) {
           {MODES.map((mode, index) => (
             <label
               key={mode.value}
-              className="focus-accent cursor-pointer rounded-full border border-border px-4 py-2 font-sans text-sm text-fg-muted transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent has-[:checked]:text-accent-fg"
+              className="focus-accent min-h-[44px] cursor-pointer rounded-full border border-border px-4 py-2.5 font-sans text-sm text-fg-muted transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent has-[:checked]:text-accent-fg"
             >
               <input
                 type="radio"
@@ -125,7 +125,7 @@ export function NumerologyForm({ action }: { action: string }) {
 
       <button
         type="submit"
-        className="focus-accent w-full rounded-full bg-accent px-8 py-3.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
+        className="focus-accent min-h-[44px] w-full rounded-full bg-accent px-8 py-3.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
       >
         开始测算
       </button>

@@ -39,8 +39,8 @@ export function ContactSection({ content, fitViewport = false }: ContactSectionP
       {/* Title — larger, positioned higher */}
       <div
         className={cn(
-          "px-6 text-center md:px-10 lg:px-20 xl:px-[120px]",
-          fitViewport ? "pb-6 pt-2 md:pb-8 lg:pb-12 lg:pt-4" : "pb-10 md:pb-14 lg:pb-16 lg:pt-2",
+          "section-container text-center",
+          fitViewport ? "pb-6 pt-2 md:pb-8 lg:pb-12 lg:pt-4" : "pb-8 md:pb-14 lg:pb-16 lg:pt-2",
         )}
       >
         <motion.h1
@@ -48,10 +48,10 @@ export function ContactSection({ content, fitViewport = false }: ContactSectionP
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            "font-sans leading-none font-bold text-fg",
+            "cjk font-sans font-bold leading-[1.05] text-fg",
             fitViewport
-              ? "text-[52px] md:text-[72px] lg:text-[130px] xl:text-[150px]"
-              : "text-[56px] md:text-[80px] lg:text-[130px] xl:text-[150px]",
+              ? "text-[clamp(2.5rem,12vw,8.125rem)]"
+              : "text-[clamp(2.25rem,11vw,8.125rem)]",
           )}
         >
           {footer.title}
@@ -61,8 +61,8 @@ export function ContactSection({ content, fitViewport = false }: ContactSectionP
       {/* Three-column layout — spacious desktop spacing */}
       <div
         className={cn(
-          "grid grid-cols-1 items-start gap-10 px-6 md:px-10",
-          "lg:flex lg:items-start lg:justify-between lg:gap-0 lg:px-20 lg:pb-8 lg:pr-8 xl:px-[120px] xl:pr-10",
+          "section-container grid grid-cols-1 items-start gap-8 sm:gap-10",
+          "lg:flex lg:items-start lg:justify-between lg:gap-0 lg:pb-8 lg:pr-8 xl:pr-10",
         )}
       >
         {/* Left group — contact info + nav, top-aligned */}
@@ -198,7 +198,7 @@ export function ContactSection({ content, fitViewport = false }: ContactSectionP
       </div>
 
       {/* Footer — integrated policy links */}
-      <div className="flex flex-col items-start justify-between gap-6 px-6 pt-12 pb-10 md:flex-row md:items-center md:px-10 lg:px-20 lg:pt-16 xl:px-[120px]">
+      <div className="section-container flex flex-col items-start justify-between gap-6 pt-10 pb-8 sm:pt-12 md:flex-row md:items-center lg:pt-16">
         <div className="flex flex-wrap gap-x-6 gap-y-2">
           {footer.links.map((link) => (
             <Link

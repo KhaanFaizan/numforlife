@@ -29,7 +29,7 @@ export function Button({
   const reducedMotion = useReducedMotion();
 
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-sans text-sm font-semibold transition-all duration-300 focus-accent disabled:pointer-events-none disabled:opacity-50";
+    "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-8 py-3 font-sans text-sm font-semibold transition-all duration-300 focus-accent disabled:pointer-events-none disabled:opacity-50";
 
   const variants = {
     primary:

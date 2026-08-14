@@ -6,8 +6,6 @@ import {
 } from "@/lib/content";
 import type { CMSContent } from "./types";
 
-export const STORAGE_KEY = "clientdemo-cms-content";
-
 export const defaultCMSContent: CMSContent = {
   hero: {
     tagline: siteConfig.tagline,

@@ -1,16 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   ChevronRight,
+  Activity,
   ExternalLink,
   FileText,
   Home,
+  Images,
   LayoutDashboard,
   LogOut,
+  Route,
   Sparkles,
+  Users,
 } from "lucide-react";
+import type { AdminSession } from "@/lib/auth/types";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -20,12 +26,45 @@ const navItems = [
       { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { href: "/admin/pages", label: "Pages", icon: FileText },
       { href: "/admin/homepage", label: "Homepage Editor", icon: Home },
+      { href: "/admin/media", label: "Media Library", icon: Images },
+      { href: "/admin/redirects", label: "Redirects", icon: Route },
+      { href: "/admin/preview", label: "Draft Preview", icon: ExternalLink },
     ],
+  },
+  {
+    section: "Support",
+    items: [{ href: "/admin/users", label: "User Lookup", icon: Users }],
+  },
+  {
+    section: "Ops",
+    items: [{ href: "/admin/integrations", label: "Integrations", icon: Activity }],
   },
 ];
 
-export function AdminSidebar() {
+const roleLabels: Record<AdminSession["role"], string> = {
+  super_admin: "Super Admin",
+  content_editor: "Content Editor",
+  marketing_admin: "Marketing Admin",
+  support_admin: "Support Admin",
+  developer_admin: "Developer Admin",
+  read_only_admin: "Read Only",
+};
+
+export function AdminSidebar({ session }: { session: AdminSession }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    try {
+      await fetch("/api/auth/session", { method: "DELETE" });
+      router.push("/admin/login");
+      router.refresh();
+    } finally {
+      setSigningOut(false);
+    }
+  };
 
   return (
     <aside className="relative flex min-h-screen w-[280px] shrink-0 flex-col self-stretch border-r border-white/[0.06] bg-[#080808]">
@@ -42,7 +81,7 @@ export function AdminSidebar() {
                 数易 CMS
               </p>
               <p className="font-mono text-[10px] tracking-wide text-white/40 uppercase">
-                Demo Admin Panel
+                Admin Panel
               </p>
             </div>
           </div>
@@ -94,9 +133,11 @@ export function AdminSidebar() {
 
         <div className="relative mt-auto shrink-0 space-y-1 border-t border-white/[0.06] p-4">
           <div className="mb-3 rounded-xl bg-white/[0.04] px-3 py-3">
-            <p className="font-sans text-xs font-semibold text-white/80">Demo Mode</p>
+            <p className="font-sans text-xs font-semibold text-white/80">
+              {session.name ?? session.email}
+            </p>
             <p className="mt-0.5 font-mono text-[10px] leading-relaxed text-white/35">
-              Changes save to local storage and update the live site instantly.
+              {roleLabels[session.role]}
             </p>
           </div>
 
@@ -108,13 +149,15 @@ export function AdminSidebar() {
             <ExternalLink className="h-4 w-4" />
             View Website
           </Link>
-          <Link
-            href="/admin/login"
-            className="focus-accent flex items-center gap-3 rounded-xl px-3 py-2.5 font-sans text-[13px] text-white/55 transition-colors hover:bg-white/[0.06] hover:text-white"
+          <button
+            type="button"
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="focus-accent flex w-full items-center gap-3 rounded-xl px-3 py-2.5 font-sans text-[13px] text-white/55 transition-colors hover:bg-white/[0.06] hover:text-white disabled:opacity-60"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
-          </Link>
+            {signingOut ? "Signing out..." : "Sign Out"}
+          </button>
         </div>
       </div>
     </aside>

@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local CMS database (SQLite dev; production uses numforlife_web on server)
+/data/
+
+# uploaded media assets (metadata lives in SQLite)
+/public/media/*
+!/public/media/.gitkeep
+
+/public/site-flags.json
+/public/redirects.manifest.json

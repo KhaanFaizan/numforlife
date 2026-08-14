@@ -8,17 +8,24 @@ import { numerologyEngine } from "@/lib/calculators/numerology";
 import { CalculationFailure } from "@/lib/calculators/types";
 import type { CalculationMode, TwinStatus } from "@/lib/calculators/types";
 import { VISITOR_COOKIE, consumeCalculationQuota } from "@/lib/rate-limit";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const metadata: Metadata = {
-  title: "测算结果 – 数易赋能",
-  // A result is personal to whoever opened the link, so it must never be indexed.
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const calculator = getCalculatorBySlug(slug);
+
+  return buildPageMetadata({
+    title: calculator ? `${calculator.name}测算结果` : "测算结果",
+    description: "个人测算结果预览页面。",
+    path: `/celue/${slug}/result`,
+    noIndex: true,
+  });
+}
 
 const first = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value[0] : value;
@@ -56,7 +63,7 @@ function ResultShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-bg pt-[72px] md:pt-[80px]">
+    <div className="page-shell">
       <div className="section-container py-12 md:py-20">
         <nav aria-label="Breadcrumb" className="mb-6">
           <Link

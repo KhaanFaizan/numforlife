@@ -11,15 +11,15 @@ export const navLinks = [
   { label: "产品服务", href: "/portfolio" },
   { label: "关于我们", href: "/about-us" },
   { label: "联系", href: "/contact-us" },
-  { label: "商店", href: "/shopping" },
+  { label: "商店", href: "/shop" },
 ];
 
 export const footerLinks = [
-  { label: "无障碍声明", href: "#" },
-  { label: "隐私政策", href: "#" },
-  { label: "使用条款", href: "#" },
-  { label: "退款政策", href: "#" },
-  { label: "配送政策", href: "#" },
+  { label: "无障碍声明", href: "/accessibility-statement" },
+  { label: "隐私政策", href: "/privacy-policy" },
+  { label: "使用条款", href: "/terms-of-use" },
+  { label: "退款政策", href: "/refund-policy" },
+  { label: "配送政策", href: "/shipping-policy" },
 ];
 
 export const productServices = [

@@ -5,6 +5,8 @@ import type { NextConfig } from "next";
 // WordPress link a two-hop chain. See lib/legacy-redirects.ts.
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["better-sqlite3"],
+
   // Next's built-in trailing-slash redirect runs BEFORE proxy.ts and config
   // redirects, which would make every inbound WordPress link a two-hop chain.
   // Disabled here so proxy.ts can resolve legacy URLs in one hop; it also takes
@@ -24,6 +26,11 @@ const nextConfig: NextConfig = {
         // PlenorHub product and merchant imagery.
         protocol: "https",
         hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.plenorhub.com",
         pathname: "/**",
       },
     ],

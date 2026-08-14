@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import {
+  adminOrigin,
+  isAdminHost,
+  isPublicHost,
+  publicOrigin,
+} from "@/lib/deployment/hosts";
 import { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from "@/lib/visitor";
-import { resolveLegacyRedirect } from "@/lib/legacy-redirects";
+import { resolveLegacyRedirectAsync } from "@/lib/redirects/manifest-cache";
 
 /**
  * Edge proxy (Next 16 renamed `middleware` to `proxy`).
@@ -34,11 +40,34 @@ const PRESERVE_TRAILING_SLASH = /^\/\.well-known(?:\/|$)/;
 /** A path segment containing a dot is a file request, not a page. */
 const LOOKS_LIKE_FILE = /\/[^/]+\.[^/]+$/;
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  const requestHost = request.headers.get("host");
+
+  // 0. UAT host split — only when PUBLIC_HOST / ADMIN_HOST are configured.
+  if (isAdminHost(requestHost)) {
+    if (!pathname.startsWith("/admin")) {
+      if (pathname === "/" || pathname === "") {
+        const target = new URL("/admin/login", request.url);
+        target.search = search;
+        return NextResponse.redirect(target, 308);
+      }
+
+      const target = new URL(`${publicOrigin()}${pathname}`);
+      target.search = search;
+      return NextResponse.redirect(target, 308);
+    }
+  } else if (isPublicHost(requestHost) && pathname.startsWith("/admin")) {
+    const target = new URL(`${adminOrigin()}${pathname}`);
+    target.search = search;
+    return NextResponse.redirect(target, 308);
+  }
 
   // 1. Legacy WordPress URLs — matched with or without a trailing slash.
-  const legacyDestination = resolveLegacyRedirect(pathname);
+  const legacyDestination = await resolveLegacyRedirectAsync(
+    pathname,
+    request.nextUrl.origin,
+  );
   if (legacyDestination) {
     const target = new URL(legacyDestination, request.url);
     // Campaign and UTM parameters must survive the move.
@@ -60,6 +89,10 @@ export function proxy(request: NextRequest) {
 
   // 3. Anonymous visitor id for quota tracking.
   const response = NextResponse.next();
+
+  if (isAdminHost(requestHost)) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
 
   if (!request.cookies.has(VISITOR_COOKIE)) {
     response.cookies.set(VISITOR_COOKIE, crypto.randomUUID(), {
