@@ -1,0 +1,11 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/admin/app/admin/(protected)/preview/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}

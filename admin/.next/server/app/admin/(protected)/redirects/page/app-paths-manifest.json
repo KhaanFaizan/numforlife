@@ -1,0 +1,3 @@
+{
+  "/admin/(protected)/redirects/page": "app/admin/(protected)/redirects/page.js"
+}

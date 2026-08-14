@@ -1,0 +1,3 @@
+module.exports=[27232,a=>{"use strict";var b=a.i(87924),c=a.i(46271),d=a.i(21216),e=a.i(46544);e.easeOutExpo,e.easeOutExpo,e.easeOutExpo,e.easeOutExpo;let f={initial:{opacity:0,y:12},animate:{opacity:1,y:0},exit:{opacity:0,y:-8},transition:{duration:.45,ease:e.easeOutExpo}};a.s(["PageTransition",0,function({children:a}){return(0,d.useReducedMotion)()?(0,b.jsx)(b.Fragment,{children:a}):(0,b.jsx)(c.motion.div,{initial:f.initial,animate:f.animate,transition:f.transition,children:a})}],27232)}];
+
+//# sourceMappingURL=packages_shared_components_ui_PageTransition_tsx_0ynvg3u._.js.map

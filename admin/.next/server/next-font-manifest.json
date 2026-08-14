@@ -1,0 +1,51 @@
+{
+  "app": {
+    "[project]/admin/app/_not-found/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/dashboard/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/homepage/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/integrations/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/media/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/pages/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/preview/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/redirects/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/(protected)/users/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/admin/app/admin/login/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NumForLife — Monorepo
 
-## Getting Started
+Two Next.js applications for the Shuyi / KCC Digital website revamp.
 
-First, run the development server:
+## Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+clientdemo/
+├── frontend/          Public site → uat.numforlife.com (:3000)
+├── admin/             Admin CMS   → uat-admin.numforlife.com (:3001)
+├── packages/shared/   Shared lib, auth, CMS, shop, calculators
+├── deploy/uat/        PM2 + nginx examples
+├── tools/             DB inspect, fixtures, scripts
+└── tests/             Parity tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev:frontend   # http://localhost:3000
+npm run dev:admin      # http://localhost:3001/admin/login
+npm run build          # both apps
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `frontend/.env.local` and `admin/.env.local` (or one shared `.env.local` at root for dev — Next loads from each app directory).
 
-## Learn More
+## Client repos
 
-To learn more about Next.js, take a look at the following resources:
+| App | GitHub |
+|-----|--------|
+| Frontend | `kccdigital/shuyifn-web-frontend` |
+| Admin | `kccdigital/shuyifn-web-admin` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Publish subsets from this monorepo when pushing to client repos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Docs
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `frontend/IMPLEMENTATION-PLAN.md` — public app scope and deploy
+- `admin/IMPLEMENTATION-PLAN.md` — admin app scope and deploy
+- `PROJECT-KNOWLEDGE-HANDOFF.md` — full project context
+- `CLIENT-BLOCKERS.md` — items needing client input

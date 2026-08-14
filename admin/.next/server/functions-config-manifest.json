@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "functions": {
+    "/_middleware": {
+      "runtime": "nodejs",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$",
+          "originalSource": "/((?!_next/static|_next/image|favicon.ico).*)"
+        }
+      ]
+    },
+    "/api/admin/audit-logs": {},
+    "/api/admin/integrations/health": {},
+    "/api/admin/media": {},
+    "/api/admin/media/[id]": {},
+    "/api/admin/members/[id]": {},
+    "/api/admin/members/search": {},
+    "/api/admin/redirects": {},
+    "/api/admin/redirects/[id]": {},
+    "/api/admin/settings/flags": {},
+    "/api/auth/session": {},
+    "/api/cms/content": {},
+    "/api/cms/content/reset": {},
+    "/api/cms/draft": {},
+    "/api/cms/publish": {},
+    "/api/cms/versions": {},
+    "/api/cms/versions/[id]/restore": {}
+  }
+}

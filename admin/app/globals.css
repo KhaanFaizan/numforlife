@@ -1,0 +1,304 @@
+@import "tailwindcss";
+@source "../../packages/shared/lib";
+@source "../../packages/shared/components/ui";
+
+/* ============================================================================
+   DESIGN TOKENS
+   ----------------------------------------------------------------------------
+   Light is the base palette on bare :root. Dark is redefined twice:
+     1. under prefers-color-scheme, guarded so an explicit light choice wins
+     2. under [data-theme="dark"], so the toggle wins in both directions
+   A colour must never have its ONLY definition inside a media/attribute block,
+   otherwise the "system" default renders half-themed.
+
+   Dark follows the PRD direction: deep navy/purple ground, soft elevated
+   surfaces, near-white primary text, soft grey secondary, restrained gold
+   accent — an intentional palette, not an inversion of light.
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* Ground + surfaces */
+  --bg: #fbfaf7;
+  --bg-subtle: #f4f2ed;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-sunken: #f7f5f1;
+
+  /* Text */
+  --fg: #14131a;
+  --fg-muted: #55525f;
+  --fg-subtle: #85818f;
+  --fg-inverse: #ffffff;
+
+  /* Lines */
+  --border: rgba(20, 19, 26, 0.1);
+  --border-strong: rgba(20, 19, 26, 0.18);
+
+  /* Brand accent — gold.
+     --accent is the fill colour; --accent-ink is the darker variant used for
+     text and links, because #ffc107 on white fails contrast requirements. */
+  --accent: #ffc107;
+  --accent-ink: #8a6200;
+  --accent-hover: #ff4e27;
+  --accent-soft: rgba(255, 193, 7, 0.14);
+  --accent-fg: #14131a;
+
+  /* Secondary accent — purple, for the mystical register */
+  --violet: #6d4aff;
+  --violet-soft: rgba(109, 74, 255, 0.1);
+
+  /* Status */
+  --success: #067a4e;
+  --warning: #a5680a;
+  --danger: #c02626;
+
+  /* Effects */
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(20, 19, 26, 0.08);
+  --shadow-sm: 0 1px 2px rgba(20, 19, 26, 0.06);
+  --shadow-md: 0 8px 28px rgba(20, 19, 26, 0.08);
+  --shadow-lg: 0 20px 60px rgba(20, 19, 26, 0.12);
+  --glow: none;
+  --ring: 0 0 0 3px rgba(255, 193, 7, 0.35);
+
+  /* Typography — Latin webfonts first, then a system CJK stack.
+     We deliberately do NOT webfont the Chinese: a full CJK face is megabytes,
+     and the PRD requires fast mobile loading. System faces render 数易赋能
+     natively on every target platform at zero network cost. */
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #0b0a14;
+    --bg-subtle: #0f0d1a;
+    --surface: #161423;
+    --surface-elevated: #1c1930;
+    --surface-sunken: #0d0b16;
+
+    --fg: #f4f2ff;
+    --fg-muted: #a8a3c2;
+    --fg-subtle: #75708f;
+    --fg-inverse: #14131a;
+
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.18);
+
+    --accent: #ffc107;
+    --accent-ink: #ffc107;
+    --accent-hover: #ff4e27;
+    --accent-soft: rgba(255, 193, 7, 0.12);
+    --accent-fg: #14131a;
+
+    --violet: #a58cff;
+    --violet-soft: rgba(165, 140, 255, 0.14);
+
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #f87171;
+
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.55);
+    --glow: 0 0 60px rgba(255, 193, 7, 0.14);
+    --ring: 0 0 0 3px rgba(255, 193, 7, 0.28);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0b0a14;
+  --bg-subtle: #0f0d1a;
+  --surface: #161423;
+  --surface-elevated: #1c1930;
+  --surface-sunken: #0d0b16;
+
+  --fg: #f4f2ff;
+  --fg-muted: #a8a3c2;
+  --fg-subtle: #75708f;
+  --fg-inverse: #14131a;
+
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --accent: #ffc107;
+  --accent-ink: #ffc107;
+  --accent-hover: #ff4e27;
+  --accent-soft: rgba(255, 193, 7, 0.12);
+  --accent-fg: #14131a;
+
+  --violet: #a58cff;
+  --violet-soft: rgba(165, 140, 255, 0.14);
+
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.55);
+  --glow: 0 0 60px rgba(255, 193, 7, 0.14);
+  --ring: 0 0 0 3px rgba(255, 193, 7, 0.28);
+}
+
+/* Expose tokens as Tailwind utilities: bg-surface, text-fg-muted, border-border… */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-inverse: var(--fg-inverse);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  /* Retained so existing components keep compiling during the migration */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-muted: var(--fg-muted);
+
+  --font-sans: var(--font-work-sans), var(--font-cjk);
+  --font-mono: var(--font-azeret-mono), var(--font-cjk);
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-work-sans), var(--font-cjk);
+  overflow-x: hidden;
+}
+
+/* Chinese runs need more line height and a touch of tracking to stay legible
+   at the sizes this design uses, especially mixed zh + en lines. */
+:lang(zh),
+.cjk {
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* ============================================================================
+   UTILITIES
+   ========================================================================= */
+
+.section-container {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-6 md:px-8 lg:px-12;
+}
+
+/** Consistent offset below the fixed header on inner pages. */
+.page-shell {
+  @apply bg-bg pt-[72px] md:pt-[80px];
+}
+
+/** Reusable section/page heading scale — tighter on small screens. */
+.section-heading {
+  @apply font-sans text-[clamp(1.75rem,5vw,3rem)] font-semibold leading-tight text-fg md:text-5xl;
+}
+
+.section-heading-lg {
+  @apply font-sans text-[clamp(2rem,8vw,4rem)] font-semibold leading-[1.05] text-fg md:text-[46px] lg:text-[52px];
+}
+
+.section-eyebrow {
+  @apply font-sans text-sm font-semibold text-fg md:text-base;
+}
+
+.section-copy {
+  @apply font-mono text-xs leading-relaxed text-fg md:text-sm md:leading-7;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--fg) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-panel {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.focus-accent {
+  @apply outline-none;
+}
+.focus-accent:focus-visible {
+  box-shadow: var(--ring);
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface-sunken) 0%,
+    var(--bg-subtle) 50%,
+    var(--surface-sunken) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
+}

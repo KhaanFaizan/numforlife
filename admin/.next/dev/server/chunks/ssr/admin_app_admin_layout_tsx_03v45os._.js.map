@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/HP/Desktop/Projects/clientdemo/admin/app/admin/layout.tsx"],"sourcesContent":["import type { Metadata } from \"next\";\r\n\r\nexport const metadata: Metadata = {\r\n  robots: {\r\n    index: false,\r\n    follow: false,\r\n  },\r\n};\r\n\r\nexport default function AdminRootLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return children;\r\n}\r\n"],"names":["metadata","robots","index","follow","AdminRootLayout","children"],"mappings":";;;;;;AAEO,MAAMA,WAAqB;IAChCC,QAAQ;QACNC,OAAO;QACPC,QAAQ;IACV;AACF;AAEe,SAASC,gBAAgB,EACtCC,QAAQ,EAGT;IACC,OAAOA;AACT"}}]
+}

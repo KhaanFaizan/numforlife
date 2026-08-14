@@ -1,0 +1,3 @@
+{
+  "/api/cms/versions/[id]/restore/route": "app/api/cms/versions/[id]/restore/route.js"
+}

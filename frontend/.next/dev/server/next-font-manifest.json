@@ -1,0 +1,15 @@
+{
+  "app": {
+    "[project]/frontend/app/_not-found/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ],
+    "[project]/frontend/app/page": [
+      "static/media/7ddd198311ba7843-s.p.3kq6k02b2ysv1.woff2",
+      "static/media/2f059f8bf31de55f-s.p.28l707c7cxluz.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

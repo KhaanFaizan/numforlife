@@ -1,0 +1,3 @@
+module.exports=[17280,a=>{"use strict";a.s(["PageTransition",()=>b]);let b=(0,a.i(11857).registerClientReference)(function(){throw Error("Attempted to call PageTransition() from the server but PageTransition is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/packages/shared/components/ui/PageTransition.tsx","PageTransition")},80017,a=>{"use strict";var b=a.i(17280);a.n(b)},1352,a=>{"use strict";var b=a.i(7997),c=a.i(80017);a.s(["default",0,function({children:a}){return(0,b.jsx)(c.PageTransition,{children:a})}])},433,function(a){a.n(a.i(1352))}];
+
+//# sourceMappingURL=_0s69q-p._.js.map
