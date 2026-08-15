@@ -62,6 +62,11 @@ export const pageSeo = {
       "了解数易赋能基础、精英与至尊会员价格及权益。完整开通与管理请前往数易 App。",
     path: "/membership",
   },
+  faq: {
+    title: "常见问题",
+    description: "数易赋能网站与 App 的常见问题 — 测算、会员、商店与账户说明。",
+    path: "/faq",
+  },
 } as const;
 
 export function organizationJsonLd() {

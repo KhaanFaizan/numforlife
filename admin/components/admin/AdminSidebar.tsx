@@ -12,7 +12,9 @@ import {
   Images,
   LayoutDashboard,
   LogOut,
+  Megaphone,
   Route,
+  Shield,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -26,6 +28,7 @@ const navItems = [
       { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { href: "/admin/pages", label: "Pages", icon: FileText },
       { href: "/admin/homepage", label: "Homepage Editor", icon: Home },
+      { href: "/admin/banners", label: "Banners", icon: Megaphone },
       { href: "/admin/media", label: "Media Library", icon: Images },
       { href: "/admin/redirects", label: "Redirects", icon: Route },
       { href: "/admin/preview", label: "Draft Preview", icon: ExternalLink },
@@ -37,7 +40,10 @@ const navItems = [
   },
   {
     section: "Ops",
-    items: [{ href: "/admin/integrations", label: "Integrations", icon: Activity }],
+    items: [
+      { href: "/admin/integrations", label: "Integrations", icon: Activity },
+      { href: "/admin/audit", label: "Audit Log", icon: Shield },
+    ],
   },
 ];
 

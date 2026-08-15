@@ -12,7 +12,10 @@ const LOOKS_LIKE_FILE = /\/[^/]+\.[^/]+$/;
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  const legacyDestination = await resolveLegacyRedirectAsync(pathname);
+  const legacyDestination = await resolveLegacyRedirectAsync(
+    pathname,
+    request.nextUrl.origin,
+  );
   if (legacyDestination) {
     const target = new URL(legacyDestination, request.url);
     target.search = search;

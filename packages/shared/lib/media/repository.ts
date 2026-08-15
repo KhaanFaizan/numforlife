@@ -5,10 +5,11 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 
 import { getDb } from "@/lib/cms/db";
+import { mediaRootPath } from "@/lib/deployment/paths";
 import { sanitiseFilename } from "./validate";
 import type { MediaAsset } from "./types";
 
-const MEDIA_ROOT = path.join(process.cwd(), "public", "media");
+const MEDIA_ROOT = mediaRootPath();
 
 type MediaRow = {
   id: string;
@@ -148,7 +149,7 @@ export function deleteMediaAsset(id: string) {
 
   if (!row) throw new Error("MEDIA_NOT_FOUND");
 
-  const absolutePath = path.join(process.cwd(), "public", row.url.replace(/^\//, ""));
+  const absolutePath = path.join(MEDIA_ROOT, row.folder, row.filename);
 
   getDb().prepare("DELETE FROM cms_media WHERE id = ?").run(id);
 
@@ -157,6 +158,17 @@ export function deleteMediaAsset(id: string) {
   }
 
   return mapRow(row);
+}
+
+export function updateMediaAssetAlt(id: string, alt: string | null): MediaAsset {
+  ensureMediaTable();
+
+  const existing = getMediaAsset(id);
+  if (!existing) throw new Error("MEDIA_NOT_FOUND");
+
+  getDb().prepare("UPDATE cms_media SET alt = ? WHERE id = ?").run(alt?.trim() || null, id);
+
+  return getMediaAsset(id)!;
 }
 
 export function getMediaAsset(id: string): MediaAsset | null {

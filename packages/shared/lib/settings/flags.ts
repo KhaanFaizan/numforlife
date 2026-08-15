@@ -35,7 +35,8 @@ export const SITE_FLAG_DEFINITIONS: SiteFlagDefinition[] = [
   {
     key: "show_app_download_cta",
     label: "App download CTAs",
-    description: "Shows App download prompts on shop and membership pages.",
+    description:
+      "Shows App download prompts on the homepage, shop, and membership pages.",
     defaultValue: true,
   },
 ];

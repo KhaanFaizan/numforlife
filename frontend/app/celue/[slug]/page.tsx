@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AppCalculatorCTA } from "@/components/calc/AppCalculatorCTA";
 import { NumerologyForm } from "@/components/calc/NumerologyForm";
+import { TarotPreviewSection } from "@/components/calc/TarotPreviewSection";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getCalculatorBySlug } from "@/lib/calculators/registry";
+import {
+  getCalculatorBySlug,
+  isAppDelivery,
+} from "@/lib/calculators/registry";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo/config";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -61,13 +66,19 @@ export default async function CalculatorInputPage({ params }: PageProps) {
                 {calculator.shortDescription}
               </p>
               <p className="mt-6 font-mono text-xs leading-relaxed text-fg-subtle">
-                网页版测算结果为简版预览，完整解读与记录保存请使用数易 App。
+                {isAppDelivery(calculator)
+                  ? "此测算的完整流程请在数易 App 体验。"
+                  : "网页版测算结果为简版预览，完整解读与记录保存请使用数易 App。"}
               </p>
             </header>
 
             <div className="rounded-3xl border border-border bg-surface p-6 md:p-8">
-              {slug === "number" ? (
+              {isAppDelivery(calculator) ? (
+                <AppCalculatorCTA calculator={calculator} />
+              ) : slug === "number" ? (
                 <NumerologyForm action={`/celue/${slug}/result`} />
+              ) : slug === "tarot" ? (
+                <TarotPreviewSection />
               ) : null}
             </div>
           </div>

@@ -4,6 +4,7 @@ import { Work_Sans, Azeret_Mono } from "next/font/google";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ContentProvider } from "@/lib/cms/content-provider";
 import { getPublishedContent } from "@/lib/cms/server";
+import { listActiveSiteBanners } from "@/lib/banners/repository";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getSiteFlags } from "@/lib/settings/repository";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/config";
@@ -39,6 +40,7 @@ export default async function RootLayout({
   const theme = resolveTheme(themePreference);
   const publishedContent = await getPublishedContent();
   const siteFlags = getSiteFlags();
+  const activeBanners = listActiveSiteBanners();
 
   return (
     <html
@@ -53,6 +55,8 @@ export default async function RootLayout({
           <LayoutShell
             maintenanceMode={siteFlags.maintenance_mode}
             shopEnabled={siteFlags.shop_enabled}
+            showAppDownloadCta={siteFlags.show_app_download_cta}
+            banners={activeBanners}
           >
             {children}
           </LayoutShell>

@@ -1,8 +1,18 @@
 import Link from "next/link";
-import { CALCULATORS } from "@/lib/calculators/registry";
+import {
+  CALCULATORS,
+  calculatorAppUrl,
+  isAppDelivery,
+} from "@/lib/calculators/registry";
 import { PageSeo, metadataForPage } from "@/components/seo/PageSeo";
 
 export const metadata = metadataForPage("celue");
+
+function cardBadge(calculator: (typeof CALCULATORS)[number]) {
+  if (isAppDelivery(calculator)) return "App 完整体验";
+  if (calculator.slug === "tarot") return "简版筹备中";
+  return "简版预览";
+}
 
 /**
  * 测算 landing page (PRD 8.2).
@@ -30,50 +40,60 @@ export default function CalculationLandingPage() {
           </header>
 
           <ul className="mt-10 grid gap-5 sm:gap-6 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
-            {CALCULATORS.map((calculator) => (
-              <li key={calculator.slug}>
-                <article className="flex h-full flex-col rounded-3xl border border-border bg-surface p-6 md:p-7">
-                  <div className="flex items-start justify-between gap-3">
-                    <h2 className="font-sans text-xl font-semibold text-fg">
-                      {calculator.name}
-                    </h2>
-                    <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1 font-mono text-[10px] tracking-wide text-accent-ink uppercase">
-                      简版预览
-                    </span>
-                  </div>
+            {CALCULATORS.map((calculator) => {
+              const appUrl = calculatorAppUrl(calculator);
+              const appOnly = isAppDelivery(calculator);
 
-                  <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-fg-muted">
-                    {calculator.shortDescription}
-                  </p>
-
-                  <p className="mt-5 font-mono text-xs text-fg-subtle">
-                    约 {calculator.estimatedMinutes} 分钟
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {calculator.available ? (
-                      <Link
-                        href={`/celue/${calculator.slug}`}
-                        className="focus-accent inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
-                      >
-                        开始测算
-                      </Link>
-                    ) : (
-                      <span className="inline-flex rounded-full border border-border px-5 py-2.5 font-sans text-sm text-fg-subtle">
-                        即将推出
+              return (
+                <li key={calculator.slug}>
+                  <article className="flex h-full flex-col rounded-3xl border border-border bg-surface p-6 md:p-7">
+                    <div className="flex items-start justify-between gap-3">
+                      <h2 className="font-sans text-xl font-semibold text-fg">
+                        {calculator.name}
+                      </h2>
+                      <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1 font-mono text-[10px] tracking-wide text-accent-ink uppercase">
+                        {cardBadge(calculator)}
                       </span>
-                    )}
+                    </div>
 
-                    <Link
-                      href="https://app.numforlife.com"
-                      className="focus-accent inline-flex rounded-full border border-border px-5 py-2.5 font-sans text-sm text-fg transition-colors hover:border-accent"
-                    >
-                      App 完整解读
-                    </Link>
-                  </div>
-                </article>
-              </li>
-            ))}
+                    <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-fg-muted">
+                      {calculator.shortDescription}
+                    </p>
+
+                    <p className="mt-5 font-mono text-xs text-fg-subtle">
+                      约 {calculator.estimatedMinutes} 分钟
+                    </p>
+
+                    <div className="mt-6 flex flex-wrap gap-3">
+                      {appOnly ? (
+                        <a
+                          href={appUrl}
+                          className="focus-accent inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
+                        >
+                          前往 App 测算
+                        </a>
+                      ) : (
+                        <Link
+                          href={`/celue/${calculator.slug}`}
+                          className="focus-accent inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
+                        >
+                          {calculator.slug === "tarot" ? "了解塔罗" : "开始测算"}
+                        </Link>
+                      )}
+
+                      {!appOnly ? (
+                        <a
+                          href={appUrl}
+                          className="focus-accent inline-flex rounded-full border border-border px-5 py-2.5 font-sans text-sm text-fg transition-colors hover:border-accent"
+                        >
+                          App 完整解读
+                        </a>
+                      ) : null}
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

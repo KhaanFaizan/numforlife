@@ -3,15 +3,21 @@
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { MaintenanceNotice } from "@/components/layout/MaintenanceNotice";
+import { SiteBannerStack } from "@/components/layout/SiteBanner";
+import type { SiteBanner } from "@/lib/banners/types";
 
 export function LayoutShell({
   children,
   maintenanceMode = false,
   shopEnabled = true,
+  showAppDownloadCta = true,
+  banners = [],
 }: {
   children: React.ReactNode;
   maintenanceMode?: boolean;
   shopEnabled?: boolean;
+  showAppDownloadCta?: boolean;
+  banners?: SiteBanner[];
 }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
@@ -30,7 +36,10 @@ export function LayoutShell({
         Skip to content
       </a>
       <Header shopEnabled={shopEnabled} />
-      <main id="main-content">{children}</main>
+      <SiteBannerStack banners={banners} />
+      <main id="main-content" data-show-app-cta={showAppDownloadCta ? "true" : "false"}>
+        {children}
+      </main>
     </>
   );
 }

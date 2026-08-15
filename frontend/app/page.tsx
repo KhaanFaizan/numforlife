@@ -4,6 +4,7 @@ import { PageSeo } from "@/components/seo/PageSeo";
 import { getPublishedContent } from "@/lib/cms/server";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { pageSeo } from "@/lib/seo/config";
+import { getSiteFlags } from "@/lib/settings/repository";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPublishedContent();
@@ -20,11 +21,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const content = await getPublishedContent();
+  const showAppDownload = getSiteFlags().show_app_download_cta;
 
   return (
     <>
       <PageSeo page="home" />
-      <HomePageRenderer content={content} />
+      <HomePageRenderer content={content} showAppDownload={showAppDownload} />
     </>
   );
 }

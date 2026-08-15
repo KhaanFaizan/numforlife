@@ -15,6 +15,7 @@ export const CALCULATOR_KINDS = {
   numerology: 0,
   name: 1,
   tarot: 2,
+  eastern: 3,
 } as const;
 
 export type CalculatorKind = keyof typeof CALCULATOR_KINDS;
@@ -109,6 +110,9 @@ export type CalculationEngine<TInput, TResult> = {
   run(input: TInput): Promise<CalculationOutcome<TResult>>;
 };
 
+/** Where the full experience runs — website flow vs App deep link (Soon 2026-08-14). */
+export type CalculatorDelivery = "website" | "app";
+
 /** Registry entry describing a calculator for listings and routing. */
 export type CalculatorDefinition = {
   kind: CalculatorKind;
@@ -118,6 +122,10 @@ export type CalculatorDefinition = {
   shortDescription: string;
   /** Shown on the 测算 landing card (PRD 8.2). */
   estimatedMinutes: number;
-  /** Whether the website exposes it yet — lets us list "coming soon" cards. */
+  /** Listed on /celue and routable when true. */
   available: boolean;
+  /** `app` = primary CTA opens the mobile App; `website` = in-site preview flow. */
+  delivery?: CalculatorDelivery;
+  /** App deep link override for `delivery: "app"` cards and pages. */
+  externalAppUrl?: string;
 };

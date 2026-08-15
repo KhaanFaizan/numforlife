@@ -15,7 +15,9 @@ export const metadata = metadataForPage("membership");
 export const revalidate = 3600;
 
 export default async function MembershipPage() {
-  if (!getSiteFlags().membership_page_enabled) {
+  const flags = getSiteFlags();
+
+  if (!flags.membership_page_enabled) {
     redirect("/contact-us");
   }
 
@@ -68,7 +70,7 @@ export default async function MembershipPage() {
           </section>
         )}
 
-        <MembershipAppCta />
+        {flags.show_app_download_cta ? <MembershipAppCta /> : null}
       </div>
     </>
   );

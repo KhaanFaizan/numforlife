@@ -8,18 +8,31 @@ let cachedAt = 0;
 const TTL_MS = 15_000;
 
 /**
- * Resolve the active redirect manifest for edge proxy use.
+ * Load redirect rules for the edge proxy.
  *
- * Do NOT HTTP-fetch `/redirects.manifest.json` here — that request is handled
- * by the same proxy and deadlocks (each manifest lookup triggers another until
- * the fetch times out, ~70s+).
- *
- * Custom rules from the admin CMS are written to disk/nginx in production.
- * Until edge-safe manifest loading exists, the proxy uses the built-in map.
+ * 1. Static `/redirects.manifest.json` (admin publish copies via
+ *    REDIRECTS_MANIFEST_PUBLIC_COPY) — safe fetch because that path is excluded
+ *    from the proxy matcher, so no self-fetch deadlock.
+ * 2. Built-in WordPress map fallback.
  */
-export async function getRedirectManifest(): Promise<RedirectManifest> {
+export async function getRedirectManifest(origin: string): Promise<RedirectManifest> {
   if (cachedManifest && Date.now() - cachedAt < TTL_MS) {
     return cachedManifest;
+  }
+
+  try {
+    const response = await fetch(`${origin}/redirects.manifest.json`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(3_000),
+    });
+
+    if (response.ok) {
+      cachedManifest = (await response.json()) as RedirectManifest;
+      cachedAt = Date.now();
+      return cachedManifest;
+    }
+  } catch {
+    // Fall through to built-in map.
   }
 
   cachedManifest = BUILTIN_REDIRECT_MANIFEST;
@@ -29,8 +42,9 @@ export async function getRedirectManifest(): Promise<RedirectManifest> {
 
 export async function resolveLegacyRedirectAsync(
   pathname: string,
+  origin: string,
 ): Promise<string | null> {
-  const manifest = await getRedirectManifest();
+  const manifest = await getRedirectManifest(origin);
   return resolveRedirect(pathname, manifest);
 }
 

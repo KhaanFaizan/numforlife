@@ -42,10 +42,20 @@ const staticBlocks: Partial<Record<HomepageBlockType, ComponentType>> = {
   testimonials: TestimonialsSection,
 };
 
-export function HomePageRenderer({ content }: { content: CMSContent }) {
+export function HomePageRenderer({
+  content,
+  showAppDownload = true,
+}: {
+  content: CMSContent;
+  showAppDownload?: boolean;
+}) {
   return (
     <>
       {content.homepageBlocks.map((block) => {
+        if (block.type === "app-download" && !showAppDownload) {
+          return null;
+        }
+
         const ContentBlock = contentBlocks[block.type];
         if (ContentBlock) {
           return <ContentBlock key={block.id} content={content} />;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ShopCatalogView } from "@/components/shop/ShopCatalogView";
+import { AppDownloadCtaStrip } from "@/components/common/AppDownloadCtaStrip";
 import { PageSeo, metadataForPage } from "@/components/seo/PageSeo";
 import { getShopCatalog } from "@/lib/shop/catalog";
 import { getSiteFlags } from "@/lib/settings/repository";
@@ -11,7 +12,9 @@ export const metadata = metadataForPage("shop");
 export const revalidate = 3600;
 
 export default async function ShopPage() {
-  if (!getSiteFlags().shop_enabled) {
+  const flags = getSiteFlags();
+
+  if (!flags.shop_enabled) {
     redirect("/contact-us");
   }
 
@@ -52,6 +55,10 @@ export default async function ShopPage() {
         <section className="section-container pb-14 md:pb-20">
           <ShopCatalogView catalog={catalog} />
         </section>
+
+        {flags.show_app_download_cta ? (
+          <AppDownloadCtaStrip description="商店结账与 KCC 余额支付请在 App 内完成。" />
+        ) : null}
       </div>
     </>
   );

@@ -5,9 +5,9 @@ export const BUILTIN_REDIRECT_MANIFEST: RedirectManifest = {
   exact: {
     "/member-number-simulate": "/celue/number",
     "/number": "/celue/number",
-    "/name": "/celue",
-    "/tarot": "/celue",
-    "/eastern-divination": "/celue",
+    "/name": "/celue/name",
+    "/tarot": "/celue/tarot",
+    "/eastern-divination": "/celue/eastern",
     "/my-account": "/dashboard",
     "/sign-up": "/login",
     "/shopping": "/shop",

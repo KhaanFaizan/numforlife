@@ -10,7 +10,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { AdminTopBar } from "@/components/admin/AdminTopBar";
-import { AuditActivityPanel } from "@/components/admin/AuditActivityPanel";
+import { AuditActivityPanel } from "@/components/admin/AuditLogPanel";
+import { IntegrationHealthSummary } from "@/components/admin/IntegrationHealthSummary";
 import {
   AdminCard,
   AdminPanelHeader,
@@ -164,6 +165,8 @@ export default function AdminDashboardPage() {
             ))}
           </div>
         </AdminCard>
+
+        <IntegrationHealthSummary />
 
         <AuditActivityPanel />
       </div>

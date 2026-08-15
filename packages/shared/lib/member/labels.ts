@@ -4,6 +4,7 @@ const RECORDS_TYPE_LABELS: Record<number, string> = {
   [CALCULATOR_KINDS.numerology]: "数字生命",
   [CALCULATOR_KINDS.name]: "姓名学",
   [CALCULATOR_KINDS.tarot]: "塔罗",
+  [CALCULATOR_KINDS.eastern]: "东方占卜",
 };
 
 const MODE_LABELS: Record<number, string> = {

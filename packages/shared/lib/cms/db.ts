@@ -2,9 +2,9 @@ import "server-only";
 
 import fs from "node:fs";
 import path from "node:path";
-import Database from "better-sqlite3";
 
-const DEFAULT_PATH = path.join(process.cwd(), "data", "numforlife_web.sqlite");
+import Database from "better-sqlite3";
+import { cmsDatabasePath } from "@/lib/deployment/paths";
 
 let db: Database.Database | null = null;
 
@@ -82,7 +82,7 @@ function migrate(database: Database.Database) {
 export function getDb(): Database.Database {
   if (db) return db;
 
-  const dbPath = process.env.CMS_DATABASE_PATH ?? DEFAULT_PATH;
+  const dbPath = cmsDatabasePath();
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
   db = new Database(dbPath);

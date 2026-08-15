@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { History, RotateCcw } from "lucide-react";
+import { History, RefreshCw, RotateCcw } from "lucide-react";
 import type { ContentVersionSummary } from "@/lib/cms/types";
 import { useCMS } from "@/lib/cms/content-provider";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
@@ -12,6 +12,17 @@ const stateLabels: Record<string, string> = {
   published: "Published",
   archived: "Archived",
 };
+
+function formatWhen(value: string) {
+  try {
+    return new Intl.DateTimeFormat("zh-CN", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(new Date(value));
+  } catch {
+    return value;
+  }
+}
 
 export function VersionHistoryPanel() {
   const { listVersions, restoreVersion, isSaving } = useCMS();
@@ -41,11 +52,17 @@ export function VersionHistoryPanel() {
   return (
     <AdminCard padding="none" className="overflow-hidden">
       <div className="border-b border-black/[0.05] bg-[#fafafa] px-6 py-5">
-        <AdminPanelHeader
-          title="Version History"
-          description="Restore a previous version into the current draft"
-          icon={<History className="h-5 w-5" />}
-        />
+        <div className="flex items-start justify-between gap-3">
+          <AdminPanelHeader
+            title="Version History"
+            description="Restore a previous homepage version into the current draft, then publish when ready."
+            icon={<History className="h-5 w-5" />}
+          />
+          <AdminButton type="button" size="sm" variant="secondary" disabled={loading} onClick={() => void loadVersions()}>
+            <RefreshCw className="h-4 w-4" />
+            Refresh
+          </AdminButton>
+        </div>
       </div>
 
       <div className="p-4">
@@ -54,7 +71,7 @@ export function VersionHistoryPanel() {
         ) : error ? (
           <p className="font-sans text-sm text-red-600">{error}</p>
         ) : versions.length === 0 ? (
-          <p className="font-mono text-xs text-black/45">No versions yet.</p>
+          <p className="font-mono text-xs text-black/45">No versions yet. Publish once to create history.</p>
         ) : (
           <ul className="space-y-2">
             {versions.map((version) => (
@@ -64,11 +81,10 @@ export function VersionHistoryPanel() {
               >
                 <div>
                   <p className="font-sans text-sm font-semibold text-black">
-                    v{version.versionNo}
+                    Version {version.versionNo}
                   </p>
                   <p className="font-mono text-[10px] text-black/45">
-                    {stateLabels[version.state] ?? version.state} ·{" "}
-                    {new Date(version.createdAt).toLocaleString()}
+                    {stateLabels[version.state] ?? version.state} · {formatWhen(version.createdAt)}
                   </p>
                 </div>
                 <AdminButton
@@ -77,12 +93,17 @@ export function VersionHistoryPanel() {
                   variant="secondary"
                   loading={isSaving}
                   onClick={async () => {
+                    const confirmed = window.confirm(
+                      `Restore version ${version.versionNo} into the current draft? Unsaved draft changes will be replaced.`,
+                    );
+                    if (!confirmed) return;
+
                     await restoreVersion(version.id);
                     await loadVersions();
                   }}
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
-                  Restore
+                  Restore to draft
                 </AdminButton>
               </li>
             ))}

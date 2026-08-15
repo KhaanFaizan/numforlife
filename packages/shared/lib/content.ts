@@ -15,6 +15,7 @@ export const navLinks = [
 ];
 
 export const footerLinks = [
+  { label: "常见问题", href: "/faq" },
   { label: "无障碍声明", href: "/accessibility-statement" },
   { label: "隐私政策", href: "/privacy-policy" },
   { label: "使用条款", href: "/terms-of-use" },
