@@ -152,7 +152,17 @@ export function DashboardPanels({ data }: { data: MemberDashboardData }) {
             ))}
           </ul>
         ) : (
-          <p className="mt-6 font-sans text-sm text-fg-muted">暂无最近能量点流水。</p>
+          <div className="rounded-3xl border border-dashed border-border bg-bg-subtle px-6 py-10 text-center">
+            <p className="font-sans text-sm text-fg-muted">暂无最近能量点流水。</p>
+            <Link
+              href="https://app.numforlife.com/h5/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-accent mt-4 inline-flex min-h-[44px] items-center rounded-full bg-accent px-6 py-3 font-sans text-sm font-semibold text-accent-fg"
+            >
+              在 App 查看完整流水
+            </Link>
+          </div>
         )}
         </Panel>
       </div>
@@ -200,7 +210,17 @@ export function DashboardPanels({ data }: { data: MemberDashboardData }) {
             ))}
           </ul>
         ) : (
-          <p className="font-sans text-sm text-fg-muted">暂无测算记录。</p>
+          <div className="rounded-3xl border border-dashed border-border bg-bg-subtle px-6 py-10 text-center">
+            <p className="font-sans text-sm text-fg-muted">
+              暂无测算记录。先在网页体验简版数字生命，或在 App 保存完整记录。
+            </p>
+            <Link
+              href="/celue/number"
+              className="focus-accent mt-4 inline-flex min-h-[44px] items-center rounded-full bg-accent px-6 py-3 font-sans text-sm font-semibold text-accent-fg"
+            >
+              开始数字生命测算
+            </Link>
+          </div>
         )}
         </Panel>
       </div>

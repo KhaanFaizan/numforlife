@@ -1,6 +1,8 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/admin/(protected)/audit/page": "/admin/audit",
+  "/admin/(protected)/banners/page": "/admin/banners",
   "/admin/(protected)/dashboard/page": "/admin/dashboard",
   "/admin/(protected)/homepage/page": "/admin/homepage",
   "/admin/(protected)/integrations/page": "/admin/integrations",
@@ -12,6 +14,8 @@
   "/admin/(protected)/users/page": "/admin/users",
   "/admin/login/page": "/admin/login",
   "/api/admin/audit-logs/route": "/api/admin/audit-logs",
+  "/api/admin/banners/[id]/route": "/api/admin/banners/[id]",
+  "/api/admin/banners/route": "/api/admin/banners",
   "/api/admin/integrations/health/route": "/api/admin/integrations/health",
   "/api/admin/media/[id]/route": "/api/admin/media/[id]",
   "/api/admin/media/route": "/api/admin/media",

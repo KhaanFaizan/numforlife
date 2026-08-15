@@ -8,6 +8,7 @@ import type { MemberSession } from "@/lib/auth/types";
 import type { MemberDashboardData } from "@/lib/member/types";
 import { displayName } from "@/lib/member/format";
 import { DashboardNav } from "./DashboardNav";
+import { DashboardQuickActions, DashboardStatCards } from "./DashboardStatCards";
 
 function initials(name: string) {
   return name.trim().slice(0, 1).toUpperCase() || "会";
@@ -90,7 +91,9 @@ export function DashboardShell({
           </div>
         </header>
 
-        <div className="mt-6">
+        <div className="mt-6 space-y-6">
+          <DashboardStatCards data={data} />
+          <DashboardQuickActions />
           <DashboardNav />
         </div>
 

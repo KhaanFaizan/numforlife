@@ -151,7 +151,12 @@ export function MembershipBenefitsSection({ catalog }: { catalog: MembershipCata
             </thead>
             <tbody>
               {catalog.entitlements.map((row) => (
-                <tr key={row.id} className="border-b border-border last:border-b-0">
+                <tr
+                  key={row.id}
+                  className={`border-b border-border last:border-b-0 ${
+                    row.id === 17 ? "bg-accent-soft/40" : ""
+                  }`}
+                >
                   <th scope="row" className="px-5 py-4 align-top font-sans text-sm font-semibold text-fg md:px-8">
                     <div>{row.name}</div>
                     {row.notes ? (

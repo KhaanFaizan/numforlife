@@ -1,6 +1,8 @@
 {
   "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/admin/(protected)/audit/page": "app/admin/(protected)/audit/page.js",
+  "/admin/(protected)/banners/page": "app/admin/(protected)/banners/page.js",
   "/admin/(protected)/dashboard/page": "app/admin/(protected)/dashboard/page.js",
   "/admin/(protected)/homepage/page": "app/admin/(protected)/homepage/page.js",
   "/admin/(protected)/integrations/page": "app/admin/(protected)/integrations/page.js",
@@ -12,6 +14,8 @@
   "/admin/(protected)/users/page": "app/admin/(protected)/users/page.js",
   "/admin/login/page": "app/admin/login/page.js",
   "/api/admin/audit-logs/route": "app/api/admin/audit-logs/route.js",
+  "/api/admin/banners/[id]/route": "app/api/admin/banners/[id]/route.js",
+  "/api/admin/banners/route": "app/api/admin/banners/route.js",
   "/api/admin/integrations/health/route": "app/api/admin/integrations/health/route.js",
   "/api/admin/media/[id]/route": "app/api/admin/media/[id]/route.js",
   "/api/admin/media/route": "app/api/admin/media/route.js",

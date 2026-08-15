@@ -24,4 +24,6 @@ export type ShopCatalog = {
   tierLabel: string;
   configured: boolean;
   fetchedAt: string;
+  categories: string[];
+  loadError?: string | null;
 };

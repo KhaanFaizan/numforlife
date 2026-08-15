@@ -23,6 +23,14 @@
   },
   "dynamicRoutes": [
     {
+      "page": "/api/admin/banners/[id]",
+      "regex": "^/api/admin/banners/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/banners/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/api/admin/media/[id]",
       "regex": "^/api/admin/media/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -73,6 +81,18 @@
       "regex": "^/admin(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/admin(?:/)?$"
+    },
+    {
+      "page": "/admin/audit",
+      "regex": "^/admin/audit(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/audit(?:/)?$"
+    },
+    {
+      "page": "/admin/banners",
+      "regex": "^/admin/banners(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/banners(?:/)?$"
     },
     {
       "page": "/admin/dashboard",
@@ -133,6 +153,12 @@
       "regex": "^/api/admin/audit\\-logs(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/admin/audit\\-logs(?:/)?$"
+    },
+    {
+      "page": "/api/admin/banners",
+      "regex": "^/api/admin/banners(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/banners(?:/)?$"
     },
     {
       "page": "/api/admin/integrations/health",

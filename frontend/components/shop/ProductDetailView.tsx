@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { shopCategoryLabel } from "@/lib/shop/categories";
 import { formatCoinAmount } from "@/lib/shop/pricing";
 import type { PricedProduct } from "@/lib/shop/types";
 
@@ -55,7 +56,9 @@ export function ProductDetailView({
         <h1 className="cjk section-heading mt-3">{product.name}</h1>
 
         {product.category ? (
-          <p className="mt-3 font-sans text-sm text-fg-muted">分类：{product.category}</p>
+          <p className="mt-3 font-sans text-sm text-fg-muted">
+            分类：{shopCategoryLabel(product.category) ?? product.category}
+          </p>
         ) : null}
 
         <div className="mt-6 rounded-[24px] border border-border bg-surface p-5">

@@ -5,6 +5,7 @@ import {
   MembershipBenefitsSection,
   MembershipPricingSection,
 } from "@/components/membership/MembershipSections";
+import { MembershipTierHighlights } from "@/components/membership/MembershipTierHighlights";
 import { PageSeo, metadataForPage } from "@/components/seo/PageSeo";
 import { getMembershipCatalog } from "@/lib/membership/repository";
 import { getSiteFlags } from "@/lib/settings/repository";
@@ -59,6 +60,7 @@ export default async function MembershipPage() {
 
         {catalog ? (
           <>
+            <MembershipTierHighlights catalog={catalog} />
             <MembershipPricingSection catalog={catalog} />
             <MembershipBenefitsSection catalog={catalog} />
           </>

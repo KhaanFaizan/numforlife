@@ -10,6 +10,7 @@
   "/celue/page": "app/celue/page.js",
   "/contact-us/page": "app/contact-us/page.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/faq/page": "app/faq/page.js",
   "/login/page": "app/login/page.js",
   "/membership/page": "app/membership/page.js",
   "/page": "app/page.js",

@@ -15,8 +15,8 @@ import { PreviewNotice } from "./PreviewNotice";
  * of this needs interactivity.
  */
 
-/** Base-tier entitlement: 首十个 (first ten). */
-const PREVIEW_GROUP_LIMIT = 10;
+/** Base-tier entitlement default when no override is supplied. */
+const DEFAULT_PREVIEW_GROUP_LIMIT = 10;
 
 function Panel({
   title,
@@ -37,8 +37,21 @@ function Panel({
   );
 }
 
-export function NumerologyResultView({ result }: { result: NumerologyResult }) {
-  const visibleGroups = result.groups.slice(0, PREVIEW_GROUP_LIMIT);
+export function NumerologyResultView({
+  result,
+  groupPreviewLimit = DEFAULT_PREVIEW_GROUP_LIMIT,
+  tierLabel,
+}: {
+  result: NumerologyResult;
+  /** `null` = show all groups (elite / supreme). */
+  groupPreviewLimit?: number | null;
+  tierLabel?: string;
+}) {
+  const limit =
+    groupPreviewLimit === null
+      ? result.groups.length
+      : Math.max(0, groupPreviewLimit ?? DEFAULT_PREVIEW_GROUP_LIMIT);
+  const visibleGroups = result.groups.slice(0, limit);
   const hiddenGroupCount = Math.max(0, result.groups.length - visibleGroups.length);
 
   return (
@@ -142,7 +155,8 @@ export function NumerologyResultView({ result }: { result: NumerologyResult }) {
 
           {hiddenGroupCount > 0 && (
             <p className="mt-4 font-mono text-xs text-fg-subtle">
-              另有 {hiddenGroupCount} 组解析可在 App 中查看。
+              另有 {hiddenGroupCount} 组解析可在 App 中查看
+              {tierLabel ? `（当前 ${tierLabel} 网页预览上限）` : ""}。
             </p>
           )}
         </Panel>

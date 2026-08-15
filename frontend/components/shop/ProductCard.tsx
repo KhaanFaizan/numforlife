@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { shopCategoryLabel } from "@/lib/shop/categories";
 import { formatCoinAmount } from "@/lib/shop/pricing";
 import type { PricedProduct } from "@/lib/shop/types";
 
@@ -36,6 +37,12 @@ export function ProductCard({ product }: { product: PricedProduct }) {
         {product.merchantName ? (
           <p className="font-mono text-[11px] tracking-[0.14em] text-fg-subtle uppercase">
             {product.merchantName}
+          </p>
+        ) : null}
+
+        {product.category ? (
+          <p className="mt-2 inline-flex rounded-full bg-bg-subtle px-2.5 py-1 font-mono text-[10px] text-fg-subtle">
+            {shopCategoryLabel(product.category) ?? product.category}
           </p>
         ) : null}
 

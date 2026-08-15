@@ -4,9 +4,14 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { NumerologyResultView } from "@/components/calc/NumerologyResultView";
 import { getCalculatorBySlug } from "@/lib/calculators/registry";
+import {
+  anonymousNumerologyEntitlements,
+  getMemberNumerologyEntitlements,
+} from "@/lib/calculators/entitlements";
 import { numerologyEngine } from "@/lib/calculators/numerology";
 import { CalculationFailure } from "@/lib/calculators/types";
 import type { CalculationMode, TwinStatus } from "@/lib/calculators/types";
+import { getMemberSession } from "@/lib/auth/member-service";
 import { VISITOR_COOKIE, consumeCalculationQuota } from "@/lib/rate-limit";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -112,24 +117,34 @@ export default async function CalculatorResultPage({ params, searchParams }: Pag
     ? (twinParam as TwinStatus)
     : "none";
 
-  // Anonymous visitors get the allowance production already applies. This also
-  // shields the client's WordPress: our engine calls it server-side, so every
-  // visitor reaches it from one ip and upstream's own limit cannot see them.
+  // Anonymous visitors get production's 2/day cap. Logged-in members inherit
+  // 测算记录 limits from `yzn_vip_purview` (D-006).
+  const session = await getMemberSession();
+  const entitlements = session
+    ? (await getMemberNumerologyEntitlements(session.memberId)) ??
+      anonymousNumerologyEntitlements()
+    : anonymousNumerologyEntitlements();
+
   const visitorId = (await cookies()).get(VISITOR_COOKIE)?.value ?? "anonymous";
-  const quota = consumeCalculationQuota(visitorId);
+  const quotaKey = session ? `member:${session.memberId}` : visitorId;
+  const quota = consumeCalculationQuota(quotaKey, entitlements.dailyCalculationLimit);
 
   if (!quota.allowed) {
     return (
       <ResultShell slug={slug} title={`${calculator.name}测算结果`} birthDate={birthDate}>
         <Notice
           title="今日测算次数已用完"
-          message={`未登录用户每日最多可进行 ${quota.limit} 次测算。登录数易 App 会员即可无限次测算，并保存完整测算记录。`}
+          message={
+            session
+              ? `您的 ${entitlements.tierLabel} 网页测算额度已用完（每日 ${quota.limit} 次）。完整解读与记录保存请使用数易 App。`
+              : `未登录用户每日最多可进行 ${quota.limit} 次测算。登录会员后可获得更高额度，完整解读请前往数易 App。`
+          }
           action={
             <Link
-              href="https://app.numforlife.com"
+              href={session ? "https://app.numforlife.com/h5/" : "/login?next=/celue/number"}
               className="focus-accent mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
             >
-              前往数易 App
+              {session ? "前往数易 App" : "登录会员账户"}
             </Link>
           }
         />
@@ -147,7 +162,13 @@ export default async function CalculatorResultPage({ params, searchParams }: Pag
       fatherBirthDate: first(query.fdate),
       motherBirthDate: first(query.mdate),
     });
-    body = <NumerologyResultView result={outcome.result} />;
+    body = (
+      <NumerologyResultView
+        result={outcome.result}
+        groupPreviewLimit={entitlements.groupPreviewLimit}
+        tierLabel={entitlements.tierLabel}
+      />
+    );
   } catch (error) {
     // Expected failures carry user-facing Chinese copy. Anything else is a bug,
     // so it gets a generic message rather than leaking internals to the visitor.

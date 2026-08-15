@@ -8,6 +8,7 @@ import {
 } from "@/lib/plenorhub/client";
 import { normalizeProduct } from "@/lib/plenorhub/normalize";
 import { getShopMemberPricing } from "@/lib/shop/member-discount";
+import { collectShopCategories } from "@/lib/shop/categories";
 import { priceProduct } from "@/lib/shop/pricing";
 import type { PricedProduct, ShopCatalog } from "@/lib/shop/types";
 
@@ -21,6 +22,7 @@ export async function getShopCatalog(): Promise<ShopCatalog> {
       tierLabel: memberPricing.tierLabel,
       configured: false,
       fetchedAt: new Date().toISOString(),
+      categories: [],
     };
   }
 
@@ -43,6 +45,7 @@ export async function getShopCatalog(): Promise<ShopCatalog> {
       tierLabel: memberPricing.tierLabel,
       configured: true,
       fetchedAt: new Date().toISOString(),
+      categories: collectShopCategories(priced),
     };
   } catch (error) {
     console.error("[shop] catalog fetch failed:", error);
@@ -53,6 +56,8 @@ export async function getShopCatalog(): Promise<ShopCatalog> {
       tierLabel: memberPricing.tierLabel,
       configured: true,
       fetchedAt: new Date().toISOString(),
+      categories: [],
+      loadError: error instanceof Error ? error.message : "catalog_fetch_failed",
     };
   }
 }

@@ -11,6 +11,8 @@
       ]
     },
     "/api/admin/audit-logs": {},
+    "/api/admin/banners": {},
+    "/api/admin/banners/[id]": {},
     "/api/admin/integrations/health": {},
     "/api/admin/media": {},
     "/api/admin/media/[id]": {},
