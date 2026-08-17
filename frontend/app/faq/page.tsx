@@ -1,13 +1,19 @@
 import { FaqPageView } from "@/components/faq/FaqPageView";
-import { buildPageMetadata } from "@/lib/seo/metadata";
-import { faqPageMeta } from "@/lib/faq/content";
+import { PageSeo, metadataForPage } from "@/components/seo/PageSeo";
 
-export const metadata = buildPageMetadata({
-  title: faqPageMeta.title,
-  description: faqPageMeta.description,
-  path: faqPageMeta.path,
-});
+export const metadata = metadataForPage("faq");
 
 export default function FaqPage() {
-  return <FaqPageView />;
+  return (
+    <>
+      <PageSeo
+        page="faq"
+        breadcrumbs={[
+          { name: "首页", path: "/" },
+          { name: "常见问题", path: "/faq" },
+        ]}
+      />
+      <FaqPageView />
+    </>
+  );
 }

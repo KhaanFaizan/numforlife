@@ -1,0 +1,3 @@
+module.exports=[78691,a=>{"use strict";a.s(["default",()=>b]);let b=(0,a.i(11857).registerClientReference)(function(){throw Error("Attempted to call the default export of [project]/frontend/app/global-error.tsx from the server, but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/frontend/app/global-error.tsx","default")},64909,a=>{"use strict";var b=a.i(78691);a.n(b)},29684,function(a){a.n(a.i(64909))}];
+
+//# sourceMappingURL=frontend_app_global-error_tsx_0vagcu2._.js.map

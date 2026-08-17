@@ -1,6 +1,17 @@
 import { defaultCMSContent } from "./defaults";
 import type { CMSContent } from "./types";
 
+const LEGACY_FOOTER_COPYRIGHT = "© 2035 by 数码麒麟";
+
+function resolveFooterCopyright(copyright?: string) {
+  const trimmed = copyright?.trim();
+  if (!trimmed || trimmed === LEGACY_FOOTER_COPYRIGHT) {
+    return defaultCMSContent.footer.copyright;
+  }
+
+  return trimmed;
+}
+
 const defaultFeatureIcons = Object.fromEntries(
   defaultCMSContent.features.items.map((item) => [item.id, item.icon]),
 );
@@ -45,6 +56,7 @@ export function mergeWithDefaults(stored: Partial<CMSContent>): CMSContent {
       ...defaultCMSContent.footer,
       ...stored.footer,
       links: stored.footer?.links ?? defaultCMSContent.footer.links,
+      copyright: resolveFooterCopyright(stored.footer?.copyright),
     },
     homepageBlocks: (
       stored.homepageBlocks ?? defaultCMSContent.homepageBlocks

@@ -14,6 +14,14 @@ export const navLinks = [
   { label: "商店", href: "/shop" },
 ];
 
+/** Reference-style header navigation (numforlife.com). */
+export const marketingNavLinks = [
+  { label: "产品服务", href: "/portfolio" },
+  { label: "关于我们", href: "/about-us" },
+  { label: "联系", href: "/contact-us" },
+  { label: "商店", href: "/shop" },
+];
+
 export const footerLinks = [
   { label: "常见问题", href: "/faq" },
   { label: "无障碍声明", href: "/accessibility-statement" },

@@ -1,26 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { navLinks, siteConfig } from "@/lib/content";
+import { marketingNavLinks, siteConfig } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { easeOutExpo } from "@/lib/motion";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { HeaderCartLink } from "@/components/layout/HeaderCartLink";
 
 export function Header({ shopEnabled = true }: { shopEnabled?: boolean }) {
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const reducedMotion = useReducedMotion();
-  const menuRef = useRef<HTMLDivElement>(null);
-  const links = shopEnabled ? navLinks : navLinks.filter((link) => link.href !== "/shop");
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const links = shopEnabled
+    ? marketingNavLinks
+    : marketingNavLinks.filter((link) => link.href !== "/shop");
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -42,69 +36,65 @@ export function Header({ shopEnabled = true }: { shopEnabled?: boolean }) {
 
   return (
     <>
-      <motion.header
-        initial={reducedMotion ? false : { y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: easeOutExpo }}
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-          scrolled
-            ? "glass-panel border-b border-border shadow-[0_8px_32px_var(--shadow-color,rgba(0,0,0,0.12))]"
-            : "bg-bg/80 backdrop-blur-sm",
-        )}
-      >
-        <div className="section-container flex h-16 max-w-[1400px] items-center md:h-[72px] lg:px-16">
+      <header className="site-header fixed inset-x-0 top-0 z-50">
+        <div className="section-container grid h-[64px] grid-cols-[1fr_auto_1fr] items-center py-[2%] md:h-[72px]">
           <Link
             href="/"
-            className="focus-accent shrink-0 rounded-lg font-sans text-lg font-bold text-fg sm:text-xl md:text-2xl lg:text-[28px]"
+            className="focus-accent justify-self-start font-sans text-[30px] leading-none font-semibold text-white md:text-[46px]"
           >
             {siteConfig.name}
           </Link>
 
           <nav
             aria-label="Main navigation"
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex lg:gap-12"
+            className="hidden items-center justify-self-center gap-0 md:flex"
           >
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="focus-accent rounded-md font-sans text-sm font-normal text-fg transition-opacity hover:opacity-70"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const active =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(`${link.href}/`));
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn("nav-pill", active && "text-accent")}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          <div className="ml-auto hidden items-center gap-3 md:flex">
-            <ThemeToggle />
-            <motion.a
-              href="/login"
-              whileHover={reducedMotion ? undefined : { scale: 1.03 }}
-              whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-              className="focus-accent inline-flex rounded-full border border-accent/80 px-5 py-2 font-sans text-sm text-fg transition-colors hover:bg-accent/10"
-            >
-              Login / Sign Up
-            </motion.a>
-          </div>
+          <div className="flex items-center justify-self-end gap-3 md:gap-4 lg:gap-5">
+            <div className="hidden items-center gap-4 md:flex lg:gap-5">
+              {shopEnabled ? <HeaderCartLink /> : null}
+              <Link href="/login" className="btn-login-reference whitespace-nowrap">
+                Login / Sign Up
+              </Link>
+            </div>
 
-          <button
-            type="button"
-            aria-label={mobileOpen ? "关闭菜单" : "打开菜单"}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-navigation"
-            onClick={() => setMobileOpen((v) => !v)}
-            className="focus-accent ml-auto flex h-10 w-10 items-center justify-center rounded-lg text-fg md:hidden"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <div className="flex items-center gap-3 md:hidden">
+              {shopEnabled ? <HeaderCartLink variant="mobile" /> : null}
+              <button
+                type="button"
+                aria-label={mobileOpen ? "关闭菜单" : "打开菜单"}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation"
+                onClick={() => setMobileOpen((value) => !value)}
+                className="focus-accent flex h-10 w-10 items-center justify-center rounded-lg text-white"
+              >
+                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
         </div>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
-        {mobileOpen && (
+        {mobileOpen ? (
           <motion.div
-            ref={menuRef}
             id="mobile-navigation"
             role="dialog"
             aria-modal="true"
@@ -112,41 +102,50 @@ export function Header({ shopEnabled = true }: { shopEnabled?: boolean }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-40 bg-black md:hidden"
           >
             <motion.nav
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              className="flex h-full flex-col items-center justify-center gap-6 px-6 pt-20 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-8 md:hidden"
+              exit={{ opacity: 0, y: 24 }}
+              className="flex h-full flex-col items-center justify-center gap-5 px-6 pt-20 pb-[max(2rem,env(safe-area-inset-bottom))]"
             >
-              {links.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.08 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="focus-accent rounded-lg font-sans text-xl sm:text-2xl text-fg"
+              {links.map((link, index) => {
+                const active =
+                  pathname === link.href ||
+                  (link.href !== "/" && pathname.startsWith(`${link.href}/`));
+
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 + index * 0.05 }}
                   >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "font-mono text-lg text-white transition-colors hover:text-accent",
+                        active && "text-accent",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
-                className="focus-accent mt-4 rounded-full border border-accent px-8 py-3 font-sans text-sm text-fg"
+                className="btn-login-reference mt-4"
               >
                 Login / Sign Up
               </Link>
-              <ThemeToggle className="mt-2" />
             </motion.nav>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   );

@@ -1,0 +1,63 @@
+<!-- numforlife.com header excerpt — Elementor template ID 187 -->
+<header data-elementor-type="header" data-elementor-id="187" class="elementor elementor-187 elementor-location-header">
+  <!-- DESKTOP ROW (hidden tablet/mobile) -->
+  <div class="elementor-element elementor-element-c3737e5 elementor-hidden-tablet elementor-hidden-mobile e-flex e-con-boxed e-con e-parent">
+    <div class="e-con-inner">
+      <!-- Logo -->
+      <div class="elementor-element elementor-element-08c0f15 e-con-full e-con e-child">
+        <div class="elementor-element elementor-element-485e431 elementor-widget-heading">
+          <h2 class="elementor-heading-title elementor-size-default">
+            <a href="https://numforlife.com">数易赋能</a>
+          </h2>
+        </div>
+      </div>
+      <!-- Nav: Elementor Pro Mega Menu -->
+      <div class="elementor-element elementor-element-b5df597 e-con-full elementor-hidden-mobile e-con e-child">
+        <nav class="e-n-menu" aria-label="Menu">
+          <ul class="e-n-menu-heading">
+            <li class="e-n-menu-item"><a href="https://numforlife.com/portfolio"><span class="e-n-menu-title-text">产品服务</span></a></li>
+            <li class="e-n-menu-item"><a href="https://numforlife.com/about-us"><span class="e-n-menu-title-text">关于我们</span></a></li>
+            <li class="e-n-menu-item"><a href="https://numforlife.com/contact-us"><span class="e-n-menu-title-text">联系</span></a></li>
+            <li class="e-n-menu-item"><a href="https://numforlife.com/shopping/"><span class="e-n-menu-title-text">商店</span></a></li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Cart + Login -->
+      <div class="elementor-element elementor-element-ea9f42b e-con-full elementor-hidden-mobile e-con e-child">
+        <div id="cart_icon" class="elementor-element elementor-element-3aad3b5 elementor-widget-woocommerce-menu-cart elementor-menu-cart--cart-type-side-cart elementor-menu-cart--items-indicator-bubble">
+          <a id="elementor-menu-cart__toggle_button" class="elementor-menu-cart__toggle_button elementor-button elementor-size-sm" href="#">
+            <span class="elementor-button-text"><span class="woocommerce-Price-amount amount">$0.00</span></span>
+            <span class="elementor-button-icon">
+              <span class="elementor-button-icon-qty" data-counter="0">0</span>
+              <!-- cart SVG -->
+            </span>
+          </a>
+        </div>
+        <div id="userInfo"><!-- JS injects Login / Sign Up or My Acc --></div>
+      </div>
+    </div>
+  </div>
+  <!-- MOBILE ROW -->
+  <div class="elementor-element elementor-element-c8f48b3 elementor-hidden-desktop e-flex e-con-boxed e-con e-parent">
+    <!-- hamburger + logo + mobile cart + userInfo-mobile -->
+  </div>
+</header>
+
+<!-- Login button CSS (post-187.css) -->
+<style>
+.btn-login-css {
+  background-color: transparent;
+  color: #FFC107;
+  border: 2px solid #FFC107;
+}
+.btn-login-css:hover {
+  background-color: #FFC107;
+  color: #000;
+}
+</style>
+
+<!-- Login injection logic (simplified) -->
+<script>
+// Logged out: <a href="/sign-up/"><button class="btn-login-css">Login / Sign Up</button></a>
+// Logged in:  <button class="btn-login-css" onclick="location.href='/my-account/'">My Acc</button>
+</script>

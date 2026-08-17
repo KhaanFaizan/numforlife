@@ -1,23 +1,19 @@
-import Link from "next/link";
+import { SiteErrorView } from "@/components/errors/SiteErrorView";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildPageMetadata({
+  title: "页面未找到",
+  description: "您访问的页面不存在或已移动。",
+  path: "/404",
+  noIndex: true,
+});
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-bg px-6 text-center">
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-fg-subtle">
-        404
-      </p>
-      <h1 className="mt-4 font-sans text-3xl font-semibold text-fg md:text-5xl">
-        Page not found
-      </h1>
-      <p className="mt-4 max-w-md font-mono text-sm text-fg-muted">
-        The page you are looking for does not exist or has been moved.
-      </p>
-      <Link
-        href="/"
-        className="focus-accent mt-10 inline-flex rounded-full bg-accent px-8 py-3 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
-      >
-        Back to homepage
-      </Link>
-    </div>
+    <SiteErrorView
+      code="404"
+      title="找不到此页面"
+      description="您访问的链接可能已失效，或页面已被移动。请返回首页，或从下方链接继续浏览。"
+    />
   );
 }

@@ -58,6 +58,8 @@ function ParallaxImage({
             alt={alt}
             width={600}
             height={800}
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 rounded-[20px] bg-bg/0 transition-colors duration-500 group-hover:bg-bg/10 sm:rounded-[30px]" />

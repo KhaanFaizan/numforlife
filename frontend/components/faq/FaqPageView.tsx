@@ -7,7 +7,6 @@ import { ChevronDown } from "lucide-react";
 import { faqCategories, faqItems, faqPageMeta } from "@/lib/faq/content";
 import type { FaqItem } from "@/lib/faq/types";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo/config";
 import { cn } from "@/lib/utils";
 
 function FaqAccordionItem({ item }: { item: FaqItem }) {
@@ -46,29 +45,18 @@ export function FaqPageView() {
   return (
     <>
       <JsonLd
-        data={[
-          webPageJsonLd({
-            title: faqPageMeta.title,
-            description: faqPageMeta.description,
-            path: faqPageMeta.path,
-          }),
-          breadcrumbJsonLd([
-            { name: "首页", path: "/" },
-            { name: faqPageMeta.title, path: faqPageMeta.path },
-          ]),
-          {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqItems.map((item) => ({
-              "@type": "Question",
-              name: item.question,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: item.answer,
-              },
-            })),
-          },
-        ]}
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqItems.map((item) => ({
+            "@type": "Question",
+            name: item.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: item.answer,
+            },
+          })),
+        }}
       />
       <div className="page-shell">
         <article className="section-container py-12 md:py-16">

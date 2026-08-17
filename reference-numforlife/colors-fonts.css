@@ -1,0 +1,75 @@
+/**
+ * numforlife.com — extracted color & font tokens for UI diff
+ * Source: inline CSS + Elementor post-161/187/199.css + post-4 kit
+ */
+
+:root {
+  /* Elementor kit-4 (often overridden on pages) */
+  --e-global-color-primary: #6EC1E4;
+  --e-global-color-secondary: #54595F;
+  --e-global-color-text: #7A7A7A;
+  --e-global-color-accent: #61CE70;
+}
+
+/* === Site brand colors (actually used) === */
+/* Backgrounds */
+--num-bg-black: #000000;
+--num-bg-white: #FFFFFF;
+--num-bg-orange-band: #FF4E27;
+--num-bg-gray-light: #f7f7f7;
+
+/* Accents */
+--num-accent-amber: #FFC107;   /* primary CTA, cart bubble, links */
+--num-accent-orange: #FF4E27;  /* mobile cart, hover states, section band */
+--num-accent-blue-darkmode: #003ef8;
+
+/* Text */
+--num-text-white: #FFFFFF;
+--num-text-black: #000000;
+--num-text-muted: #7A7A7A;
+--num-icon-gray: #CDCDCD;
+
+/* Meta / misc */
+--theme-color: #2b2b2b;
+--scrollbar-track: #f0f0f0;
+--scrollbar-thumb: #dfdbdb;
+
+/* === Typography === */
+--font-display: "Work Sans", sans-serif;      /* headings, nav in footer */
+--font-mono-ui: "Azeret Mono", sans-serif;    /* nav pills, CTAs, form fields */
+--font-body-kit: "Roboto", sans-serif;        /* Elementor kit default */
+--font-shop-sort: "Courier New", monospace;
+
+/* Hero */
+.hero-tagline { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: #FFFFFF; }
+.hero-headline { font-family: var(--font-display); font-size: 45px; font-weight: 600; line-height: 50px; color: #FFFFFF; }
+.hero-cta { font-family: var(--font-mono-ui); font-size: 12px; font-weight: 500; background: #FFC107; color: #FFFFFF; border-radius: 30px; }
+
+/* Header logo */
+.header-logo { font-family: var(--font-display); font-size: 46px; font-weight: 600; color: #FFFFFF; }
+
+/* Header nav pills */
+.header-nav { font-family: var(--font-mono-ui); font-size: 12px; font-weight: 500; color: #FFFFFF; border-radius: 30px; }
+
+/* Login button */
+.btn-login-css {
+  background: transparent;
+  color: #FFC107;
+  border: 2px solid #FFC107;
+}
+.btn-login-css:hover {
+  background: #FFC107;
+  color: #000000;
+}
+
+/* Footer heading */
+.footer-title { font-family: var(--font-display); font-size: 120px; font-weight: 600; color: #FFFFFF; }
+
+/* Dark mode overrides */
+.darkmode--activated {
+  background-color: #003ef8 !important;
+}
+.darkmode--activated .elementor-button,
+.darkmode--activated .btn-login-css:hover {
+  background-color: #003ef8 !important;
+}

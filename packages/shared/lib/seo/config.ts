@@ -5,11 +5,14 @@ export const publicRoutes = [
   { path: "/", changeFrequency: "weekly" as const, priority: 1 },
   { path: "/celue", changeFrequency: "weekly" as const, priority: 0.9 },
   { path: "/celue/number", changeFrequency: "weekly" as const, priority: 0.85 },
+  { path: "/celue/tarot", changeFrequency: "monthly" as const, priority: 0.75 },
+  { path: "/celue/name", changeFrequency: "monthly" as const, priority: 0.7 },
+  { path: "/celue/eastern", changeFrequency: "monthly" as const, priority: 0.7 },
+  { path: "/faq", changeFrequency: "monthly" as const, priority: 0.65 },
   { path: "/portfolio", changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/about-us", changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/contact-us", changeFrequency: "monthly" as const, priority: 0.6 },
   { path: "/shop", changeFrequency: "daily" as const, priority: 0.75 },
-  { path: "/shopping", changeFrequency: "monthly" as const, priority: 0.5 },
   { path: "/membership", changeFrequency: "weekly" as const, priority: 0.8 },
   ...legalPages.map((page) => ({
     path: page.path,
@@ -17,6 +20,15 @@ export const publicRoutes = [
     priority: 0.4,
   })),
 ];
+
+/** Paths that should never be indexed (also listed in robots.txt disallow). */
+export const noIndexPaths = [
+  "/admin",
+  "/api",
+  "/dashboard",
+  "/login",
+  "/celue/number/result",
+] as const;
 
 export const pageSeo = {
   home: {

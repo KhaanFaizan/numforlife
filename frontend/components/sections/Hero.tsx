@@ -6,27 +6,28 @@ export function Hero({ content }: { content: CMSContent }) {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-bg pb-12 pt-24 sm:pb-16 sm:pt-28 md:pt-32"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-black px-[5%] pt-[10%] pb-[12%] text-white md:px-[2%]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(255,193,7,0.08),transparent_55%)]" />
-
-      <div className="section-container relative w-full max-w-[900px] text-center">
+      <div className="relative mx-auto w-full max-w-[1400px] text-center">
         <FadeIn delay={0.1}>
-          <p className="section-eyebrow cjk">{content.hero.tagline}</p>
+          <p className="hero-tagline">{content.hero.tagline}</p>
         </FadeIn>
 
-        <div className="mt-6 space-y-1 sm:mt-8 md:mt-10">
-          {content.hero.titleLines.map((line, i) => (
-            <FadeIn key={`${line}-${i}`} delay={0.2 + i * 0.08}>
-              <h1 className="cjk font-sans text-[clamp(1.5rem,5.5vw,2.8125rem)] leading-[1.25] font-semibold text-fg md:leading-[50px]">
+        <FadeIn delay={0.2}>
+          <h1 className="hero-headline mt-4 md:mt-5">
+            {content.hero.titleLines.map((line, index) => (
+              <span key={`${line}-${index}`}>
+                {index > 0 ? <br /> : null}
                 {line}
-              </h1>
-            </FadeIn>
-          ))}
-        </div>
+              </span>
+            ))}
+          </h1>
+        </FadeIn>
 
-        <FadeIn delay={0.55} className="mt-8 sm:mt-10 md:mt-12">
-          <Button href="#ecosystem">{content.hero.buttonText}</Button>
+        <FadeIn delay={0.55} className="mt-8 md:mt-10">
+          <Button href="#12" variant="reference">
+            {content.hero.buttonText}
+          </Button>
         </FadeIn>
       </div>
     </section>

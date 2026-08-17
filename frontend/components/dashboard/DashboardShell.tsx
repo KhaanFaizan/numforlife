@@ -52,7 +52,7 @@ export function DashboardShell({
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={data.profile.avatar}
-                  alt=""
+                  alt={`${name} 的头像`}
                   className="h-16 w-16 rounded-2xl object-cover"
                 />
               ) : (

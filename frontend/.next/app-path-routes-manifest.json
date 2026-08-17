@@ -11,6 +11,7 @@
   "/contact-us/page": "/contact-us",
   "/dashboard/page": "/dashboard",
   "/faq/page": "/faq",
+  "/icon.png/route": "/icon.png",
   "/login/page": "/login",
   "/membership/page": "/membership",
   "/page": "/",

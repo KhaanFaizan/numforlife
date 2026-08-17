@@ -53,6 +53,30 @@ curl -s http://127.0.0.1:3001/api/health
 - https://uat-admin.numforlife.com/admin/login
 - Admin publish → public homepage reflects change
 
+## SEO / sitemap verification (Tier 4)
+
+Ensure frontend `.env.production.local` includes:
+
+```env
+SITE_URL=https://uat.numforlife.com
+```
+
+After redeploy, verify:
+
+```bash
+curl -s https://uat.numforlife.com/robots.txt
+curl -s https://uat.numforlife.com/sitemap.xml | head -40
+curl -sI https://uat.numforlife.com/faq | grep -i canonical
+curl -sI https://uat.numforlife.com/does-not-exist | head -5
+```
+
+Expected:
+
+- `robots.txt` references `https://uat.numforlife.com/sitemap.xml`
+- `sitemap.xml` includes `/faq`, `/celue/tarot`, `/membership`, legal pages
+- Public pages emit `link: canonical` pointing at `SITE_URL`
+- Unknown paths return styled 404 (Chinese copy)
+
 ## Local monorepo → client publish folders
 
 From `clientdemo` after changes:

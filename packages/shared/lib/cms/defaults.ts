@@ -41,7 +41,7 @@ export const defaultCMSContent: CMSContent = {
     email: "support@kccdigital.com",
     contactText: "Contact Pending",
     addressText: "Address Pending",
-    copyright: "© 2035 by 数码麒麟",
+    copyright: "© 2035 by 数易赋能",
     links: footerLinks.map((link) => ({ ...link })),
   },
   homepageBlocks: [

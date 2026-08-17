@@ -1,0 +1,53 @@
+2026-08-15 -Shuyi Website 2026 Bugs and Amendment
+Please note that the bug below does not represent the full count of bugs. To ensure sustainable fixing and development, when bugs are accumulated over 15, it will automatically released back to developer for rework
+Frontend Web
+Area
+Description/Screenshot
+1. Home page - app screen
+The original website has some fade in effect when scroll
+Please review
+2. Home page preview word
+Please reduce the linespace of the word, also, try to remove unnecessary space. There is also a typing effect in the original website when browsing
+Original:
+3. Tab Icon
+Please kindly use the logo for the tab icon
+Logo
+4. Footnote Copyright
+This should be 2035 by 数易赋能，the word is wrong
+5. Main Language
+The main language of the website, the audience shall be predominantly mandarin, or chinese, so pls do not mix language
+This one should be登入/注册
+On this page, pls refer to the original site, u should be able to do copy and paste very easily, mandarin chinese shall be the default version
+6. Contact Us
+You do not fully adhere to the contact us page
+Your version
+Original
+7. Shop
+Please use this layout
+8. Product
+Use this layout
+Note, if possible, try a way to hide the product to prevent it spanning across pages. Some cleaning is necessary
+9. Login Interface
+You do not follow the login interface, pls revise
+Your version:
+Original
+10. Not able to Login
+I am not able to login, pls check KCC ID Api to confirm fully integrated
+11. User dashboard
+Not able to view as login is not available
+12. Historical Record
+Not able to view as login is not available
+13. Calculator
+The content is not populated propagated here from database. Based on the result 652, it will call relevant content for analysis
+14. UI
+In this page, the text of login/sign up (which should be chinese), is not visible
+15. Numerology/Name/Tarot/Eastern Divinalogy Page
+I think u are stealing the original website, when i link the uat to this, it show me the current website link
+16. Refund Policy/Shipping & Delivery Policy
+Text color is inconsistent
+17. Footnote
+In each of the page footnote, the link of policy should stay there
+18. Term of Service
+Please ensure this is editable as well from the backend, as we need english and mandarin intertwined. Same as other policy page
+Admin
+Not test yet

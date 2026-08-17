@@ -9,7 +9,7 @@ type ButtonProps = {
   children: React.ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "reference";
   className?: string;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -29,13 +29,15 @@ export function Button({
   const reducedMotion = useReducedMotion();
 
   const baseStyles =
-    "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-8 py-3 font-sans text-sm font-semibold transition-all duration-300 focus-accent disabled:pointer-events-none disabled:opacity-50";
+    "inline-flex min-h-[44px] items-center justify-center gap-2 transition-all duration-200 focus-accent disabled:pointer-events-none disabled:opacity-50";
 
   const variants = {
     primary:
-      "bg-accent text-accent-fg shadow-[0_8px_24px_rgba(255,193,7,0.25)] hover:bg-accent-hover hover:shadow-[0_12px_32px_rgba(255,78,39,0.2)]",
+      "rounded-[30px] bg-accent px-8 py-3 font-mono text-xs font-medium text-white hover:opacity-90",
+    reference:
+      "rounded-[30px] bg-accent px-8 py-3 font-mono text-xs font-medium text-white hover:opacity-90",
     outline:
-      "border border-border bg-transparent text-fg hover:border-accent hover:text-accent",
+      "rounded-[30px] border-2 border-accent bg-transparent px-8 py-3 font-mono text-xs font-medium text-accent hover:bg-accent hover:text-black",
   };
 
   const classes = cn(baseStyles, variants[variant], className);
