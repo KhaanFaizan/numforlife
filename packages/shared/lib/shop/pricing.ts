@@ -25,3 +25,19 @@ export function priceProduct(
 export function formatCoinAmount(amount: number, currency = "KCC"): string {
   return `${amount.toFixed(2)} ${currency}`;
 }
+
+export function formatUsdAmount(amount: number): string {
+  return `$${amount.toFixed(2)}`;
+}
+
+export function formatProductPrice(product: PricedProduct): string {
+  if (product.priceLabel && !(product.discountPercent > 0 && product.savings > 0)) {
+    return product.priceLabel;
+  }
+
+  if (product.currency === "USD" || product.priceLabel) {
+    return formatUsdAmount(product.memberPrice);
+  }
+
+  return formatCoinAmount(product.memberPrice, product.currency);
+}

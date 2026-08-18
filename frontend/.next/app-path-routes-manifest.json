@@ -10,10 +10,13 @@
   "/celue/page": "/celue",
   "/contact-us/page": "/contact-us",
   "/dashboard/page": "/dashboard",
+  "/eastern-divination/page": "/eastern-divination",
   "/faq/page": "/faq",
   "/icon.png/route": "/icon.png",
   "/login/page": "/login",
   "/membership/page": "/membership",
+  "/name/page": "/name",
+  "/number/page": "/number",
   "/page": "/",
   "/portfolio/page": "/portfolio",
   "/privacy-policy/page": "/privacy-policy",
@@ -24,5 +27,6 @@
   "/shop/page": "/shop",
   "/shopping/page": "/shopping",
   "/sitemap.xml/route": "/sitemap.xml",
+  "/tarot/page": "/tarot",
   "/terms-of-use/page": "/terms-of-use"
 }

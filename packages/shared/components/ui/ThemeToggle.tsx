@@ -1,95 +1,68 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Monitor, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   THEME_COOKIE,
   THEME_COOKIE_MAX_AGE,
-  isThemePreference,
-  type ThemePreference,
 } from "@/lib/theme";
-import { cn } from "@/lib/utils";
 
-const OPTIONS: { value: ThemePreference; label: string; Icon: typeof Sun }[] = [
-  { value: "light", label: "浅色", Icon: Sun },
-  { value: "dark", label: "深色", Icon: Moon },
-  { value: "system", label: "跟随系统", Icon: Monitor },
-];
+const STORAGE_KEY = "darkmode";
 
-function readCookiePreference(): ThemePreference {
-  if (typeof document === "undefined") return "system";
-  const match = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${THEME_COOKIE}=`));
-  const value = match?.split("=")[1];
-  return isThemePreference(value) ? value : "system";
-}
-
-function applyPreference(preference: ThemePreference) {
-  const root = document.documentElement;
-
-  // "system" removes the attribute so the prefers-color-scheme media query
-  // resumes control. Setting data-theme="system" would match no CSS rule and
-  // silently leave the user on the light palette.
-  if (preference === "system") {
-    delete root.dataset.theme;
-  } else {
-    root.dataset.theme = preference;
+function applyMode(on: boolean) {
+  document.documentElement.classList.toggle("darkmode--activated", on);
+  document.body.classList.toggle("darkmode--activated", on);
+  document.cookie = `${THEME_COOKIE}=${on ? "light" : "dark"}; path=/; max-age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax`;
+  try {
+    localStorage.setItem(STORAGE_KEY, on ? "true" : "false");
+  } catch {
+    /* ignore private-mode quota */
   }
-
-  document.cookie = `${THEME_COOKIE}=${preference}; path=/; max-age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax`;
 }
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [preference, setPreference] = useState<ThemePreference>("system");
-  const [mounted, setMounted] = useState(false);
+  const [on, setOn] = useState(false);
 
-  // The server already stamped the correct theme, so we only sync local state
-  // here — we never re-apply on mount, which would cause a visible flicker.
   useEffect(() => {
-    setPreference(readCookiePreference());
-    setMounted(true);
+    const saved = document.documentElement.classList.contains("darkmode--activated");
+    setOn(saved);
+    applyMode(saved);
   }, []);
 
-  const select = useCallback((next: ThemePreference) => {
-    setPreference(next);
-    applyPreference(next);
-  }, []);
+  function toggle() {
+    const next = !document.documentElement.classList.contains("darkmode--activated");
+    applyMode(next);
+    setOn(next);
+  }
 
   return (
-    <div
-      role="radiogroup"
-      aria-label="主题模式"
-      className={cn(
-        "inline-flex items-center gap-0.5 rounded-full border border-border bg-surface p-0.5",
-        className,
-      )}
+    <button
+      type="button"
+      className={`darkmode-toggle${on ? " darkmode-toggle--white" : ""}${className ? ` ${className}` : ""}`}
+      aria-label={on ? "切换深色主题" : "切换浅色主题"}
+      aria-pressed={on}
+      aria-checked={on}
+      role="checkbox"
+      onClick={toggle}
     >
-      {OPTIONS.map(({ value, label, Icon }) => {
-        // Before hydration we cannot know the stored preference without risking
-        // a mismatch, so no option is marked active on the server pass.
-        const active = mounted && preference === value;
+      <SunIcon />
+    </button>
+  );
+}
 
-        return (
-          <button
-            key={value}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            aria-label={label}
-            title={label}
-            onClick={() => select(value)}
-            className={cn(
-              "focus-accent flex h-8 w-8 items-center justify-center rounded-full transition-colors",
-              active
-                ? "bg-accent text-accent-fg"
-                : "text-fg-subtle hover:bg-accent-soft hover:text-fg",
-            )}
-          >
-            <Icon className="h-4 w-4" aria-hidden />
-          </button>
-        );
-      })}
-    </div>
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden>
+      <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+      <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        <path d="M12 2.5v2.4" />
+        <path d="M12 19.1v2.4" />
+        <path d="M2.5 12h2.4" />
+        <path d="M19.1 12h2.4" />
+        <path d="M5.3 5.3l1.7 1.7" />
+        <path d="M17 17l1.7 1.7" />
+        <path d="M18.7 5.3l-1.7 1.7" />
+        <path d="M7 17l-1.7 1.7" />
+      </g>
+    </svg>
   );
 }

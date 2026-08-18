@@ -1,51 +1,76 @@
 "use client";
 
-import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { easeOutExpo } from "@/lib/motion";
 
-type FadeInProps = Omit<HTMLMotionProps<"div">, "children"> & {
+type FadeType = "fadeInUp" | "fadeInLeft" | "fadeInRight" | "fadeIn";
+type FadeDirection = "up" | "left" | "right" | "none";
+
+type FadeInProps = {
   children: React.ReactNode;
+  type?: FadeType;
+  /** @deprecated Prefer `type`. Kept so existing homepage sections keep working. */
+  direction?: FadeDirection;
+  /** Seconds if ≤ 10 (legacy), otherwise milliseconds like Demo. */
   delay?: number;
-  direction?: "up" | "left" | "right" | "none";
+  slow?: boolean;
+  className?: string;
 };
 
-const directionMap = {
-  up: { y: 40, x: 0 },
-  left: { y: 0, x: -50 },
-  right: { y: 0, x: 50 },
-  none: { y: 0, x: 0 },
+const DIRECTION_TO_TYPE: Record<FadeDirection, FadeType> = {
+  up: "fadeInUp",
+  left: "fadeInLeft",
+  right: "fadeInRight",
+  none: "fadeIn",
 };
+
+function delayMs(delay: number) {
+  if (delay <= 0) return 0;
+  return delay <= 10 ? delay * 1000 : delay;
+}
 
 export function FadeIn({
   children,
-  className,
-  delay = 0,
+  type,
   direction = "up",
-  ...props
+  delay = 0,
+  slow = false,
+  className = "",
 }: FadeInProps) {
-  const reducedMotion = useReducedMotion();
-  const offset = directionMap[direction];
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+  const animation = type ?? DIRECTION_TO_TYPE[direction];
 
-  if (reducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0, rootMargin: "0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{
-        duration: 0.7,
-        delay,
-        ease: easeOutExpo,
-      }}
-      className={className}
-      {...props}
+    <div
+      ref={ref}
+      className={cn("anim", animation, slow && "slow", visible && "is-visible", className)}
+      style={{ animationDelay: `${delayMs(delay)}ms` }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -75,9 +100,6 @@ export function SectionHeading({
   children: React.ReactNode;
   className?: string;
 }) {
-  // The old `dark` prop chose black-on-white vs white-on-black. Now that panels
-  // use surface tokens, `text-fg` is correct against every background in both
-  // themes, so the distinction no longer exists.
   return (
     <h2
       className={cn(

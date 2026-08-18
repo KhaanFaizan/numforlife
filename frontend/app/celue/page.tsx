@@ -74,7 +74,7 @@ export default function CalculationLandingPage() {
                         </a>
                       ) : (
                         <Link
-                          href={`/celue/${calculator.slug}`}
+                          href={`/celue/${calculator.slug}?calc=1`}
                           className="focus-accent inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
                         >
                           {calculator.slug === "tarot" ? "了解塔罗" : "开始测算"}

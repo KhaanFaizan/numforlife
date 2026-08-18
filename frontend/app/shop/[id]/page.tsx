@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ProductDetailView } from "@/components/shop/ProductDetailView";
@@ -62,29 +61,16 @@ export default async function ShopProductPage({ params }: PageProps) {
           }),
           breadcrumbJsonLd([
             { name: "首页", path: "/" },
-            { name: "商店", path: "/shop" },
+            { name: "商店", path: "/shopping" },
             { name: product.name, path: `/shop/${product.id}` },
           ]),
         ]}
       />
-      <div className="page-shell">
-        <div className="section-container py-12 md:py-16">
-          <nav aria-label="Breadcrumb" className="mb-6">
-            <Link
-              href="/shop"
-              className="focus-accent font-mono text-xs text-fg-subtle transition-colors hover:text-accent"
-            >
-              ← 返回商店
-            </Link>
-          </nav>
-
-          <ProductDetailView
-            product={product}
-            tierLabel={memberPricing.tierLabel}
-            isLoggedIn={memberPricing.isLoggedIn}
-          />
-        </div>
-      </div>
+      <ProductDetailView
+        product={product}
+        tierLabel={memberPricing.tierLabel}
+        isLoggedIn={memberPricing.isLoggedIn}
+      />
     </>
   );
 }

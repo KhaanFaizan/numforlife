@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 import { getDb } from "@/lib/cms/db";
 import { BUILTIN_REDIRECT_MANIFEST } from "./builtin";
 import { sanitiseRedirectPath } from "./paths";
+import { PUBLIC_PAGES_WITHOUT_REDIRECT } from "./resolve";
 import { readRedirectManifestFromDisk, rulesToManifest, writeRedirectManifest } from "./sync-manifest";
 import type { RedirectInput, RedirectManifest, RedirectMatchType, RedirectRule } from "./types";
 
@@ -100,6 +101,21 @@ function seedBuiltinRedirects() {
   seed();
 }
 
+function removeStaleServiceRedirects(): boolean {
+  ensureRedirectsTable();
+  const del = getDb().prepare(
+    "DELETE FROM cms_redirects WHERE match_type = 'exact' AND source_path = ?",
+  );
+  let removed = 0;
+  const run = getDb().transaction(() => {
+    for (const sourcePath of PUBLIC_PAGES_WITHOUT_REDIRECT) {
+      removed += del.run(sourcePath).changes;
+    }
+  });
+  run();
+  return removed > 0;
+}
+
 export function syncRedirectManifestFile() {
   const manifest = rulesToManifest(
     listRedirectRules({ includeDisabled: true }).filter((rule) => rule.enabled),
@@ -110,6 +126,9 @@ export function syncRedirectManifestFile() {
 
 export function ensureRedirectManifestReady(): RedirectManifest {
   seedBuiltinRedirects();
+  if (removeStaleServiceRedirects()) {
+    return syncRedirectManifestFile();
+  }
   const existing = readRedirectManifestFromDisk();
   if (existing) return existing;
   return syncRedirectManifestFile();
@@ -119,6 +138,9 @@ export function listRedirectRules(options?: {
   includeDisabled?: boolean;
 }): RedirectRule[] {
   seedBuiltinRedirects();
+  if (removeStaleServiceRedirects()) {
+    syncRedirectManifestFile();
+  }
 
   const rows = getDb()
     .prepare(

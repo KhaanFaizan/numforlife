@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AppCalculatorCTA } from "@/components/calc/AppCalculatorCTA";
 import { NumerologyForm } from "@/components/calc/NumerologyForm";
 import { TarotPreviewSection } from "@/components/calc/TarotPreviewSection";
@@ -12,7 +12,20 @@ import {
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo/config";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
-type PageProps = { params: Promise<{ slug: string }> };
+const PUBLIC_MARKETING_FOR_SLUG: Record<string, string> = {
+  number: "/number?view=page",
+  eastern: "/eastern-divination?view=page",
+};
+
+type PageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ calc?: string | string[] }>;
+};
+
+function wantsCalculator(value: string | string[] | undefined) {
+  const flag = Array.isArray(value) ? value[0] : value;
+  return flag === "1";
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -26,11 +39,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 }
 
-export default async function CalculatorInputPage({ params }: PageProps) {
+export default async function CalculatorInputPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const query = await searchParams;
   const calculator = getCalculatorBySlug(slug);
 
   if (!calculator || !calculator.available) notFound();
+
+  const marketingPath = PUBLIC_MARKETING_FOR_SLUG[slug];
+  if (marketingPath && !wantsCalculator(query.calc)) {
+    redirect(marketingPath);
+  }
 
   return (
     <>

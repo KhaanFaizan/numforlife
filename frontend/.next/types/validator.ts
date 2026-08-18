@@ -110,6 +110,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/eastern-divination/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/eastern-divination">> = Specific
+  const handler = {} as typeof import("../../app/eastern-divination/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/faq/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/faq">> = Specific
@@ -132,6 +141,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends AppPageConfig<"/membership">> = Specific
   const handler = {} as typeof import("../../app/membership/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/name/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/name">> = Specific
+  const handler = {} as typeof import("../../app/name/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/number/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/number">> = Specific
+  const handler = {} as typeof import("../../app/number/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -204,6 +231,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends AppPageConfig<"/shopping">> = Specific
   const handler = {} as typeof import("../../app/shopping/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/tarot/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tarot">> = Specific
+  const handler = {} as typeof import("../../app/tarot/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

@@ -1,33 +1,71 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { Button } from "@/components/ui/Button";
-import { FadeIn, SectionLabel } from "@/components/ui/FadeIn";
 import { aboutContent } from "@/lib/content";
 
+function motionY(el: HTMLElement, speed: number) {
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const progress = (vh - rect.top) / (vh + rect.height);
+  const p = Math.min(1, Math.max(0, progress));
+  return Math.max(0, (p - 0.5) * speed * 80);
+}
+
+const aboutParagraphs = aboutContent.text
+  .split(/\n\s*\n/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
+
 export function AboutSection() {
+  const aboutBg = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      if (aboutBg.current) {
+        aboutBg.current.style.transform = `translate3d(0, ${motionY(aboutBg.current, 6.1).toFixed(2)}px, 0)`;
+      }
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <section
-      className="relative py-20 md:py-32"
-      style={{
-        backgroundImage: `url(${aboutContent.bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center left",
-      }}
-    >
-      <div className="absolute inset-0 bg-bg/60" />
-
-      <div className="section-container relative z-10 text-center">
+    <section className="about-home" id="12">
+      <div
+        className="about-home-bg"
+        ref={aboutBg}
+        style={{ backgroundImage: `url(${aboutContent.bgImage})` }}
+      />
+      <div className="about-home-inner">
         <FadeIn>
-          <SectionLabel>{aboutContent.label}</SectionLabel>
+          <h2>{aboutContent.label}</h2>
         </FadeIn>
-
-        <FadeIn delay={0.1} className="mx-auto mt-6 max-w-3xl">
-          <p className="whitespace-pre-line font-mono text-sm leading-relaxed text-fg md:text-base">
-            {aboutContent.text}
-          </p>
+        <FadeIn className="about-home-body">
+          {aboutParagraphs.map((paragraph, index) => (
+            <p key={index}>
+              {paragraph.split("\n").map((line, lineIndex) => (
+                <span key={`${index}-${lineIndex}`}>
+                  {lineIndex > 0 ? <br /> : null}
+                  {line}
+                </span>
+              ))}
+            </p>
+          ))}
         </FadeIn>
-
-        <FadeIn delay={0.2} className="mt-10">
+        <FadeIn>
           <Button href="/about-us">{aboutContent.cta}</Button>
         </FadeIn>
       </div>

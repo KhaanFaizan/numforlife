@@ -1,131 +1,92 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { FadeIn, SectionHeading, SectionLabel } from "@/components/ui/FadeIn";
+import { useEffect, useRef, useState } from "react";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { testimonials } from "@/lib/content";
-import { easeOutExpo } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
-function CircleArrow({
-  direction,
-  onClick,
-}: {
-  direction: "left" | "right";
-  onClick: () => void;
-}) {
-  const reducedMotion = useReducedMotion();
-
+function ArrowCircle({ dir }: { dir: "left" | "right" }) {
+  if (dir === "left") {
+    return (
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 256c0 137 111 248 248 248s248-111 248-248S393 8 256 8 8 119 8 256zm448 0c0 110.5-89.5 200-200 200S56 366.5 56 256 145.5 56 256 56s200 89.5 200 200zm-72-20v40c0 6.6-5.4 12-12 12H256v67c0 10.7-12.9 16-20.5 8.5l-99-99c-4.7-4.7-4.7-12.3 0-17l99-99c7.6-7.6 20.5-2.2 20.5 8.5v67h116c6.6 0 12 5.4 12 12z" />
+      </svg>
+    );
+  }
   return (
-    <motion.button
-      type="button"
-      aria-label={direction === "left" ? "上一条" : "下一条"}
-      onClick={onClick}
-      whileHover={reducedMotion ? undefined : { scale: 1.06 }}
-      whileTap={reducedMotion ? undefined : { scale: 0.95 }}
-      className="focus-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-fg transition-colors hover:border-accent-hover hover:text-accent-hover"
-    >
-      {direction === "left" ? (
-        <ChevronLeft size={18} strokeWidth={1.5} />
-      ) : (
-        <ChevronRight size={18} strokeWidth={1.5} />
-      )}
-    </motion.button>
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <path d="M504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256zm72 20v-40c0-6.6 5.4-12 12-12h116v-67c0-10.7 12.9-16 20.5-8.5l99 99c4.7 4.7 4.7 12.3 0 17l-99 99c-7.6 7.6 20.5-2.2 20.5-8.5v-67H140c-6.6 0-12 5.4-12 12z" />
+    </svg>
   );
 }
 
 export function TestimonialsSection() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const reducedMotion = useReducedMotion();
+  const slideRef = useRef(0);
+  const [slide, setSlide] = useState(0);
 
-  const paginate = useCallback((newDirection: number) => {
-    setDirection(newDirection);
-    setCurrent(
-      (prev) =>
-        (prev + newDirection + testimonials.length) % testimonials.length,
-    );
-  }, []);
+  function goTo(next: number) {
+    if (next === slideRef.current) return;
+    slideRef.current = next;
+    setSlide(next);
+  }
 
   useEffect(() => {
-    if (reducedMotion) return;
-
-    const timer = setInterval(() => paginate(1), 6000);
+    const timer = setInterval(() => {
+      goTo((slideRef.current + 1) % testimonials.length);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [paginate, reducedMotion]);
+  }, []);
 
   return (
-    <section className="bg-surface py-20 md:py-28">
-      <div className="section-container">
-        <FadeIn className="text-center">
-          <SectionLabel className="!text-fg">合作伙伴</SectionLabel>
-        </FadeIn>
-
-        <FadeIn delay={0.1} className="mt-3 text-center">
-          <SectionHeading>STRAIGHT FROM THE FEED</SectionHeading>
-        </FadeIn>
-
-        <div className="relative mx-auto mt-14 max-w-3xl md:mt-16">
-          <div className="flex items-center gap-4 md:gap-8">
-            <CircleArrow direction="left" onClick={() => paginate(-1)} />
-
+    <section className="feed">
+      <FadeIn>
+        <p className="section-eyebrow">合作伙伴</p>
+      </FadeIn>
+      <FadeIn>
+        <h2 className="section-title">STRAIGHT FROM THE FEED</h2>
+      </FadeIn>
+      <FadeIn className="carousel">
+        <div className="carousel-stage">
+          {testimonials.map((item, index) => (
             <div
-              className="relative min-h-[160px] flex-1 overflow-hidden md:min-h-[140px]"
-              aria-live="polite"
-              aria-atomic="true"
+              key={item.author}
+              className={`carousel-panel${index === slide ? " is-active" : ""}`}
+              aria-hidden={index !== slide}
             >
-              <AnimatePresence custom={direction} mode="wait">
-                <motion.div
-                  key={current}
-                  custom={direction}
-                  initial={
-                    reducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, x: direction >= 0 ? 60 : -60 }
-                  }
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={
-                    reducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, x: direction >= 0 ? -60 : 60 }
-                  }
-                  transition={{ duration: 0.4, ease: easeOutExpo }}
-                  className="text-center"
-                >
-                  <p className="font-mono text-xs leading-5 text-fg md:text-sm md:leading-6">
-                    {testimonials[current].quote}
-                  </p>
-                  <h3 className="mt-5 font-sans text-sm font-semibold text-fg md:text-base">
-                    {testimonials[current].author}
-                  </h3>
-                </motion.div>
-              </AnimatePresence>
+              <p className="carousel-quote">{item.quote}</p>
+              <h2 className="carousel-name">{item.author}</h2>
             </div>
-
-            <CircleArrow direction="right" onClick={() => paginate(1)} />
-          </div>
-
-          <div className="mt-10 flex items-center justify-center gap-2">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`第 ${i + 1} 条评价`}
-                aria-current={i === current ? "true" : undefined}
-                onClick={() => {
-                  setDirection(i > current ? 1 : -1);
-                  setCurrent(i);
-                }}
-                className={cn(
-                  "focus-accent h-2 w-2 rounded-full transition-all duration-300",
-                  i === current ? "scale-125 bg-bg" : "bg-bg/20 hover:bg-bg/40",
-                )}
-              />
-            ))}
+          ))}
+          <div className="carousel-nav">
+            <button
+              type="button"
+              aria-label="Previous"
+              onClick={() =>
+                goTo((slide - 1 + testimonials.length) % testimonials.length)
+              }
+            >
+              <ArrowCircle dir="left" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next"
+              onClick={() => goTo((slide + 1) % testimonials.length)}
+            >
+              <ArrowCircle dir="right" />
+            </button>
           </div>
         </div>
-      </div>
+        <div className="carousel-dots">
+          {testimonials.map((item, index) => (
+            <button
+              key={item.author}
+              type="button"
+              className={index === slide ? "active" : ""}
+              aria-label={`Slide ${index + 1}`}
+              onClick={() => goTo(index)}
+            />
+          ))}
+        </div>
+      </FadeIn>
     </section>
   );
 }

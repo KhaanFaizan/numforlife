@@ -72,7 +72,7 @@ function ResultShell({
       <div className="section-container py-12 md:py-20">
         <nav aria-label="Breadcrumb" className="mb-6">
           <Link
-            href={`/celue/${slug}`}
+            href={`/celue/${slug}?calc=1`}
             className="focus-accent font-mono text-xs text-fg-subtle transition-colors hover:text-accent"
           >
             ← 重新测算
@@ -141,7 +141,7 @@ export default async function CalculatorResultPage({ params, searchParams }: Pag
           }
           action={
             <Link
-              href={session ? "https://app.numforlife.com/h5/" : "/login?next=/celue/number"}
+              href={session ? "https://app.numforlife.com/h5/" : "/login?next=/celue/number%3Fcalc%3D1"}
               className="focus-accent mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
             >
               {session ? "前往数易 App" : "登录会员账户"}
@@ -183,7 +183,7 @@ export default async function CalculatorResultPage({ params, searchParams }: Pag
         message={message}
         action={
           <Link
-            href={`/celue/${slug}`}
+            href={`/celue/${slug}?calc=1`}
             className="focus-accent mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
           >
             重新测算

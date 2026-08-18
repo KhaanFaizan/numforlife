@@ -23,7 +23,7 @@ export const SITE_FLAG_DEFINITIONS: SiteFlagDefinition[] = [
   {
     key: "shop_enabled",
     label: "Shop enabled",
-    description: "Controls whether /shop is linked prominently in navigation.",
+    description: "Controls whether /shopping is linked prominently in navigation.",
     defaultValue: true,
   },
   {

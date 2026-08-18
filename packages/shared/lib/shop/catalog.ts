@@ -9,20 +9,35 @@ import {
 import { normalizeProduct } from "@/lib/plenorhub/normalize";
 import { getShopMemberPricing } from "@/lib/shop/member-discount";
 import { collectShopCategories } from "@/lib/shop/categories";
+import { DEMO_SHOP_PRODUCTS, getDemoShopProduct } from "@/lib/shop/demo-catalog";
 import { priceProduct } from "@/lib/shop/pricing";
 import type { PricedProduct, ShopCatalog } from "@/lib/shop/types";
 
+function priceDemoProducts(discountPercent: number): PricedProduct[] {
+  return DEMO_SHOP_PRODUCTS.map((product) => priceProduct(product, discountPercent));
+}
+
+function mergeCatalog(
+  demoProducts: PricedProduct[],
+  liveProducts: PricedProduct[],
+): PricedProduct[] {
+  const demoIds = new Set(demoProducts.map((product) => product.id));
+  const extra = liveProducts.filter((product) => !demoIds.has(product.id));
+  return [...demoProducts, ...extra];
+}
+
 export async function getShopCatalog(): Promise<ShopCatalog> {
   const memberPricing = await getShopMemberPricing();
+  const demoProducts = priceDemoProducts(memberPricing.discountPercent);
 
   if (!isPlenorHubConfigured()) {
     return {
-      products: [],
+      products: demoProducts,
       discountPercent: memberPricing.discountPercent,
       tierLabel: memberPricing.tierLabel,
-      configured: false,
+      configured: true,
       fetchedAt: new Date().toISOString(),
-      categories: [],
+      categories: collectShopCategories(demoProducts),
     };
   }
 
@@ -34,29 +49,30 @@ export async function getShopCatalog(): Promise<ShopCatalog> {
 
     const merchantMap = new Map(merchants.map((merchant) => [merchant.id, merchant]));
 
-    const priced = products
+    const liveProducts = products
       .map((product) => normalizeProduct(product, merchantMap))
-      .map((product) => priceProduct(product, memberPricing.discountPercent))
-      .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"));
+      .map((product) => priceProduct(product, memberPricing.discountPercent));
+
+    const merged = mergeCatalog(demoProducts, liveProducts);
 
     return {
-      products: priced,
+      products: merged,
       discountPercent: memberPricing.discountPercent,
       tierLabel: memberPricing.tierLabel,
       configured: true,
       fetchedAt: new Date().toISOString(),
-      categories: collectShopCategories(priced),
+      categories: collectShopCategories(merged),
     };
   } catch (error) {
     console.error("[shop] catalog fetch failed:", error);
 
     return {
-      products: [],
+      products: demoProducts,
       discountPercent: memberPricing.discountPercent,
       tierLabel: memberPricing.tierLabel,
       configured: true,
       fetchedAt: new Date().toISOString(),
-      categories: [],
+      categories: collectShopCategories(demoProducts),
       loadError: error instanceof Error ? error.message : "catalog_fetch_failed",
     };
   }
@@ -64,6 +80,11 @@ export async function getShopCatalog(): Promise<ShopCatalog> {
 
 export async function getShopProduct(id: number): Promise<PricedProduct | null> {
   const memberPricing = await getShopMemberPricing();
+  const demo = getDemoShopProduct(id);
+
+  if (demo) {
+    return priceProduct(demo, memberPricing.discountPercent);
+  }
 
   if (!isPlenorHubConfigured()) return null;
 

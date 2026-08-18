@@ -3,6 +3,21 @@ import type { CMSContent } from "./types";
 
 const LEGACY_FOOTER_COPYRIGHT = "© 2035 by 数码麒麟";
 
+function normalizeHeroText(value: string) {
+  return value.replace(/[’']/g, "'").replace(/\s+/g, " ").trim();
+}
+
+function resolveHeroTitleLines(lines?: string[]) {
+  const fallback = defaultCMSContent.hero.titleLines;
+  if (!lines?.length) return fallback;
+
+  const joined = normalizeHeroText(lines.join(" "));
+  const demoJoined = normalizeHeroText(fallback.join(" "));
+  if (joined === demoJoined) return fallback;
+
+  return lines;
+}
+
 function resolveFooterCopyright(copyright?: string) {
   const trimmed = copyright?.trim();
   if (!trimmed || trimmed === LEGACY_FOOTER_COPYRIGHT) {
@@ -36,7 +51,13 @@ export function mergeWithDefaults(stored: Partial<CMSContent>): CMSContent {
   return {
     ...defaultCMSContent,
     ...stored,
-    hero: { ...defaultCMSContent.hero, ...stored.hero },
+    hero: {
+      ...defaultCMSContent.hero,
+      ...stored.hero,
+      titleLines: resolveHeroTitleLines(
+        stored.hero?.titleLines ?? defaultCMSContent.hero.titleLines,
+      ),
+    },
     gallery: {
       ...defaultCMSContent.gallery,
       ...stored.gallery,

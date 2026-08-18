@@ -4,22 +4,16 @@ import type { RedirectManifest } from "./types";
 export const BUILTIN_REDIRECT_MANIFEST: RedirectManifest = {
   exact: {
     "/member-number-simulate": "/celue/number",
-    "/number": "/celue/number",
-    "/name": "/celue/name",
-    "/tarot": "/celue/tarot",
-    "/eastern-divination": "/celue/eastern",
     "/my-account": "/dashboard",
-    "/sign-up": "/login",
-    "/shopping": "/shop",
-    "/cart": "/shop",
-    "/checkout": "/shop",
+    "/cart": "/shopping",
+    "/checkout": "/shopping",
     "/view-order": "/dashboard",
     "/%e4%bd%bf%e7%94%a8%e6%9d%a1%e6%ac%be": "/terms-of-use",
     "/使用条款": "/terms-of-use",
   },
   prefix: [
-    { prefix: "/product", destination: "/shop" },
-    { prefix: "/product-category", destination: "/shop" },
+    { prefix: "/product", destination: "/shopping" },
+    { prefix: "/product-category", destination: "/shopping" },
   ],
   updatedAt: "builtin",
 };

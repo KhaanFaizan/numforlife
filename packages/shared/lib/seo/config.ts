@@ -3,16 +3,21 @@ import { organization, siteName, siteTagline, siteUrl } from "./site";
 
 export const publicRoutes = [
   { path: "/", changeFrequency: "weekly" as const, priority: 1 },
-  { path: "/celue", changeFrequency: "weekly" as const, priority: 0.9 },
-  { path: "/celue/number", changeFrequency: "weekly" as const, priority: 0.85 },
-  { path: "/celue/tarot", changeFrequency: "monthly" as const, priority: 0.75 },
-  { path: "/celue/name", changeFrequency: "monthly" as const, priority: 0.7 },
-  { path: "/celue/eastern", changeFrequency: "monthly" as const, priority: 0.7 },
+  { path: "/number", changeFrequency: "weekly" as const, priority: 0.9 },
+  { path: "/name", changeFrequency: "monthly" as const, priority: 0.85 },
+  { path: "/tarot", changeFrequency: "monthly" as const, priority: 0.85 },
+  { path: "/eastern-divination", changeFrequency: "monthly" as const, priority: 0.85 },
+  { path: "/celue", changeFrequency: "weekly" as const, priority: 0.5 },
+  { path: "/celue/number", changeFrequency: "weekly" as const, priority: 0.4 },
+  { path: "/celue/tarot", changeFrequency: "monthly" as const, priority: 0.4 },
+  { path: "/celue/name", changeFrequency: "monthly" as const, priority: 0.4 },
+  { path: "/celue/eastern", changeFrequency: "monthly" as const, priority: 0.4 },
   { path: "/faq", changeFrequency: "monthly" as const, priority: 0.65 },
   { path: "/portfolio", changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/about-us", changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/contact-us", changeFrequency: "monthly" as const, priority: 0.6 },
-  { path: "/shop", changeFrequency: "daily" as const, priority: 0.75 },
+  { path: "/shopping", changeFrequency: "daily" as const, priority: 0.75 },
+  { path: "/shop", changeFrequency: "daily" as const, priority: 0.5 },
   { path: "/membership", changeFrequency: "weekly" as const, priority: 0.8 },
   ...legalPages.map((page) => ({
     path: page.path,
@@ -27,6 +32,7 @@ export const noIndexPaths = [
   "/api",
   "/dashboard",
   "/login",
+  "/sign-up",
   "/celue/number/result",
 ] as const;
 
@@ -51,6 +57,26 @@ export const pageSeo = {
     title: "产品服务",
     description: "探索数易赋能的数字生命、姓名学、塔罗与东方占卜等服务。",
     path: "/portfolio",
+  },
+  number: {
+    title: "数字生命",
+    description: "数字定格，生命解码 — 透过出生日期解读性格、潜能与人生节奏。",
+    path: "/number",
+  },
+  name: {
+    title: "姓名学",
+    description: "一字定乾坤，姓名见未来 — 从姓名笔画与五行解析性格与命运。",
+    path: "/name",
+  },
+  tarot: {
+    title: "塔罗占卜",
+    description: "每天一张牌，生活不迷茫 — 透过塔罗探索当下课题与内在指引。",
+    path: "/tarot",
+  },
+  eastern: {
+    title: "东方占卜术",
+    description: "窥见命运的东方智慧之眼 — 小六壬、奇门遁甲等东方术数指引。",
+    path: "/eastern-divination",
   },
   shopping: {
     title: "商店",

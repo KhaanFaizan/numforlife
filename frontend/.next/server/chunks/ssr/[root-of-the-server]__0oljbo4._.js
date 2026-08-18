@@ -1,0 +1,26 @@
+module.exports=[48816,a=>{a.v({className:"azeret_mono_33d092a9-module__iED6Aq__className",variable:"azeret_mono_33d092a9-module__iED6Aq__variable"})},46121,a=>{a.v({className:"roboto_f7af7d4f-module__HMqKIa__className",variable:"roboto_f7af7d4f-module__HMqKIa__variable"})},93186,a=>{a.v({className:"work_sans_1054fb58-module__9H33yW__className",variable:"work_sans_1054fb58-module__9H33yW__variable"})},44210,a=>{"use strict";var b=a.i(7997),c=a.i(5246),d=a.i(93186);let e={className:d.default.className,style:{fontFamily:"'Work Sans', 'Work Sans Fallback'",fontStyle:"normal"}};null!=d.default.variable&&(e.variable=d.default.variable);var f=a.i(48816);let g={className:f.default.className,style:{fontFamily:"'Azeret Mono', 'Azeret Mono Fallback'",fontStyle:"normal"}};null!=f.default.variable&&(g.variable=f.default.variable);var h=a.i(46121);let i={className:h.default.className,style:{fontFamily:"'Roboto', 'Roboto Fallback'",fontStyle:"normal"}};null!=h.default.variable&&(i.variable=h.default.variable);var j=a.i(54674),k=a.i(55363),l=a.i(67872);a.i(66680);var m=a.i(61299);function n(a){return{id:a.id,title:a.title,message:a.message,href:a.href,ctaLabel:a.cta_label,variant:a.variant,enabled:!!a.enabled,priority:a.priority,startsAt:a.starts_at,endsAt:a.ends_at,createdAt:a.created_at,updatedAt:a.updated_at}}var o=a.i(57573),p=a.i(85689),q=a.i(54544);let r=(0,a.i(10).rootMetadata)();async function s({children:a}){var d;let f="light"===(d=(await (0,c.cookies)()).get("shuyi-theme")?.value)||"dark"===d?d:null,h=await (0,l.getPublishedContent)(),r=(0,p.getSiteFlags)(),t=function(a=3){return(0,m.getDb)().exec(`
+    CREATE TABLE IF NOT EXISTS cms_banners (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      message TEXT NOT NULL,
+      href TEXT,
+      cta_label TEXT,
+      variant TEXT NOT NULL DEFAULT 'info'
+        CHECK(variant IN ('info', 'promo', 'warning')),
+      enabled INTEGER NOT NULL DEFAULT 1,
+      priority INTEGER NOT NULL DEFAULT 0,
+      starts_at TEXT,
+      ends_at TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_cms_banners_enabled_priority
+      ON cms_banners(enabled, priority DESC, updated_at DESC);
+  `),(0,m.getDb)().prepare(`SELECT id, title, message, href, cta_label, variant, enabled, priority,
+              starts_at, ends_at, created_at, updated_at
+         FROM cms_banners
+        WHERE enabled = 1
+        ORDER BY priority DESC, updated_at DESC`).all().filter(a=>(function(a,b=new Date){let c=b.getTime();if(a.starts_at){let b=Date.parse(a.starts_at);if(!Number.isNaN(b)&&c<b)return!1}if(a.ends_at){let b=Date.parse(a.ends_at);if(!Number.isNaN(b)&&c>b)return!1}return!0})(a)).slice(0,a).map(n)}();return(0,b.jsx)("html",{lang:"zh-CN","data-theme":f??void 0,"data-scroll-behavior":"smooth",className:`${e.variable} ${g.variable} ${i.variable}`,children:(0,b.jsxs)("body",{className:"min-h-screen bg-bg font-sans text-fg antialiased",children:[(0,b.jsx)(j.JsonLd,{data:[(0,q.organizationJsonLd)(),(0,q.websiteJsonLd)()]}),(0,b.jsx)(k.ContentProvider,{initialPublished:h,children:(0,b.jsx)(o.LayoutShell,{maintenanceMode:r.maintenance_mode,shopEnabled:r.shop_enabled,showAppDownloadCta:r.show_app_download_cta,banners:t,children:a})})]})})}a.s(["default",0,s,"metadata",0,r],44210)},77451,function(a){a.n(a.i(44210))},83076,a=>{"use strict";a.s(["LayoutShell",()=>b]);let b=(0,a.i(11857).registerClientReference)(function(){throw Error("Attempted to call LayoutShell() from the server but LayoutShell is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/frontend/components/layout/LayoutShell.tsx","LayoutShell")},57573,a=>{"use strict";var b=a.i(83076);a.n(b)},66729,a=>{"use strict";a.s(["ContentProvider",()=>c,"useCMS",()=>d,"useLiveCMS",()=>e]);var b=a.i(11857);let c=(0,b.registerClientReference)(function(){throw Error("Attempted to call ContentProvider() from the server but ContentProvider is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/packages/shared/lib/cms/content-provider.tsx","ContentProvider"),d=(0,b.registerClientReference)(function(){throw Error("Attempted to call useCMS() from the server but useCMS is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/packages/shared/lib/cms/content-provider.tsx","useCMS"),e=(0,b.registerClientReference)(function(){throw Error("Attempted to call useLiveCMS() from the server but useLiveCMS is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.")},"[project]/packages/shared/lib/cms/content-provider.tsx","useLiveCMS")},55363,a=>{"use strict";var b=a.i(66729);a.n(b)}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__0oljbo4._.js.map

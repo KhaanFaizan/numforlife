@@ -1,34 +1,34 @@
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type HeaderCartLinkProps = {
   href?: string;
   className?: string;
-  /** Reference uses orange cart icon on mobile. */
   variant?: "desktop" | "mobile";
 };
 
-export function HeaderCartLink({
-  href = "/shop",
-  className,
-  variant = "desktop",
-}: HeaderCartLinkProps) {
-  const iconColor = variant === "mobile" ? "text-accent-hover" : "text-white";
+function CartIcon() {
+  return (
+    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M740 854C740 883 763 906 792 906S844 883 844 854 820 802 792 802 740 825 740 854ZM217 156H958C977 156 992 173 989 191L957 452C950 509 901 552 843 552H297L303 581C311 625 350 656 395 656H875C892 656 906 670 906 687S892 719 875 719H394C320 719 255 666 241 593L141 94H42C25 94 10 80 10 62S25 31 42 31H167C182 31 195 42 198 56L217 156ZM230 219L284 490H843C869 490 891 470 895 444L923 219H230ZM677 854C677 791 728 740 792 740S906 791 906 854 855 969 792 969 677 918 677 854ZM260 854C260 791 312 740 375 740S490 791 490 854 438 969 375 969 260 918 260 854ZM323 854C323 883 346 906 375 906S427 883 427 854 404 802 375 802 323 825 323 854Z" />
+    </svg>
+  );
+}
 
+export function HeaderCartLink({
+  href = "/shopping",
+  className,
+}: HeaderCartLinkProps) {
   return (
     <Link
       href={href}
       aria-label="商店购物车"
-      className={cn(
-        "focus-accent relative inline-flex h-10 w-10 items-center justify-center rounded-lg transition-opacity hover:opacity-80",
-        className,
-      )}
+      className={cn("cart-btn focus-accent", className)}
     >
-      <ShoppingCart className={cn("h-[22px] w-[22px]", iconColor)} strokeWidth={1.75} />
-      <span className="absolute -top-0.5 -right-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-black">
+      <span className="cart-count" data-counter="0">
         0
       </span>
+      <CartIcon />
     </Link>
   );
 }

@@ -10,8 +10,8 @@ export const defaultCMSContent: CMSContent = {
   hero: {
     tagline: siteConfig.tagline,
     titleLines: [
-      "We Don't Just Guide —",
-      "We Empower You to",
+      "We Don’t Just Guide — We",
+      "Empower You to",
       "Understand Yourself and",
       "Others.",
     ],

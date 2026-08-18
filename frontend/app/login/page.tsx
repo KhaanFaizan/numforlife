@@ -11,13 +11,7 @@ export const metadata = buildPageMetadata({
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="page-shell flex min-h-[60vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-        </div>
-      }
-    >
+    <Suspense fallback={<div className="auth-page dmt-filter-1" />}>
       <MemberLoginForm />
     </Suspense>
   );

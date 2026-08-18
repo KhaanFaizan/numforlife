@@ -1,20 +1,37 @@
 "use client";
 
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Lock, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Spinner } from "@/components/ui/Spinner";
+
+import { DEFAULT_APP_EXPERIENCE_URL } from "@/lib/calculators/constants";
+
+const HOURS = [
+  "未知",
+  "23-01 子时",
+  "01-03 丑时",
+  "03-05 寅时",
+  "05-07 卯时",
+  "07-09 辰时",
+  "09-11 巳时",
+  "11-13 午时",
+  "13-15 未时",
+  "15-17 申时",
+  "17-19 酉时",
+  "19-21 戌时",
+  "21-23 亥时",
+];
 
 export function MemberLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [mode, setMode] = useState<"login" | "register">(
+    searchParams.get("mode") === "register" ? "register" : "login",
+  );
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -37,10 +54,10 @@ export function MemberLoginForm() {
     };
   }, [router, searchParams]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  async function onLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setError(null);
+    setMessage("");
 
     try {
       const response = await fetch("/api/member/session", {
@@ -49,12 +66,10 @@ export function MemberLoginForm() {
         body: JSON.stringify({ identifier, password }),
       });
 
-      const body = (await response.json().catch(() => null)) as {
-        error?: string;
-      } | null;
+      const body = (await response.json().catch(() => null)) as { error?: string } | null;
 
       if (!response.ok) {
-        setError(body?.error ?? "无法登录，请稍后再试。");
+        setMessage(body?.error ?? "无法登录，请稍后再试。");
         return;
       }
 
@@ -62,93 +77,168 @@ export function MemberLoginForm() {
       router.push(next);
       router.refresh();
     } catch {
-      setError("无法登录，请稍后再试。");
+      setMessage("无法登录，请稍后再试。");
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  function onRegister(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const nextPassword = (form.elements.namedItem("password") as HTMLInputElement)?.value;
+    const confirm = (form.elements.namedItem("confirmPassword") as HTMLInputElement)?.value;
+
+    if (nextPassword !== confirm) {
+      setMessage("两次输入的密码不一致");
+      return;
+    }
+
+    setMessage("网站不支持直接注册。请前往 App 创建账户后再登录。");
+    window.open(DEFAULT_APP_EXPERIENCE_URL, "_blank", "noopener,noreferrer");
+  }
+
+  function sendCode() {
+    setMessage("请前往 App 获取验证码并完成注册。");
+    window.open(DEFAULT_APP_EXPERIENCE_URL, "_blank", "noopener,noreferrer");
+  }
 
   if (checkingSession) {
     return (
-      <div className="page-shell flex min-h-[60vh] items-center justify-center">
-        <Spinner />
+      <div className="auth-page dmt-filter-1">
+        <p className="auth-ok">正在检查登录状态…</p>
       </div>
     );
   }
 
   return (
-    <div className="page-shell">
-      <div className="section-container flex min-h-[calc(100svh-72px)] items-center py-12 md:min-h-[calc(100svh-80px)] md:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mx-auto w-full max-w-[480px]"
-        >
-          <p className="section-eyebrow cjk">Sign In</p>
-          <h1 className="cjk section-heading mt-3">登录我的账户</h1>
-          <p className="mt-4 font-sans text-sm leading-relaxed text-fg-muted">
-            使用 KCC ID 登录。账户需已在数易 App 注册并完成 KCC 绑定。
-          </p>
-
-          <form
-            onSubmit={handleSubmit}
-            className="mt-8 space-y-5 rounded-[28px] border border-border bg-surface p-6 md:p-8"
+    <div className={`auth-page dmt-filter-1${mode === "register" ? " is-register" : ""}`}>
+      {mode === "login" ? (
+        <form key="login" className="auth-form" onSubmit={onLogin}>
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            required
+            placeholder="账号名字"
+            aria-label="账号名字"
+            value={identifier ?? ""}
+            onChange={(event) => setIdentifier(event.target.value)}
+          />
+          <input
+            type="password"
+            name="password"
+            autoComplete="current-password"
+            required
+            placeholder="密码"
+            aria-label="密码"
+            value={password ?? ""}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <button type="submit" className="auth-submit" disabled={loading}>
+            {loading ? "登录中…" : "登录"}
+          </button>
+          <button
+            type="button"
+            className="auth-switch"
+            onClick={() => {
+              setMode("register");
+              setMessage("");
+            }}
           >
-            <label className="block">
-              <span className="mb-2 block font-sans text-sm font-semibold text-fg">
-                邮箱或用户名
-              </span>
-              <div className="relative">
-                <Mail className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-fg-subtle" />
-                <input
-                  type="text"
-                  autoComplete="username"
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value)}
-                  className="focus-accent min-h-[44px] w-full rounded-2xl border border-border bg-bg px-4 py-3 pl-11 font-sans text-sm text-fg outline-none transition-colors focus:border-accent"
-                />
-              </div>
-            </label>
-
-            <label className="block">
-              <span className="mb-2 block font-sans text-sm font-semibold text-fg">密码</span>
-              <div className="relative">
-                <Lock className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-fg-subtle" />
-                <input
-                  type="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="focus-accent min-h-[44px] w-full rounded-2xl border border-border bg-bg px-4 py-3 pl-11 font-sans text-sm text-fg outline-none transition-colors focus:border-accent"
-                />
-              </div>
-            </label>
-
-            {error ? (
-              <p className="rounded-2xl border border-danger/20 bg-danger/10 px-4 py-3 font-sans text-sm text-danger">
-                {error}
-              </p>
-            ) : null}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="focus-accent group flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-accent py-3 font-sans text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover disabled:opacity-70"
-            >
-              {loading ? <Spinner /> : null}
-              登录
-              {!loading ? <ArrowRight className="h-4 w-4" /> : null}
+            还没有账号？注册
+          </button>
+        </form>
+      ) : (
+        <form key="register" className="auth-form auth-signup" onSubmit={onRegister}>
+          <input
+            type="text"
+            name="chineseName"
+            autoComplete="name"
+            required
+            placeholder="中文名字"
+            aria-label="中文名字"
+          />
+          <select name="gender" required defaultValue="" aria-label="选择性别">
+            <option value="" disabled hidden>
+              选择性别
+            </option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+          <input type="date" name="birthday" required aria-label="生日" />
+          <select name="birthHour" required defaultValue="" aria-label="出生时间">
+            <option value="" disabled hidden>
+              出生时间（便于测算）
+            </option>
+            {HOURS.map((hour) => (
+              <option key={hour} value={hour}>
+                {hour}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            required
+            placeholder="账号名字"
+            aria-label="账号名字"
+          />
+          <div className="auth-email-row">
+            <input
+              id="reg-email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              required
+              placeholder="电子邮箱"
+              aria-label="电子邮箱"
+            />
+            <button type="button" className="auth-code-btn" onClick={sendCode}>
+              发送验证码
             </button>
-          </form>
-
-          <p className="mt-6 text-center font-sans text-sm text-fg-muted">
-            还没有账户？{" "}
-            <Link href="https://app.numforlife.com/h5/" className="text-accent-ink hover:underline">
-              前往 App 注册
-            </Link>
-          </p>
-        </motion.div>
-      </div>
+          </div>
+          <input
+            type="text"
+            name="code"
+            inputMode="numeric"
+            required
+            placeholder="输入验证码"
+            aria-label="输入验证码"
+          />
+          <input
+            type="password"
+            name="password"
+            autoComplete="new-password"
+            required
+            placeholder="设置密码"
+            aria-label="设置密码"
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            autoComplete="new-password"
+            required
+            placeholder="重新输入密码"
+            aria-label="重新输入密码"
+          />
+          <button type="submit" className="auth-submit">
+            注册
+          </button>
+          <button
+            type="button"
+            className="auth-switch"
+            onClick={() => {
+              setMode("login");
+              setMessage("");
+            }}
+          >
+            已有账号？登录
+          </button>
+        </form>
+      )}
+      {message ? <p className="auth-ok">{message}</p> : null}
     </div>
   );
 }

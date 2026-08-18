@@ -4,14 +4,8 @@ import { usePathname } from "next/navigation";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { useLiveCMS } from "@/lib/cms/content-provider";
 
-const PAGES_WITH_CONTACT_FOOTER = new Set([
-  "/",
-  "/about-us",
-  "/contact-us",
-  "/portfolio",
-]);
-
-const FOOTER_EXCLUDED_PREFIXES = ["/dashboard", "/login", "/celue", "/admin"];
+const FOOTER_EXCLUDED_PREFIXES = ["/dashboard", "/celue", "/admin"];
+const PAGES_WITH_INLINE_FOOTER = new Set(["/"]);
 
 export function GlobalSiteFooter() {
   const pathname = usePathname();
@@ -21,7 +15,7 @@ export function GlobalSiteFooter() {
     return null;
   }
 
-  if (PAGES_WITH_CONTACT_FOOTER.has(pathname)) {
+  if (PAGES_WITH_INLINE_FOOTER.has(pathname)) {
     return null;
   }
 

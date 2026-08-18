@@ -215,7 +215,7 @@ export function DashboardPanels({ data }: { data: MemberDashboardData }) {
               暂无测算记录。先在网页体验简版数字生命，或在 App 保存完整记录。
             </p>
             <Link
-              href="/celue/number"
+              href="/celue/number?calc=1"
               className="focus-accent mt-4 inline-flex min-h-[44px] items-center rounded-full bg-accent px-6 py-3 font-sans text-sm font-semibold text-accent-fg"
             >
               开始数字生命测算

@@ -8,39 +8,26 @@ function isSectionTitle(text: string) {
 
 export function LegalDocumentBody({ blocks }: { blocks: LegalBlock[] }) {
   return (
-    <div className="legal-document space-y-6">
+    <>
       {blocks.map((block, index) => {
-        if (block.type === "paragraph") {
+        if (block.type === "list") {
           return (
-            <p
-              key={`p-${index}`}
-              className="font-sans text-sm leading-relaxed text-fg-muted md:text-base"
-            >
-              {block.text}
-            </p>
+            <ul key={`ul-${index}`}>
+              {block.items.map((item) => (
+                <li key={item}>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           );
         }
 
-        if (isSectionTitle(block.text)) {
-          return (
-            <h2
-              key={`h-${index}`}
-              className="cjk pt-2 font-sans text-xl font-semibold text-fg md:text-2xl"
-            >
-              {block.text}
-            </h2>
-          );
+        if (block.type === "paragraph" || !isSectionTitle(block.text)) {
+          return <p key={`p-${index}`}>{block.text}</p>;
         }
 
-        return (
-          <p
-            key={`lead-${index}`}
-            className="font-sans text-sm leading-relaxed text-fg md:text-base"
-          >
-            {block.text}
-          </p>
-        );
+        return <h2 key={`h-${index}`}>{block.text}</h2>;
       })}
-    </div>
+    </>
   );
 }

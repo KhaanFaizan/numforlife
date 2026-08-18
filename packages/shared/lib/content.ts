@@ -11,7 +11,7 @@ export const navLinks = [
   { label: "产品服务", href: "/portfolio" },
   { label: "关于我们", href: "/about-us" },
   { label: "联系", href: "/contact-us" },
-  { label: "商店", href: "/shop" },
+  { label: "商店", href: "/shopping" },
 ];
 
 /** Reference-style header navigation (numforlife.com). */
@@ -19,7 +19,7 @@ export const marketingNavLinks = [
   { label: "产品服务", href: "/portfolio" },
   { label: "关于我们", href: "/about-us" },
   { label: "联系", href: "/contact-us" },
-  { label: "商店", href: "/shop" },
+  { label: "商店", href: "/shopping" },
 ];
 
 export const footerLinks = [
@@ -37,28 +37,28 @@ export const productServices = [
     title: "Digital Life",
     image:
       "https://numforlife.com/wp-content/uploads/2025/06/11062b_0a4cc6bd468f4930924daa97e9cfcce3mv2-1.avif",
-    href: "https://numforlife.com/number",
+    href: "/number",
   },
   {
     id: "onomastics",
     title: "Onomastics",
     image:
       "https://numforlife.com/wp-content/uploads/2025/06/sc1.webp",
-    href: "https://numforlife.com/name",
+    href: "/name",
   },
   {
     id: "tarot",
     title: "Tarot reading",
     image:
       "https://numforlife.com/wp-content/uploads/2025/06/dt1.webp",
-    href: "https://numforlife.com/tarot",
+    href: "/tarot",
   },
   {
     id: "eastern",
     title: "Eastern divination",
     image:
       "https://numforlife.com/wp-content/uploads/2025/06/77a7d0_882b88deaff94da6973cb65bf6ddc250mv2-1.avif",
-    href: "https://numforlife.com/eastern-divination",
+    href: "/eastern-divination",
   },
 ];
 

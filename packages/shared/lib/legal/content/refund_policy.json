@@ -2,7 +2,7 @@
   "title": "退款政策",
   "path": "/refund-policy",
   "wpSlug": "refund-policy",
-  "capturedAt": "2026-08-11",
+  "capturedAt": "2026-08-18",
   "blocks": [
     {
       "type": "heading",
@@ -13,11 +13,11 @@
       "text": "声明 A Legal Disclaimer"
     },
     {
-      "type": "heading",
+      "type": "paragraph",
       "text": "我们致力于保障用户的合法权益，并提供合理、公正的退款机制。然而，我们保留在不另行通知的情况下，根据适用法规、政策更新、突发状况或国家法律的变更，调整退款政策的权利。所有调整将在不损害消费者基本权益的前提下执行，并以保障用户体验与平台运营平衡为原则。 若您对退款相关政策有任何疑问，欢迎随时联系客户服务团队，我们将尽力协助处理。"
     },
     {
-      "type": "heading",
+      "type": "paragraph",
       "text": "We are committed to protecting users’ legitimate rights and providing a fair and reasonable refund mechanism. However, we reserve the right to adjust this policy without prior notice in accordance with applicable laws, policy updates, unforeseen circumstances, or legal changes. All adjustments will be made without compromising basic consumer rights, and will be guided by the principle of balancing user experience with platform operations. If you have any questions about this policy, please feel free to contact our customer service team."
     },
     {
@@ -26,7 +26,29 @@
     },
     {
       "type": "paragraph",
-      "text": "本退款政策参考并遵循以下规范： Apple App Store 与 Google Play 开发者政策 数字产品行业标准（即时交付、不可退回） 订阅服务常见规则（自动续订、取消与退款条件） 全球消费者权益保护法规（如 GDPR 等） This Refund Policy is based on and follows: Apple App Store and Google Play developer policies Digital product industry standards (instant delivery, non-returnable) Subscription service practices (auto-renewal, cancellation, refund conditions) Global consumer protection laws (e.g., GDPR and other applicable regulations)"
+      "text": "本退款政策参考并遵循以下规范："
+    },
+    {
+      "type": "list",
+      "items": [
+        "Apple App Store 与 Google Play 开发者政策",
+        "数字产品行业标准（即时交付、不可退回）",
+        "订阅服务常见规则（自动续订、取消与退款条件）",
+        "全球消费者权益保护法规（如 GDPR 等）"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "This Refund Policy is based on and follows:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Apple App Store and Google Play developer policies",
+        "Digital product industry standards (instant delivery, non-returnable)",
+        "Subscription service practices (auto-renewal, cancellation, refund conditions)",
+        "Global consumer protection laws (e.g., GDPR and other applicable regulations)"
+      ]
     },
     {
       "type": "heading",
@@ -37,28 +59,121 @@
       "text": "我们致力于为用户提供高质量的数字服务和优质的使用体验。如果您对所购买的服务不满意，您可以根据以下条款申请退款。"
     },
     {
-      "type": "paragraph",
-      "text": "一、数字产品与服务 Digital Products & Services 数字类产品（如个性化解读、分析报告、下载资源等）一经交付，通常视为最终交易，不支持退款。 以下情况可申请退款：重复付款、无法正常使用的技术问题、系统/平台错误扣款。 Digital products (such as personalized readings, reports, downloadable resources) are generally considered final once delivered and are non-refundable. Refunds may be granted under special circumstances: duplicate payments, technical issues preventing access, or billing errors."
+      "type": "heading",
+      "text": "一、数字产品与服务 Digital Products & Services"
     },
     {
-      "type": "paragraph",
-      "text": "二、会员与订阅服务 Membership & Subscriptions 首次购买：在 7 天内 申请退款且未使用任何专属功能，可酌情处理。 续费订单：自动续订成功后不予退款，请提前取消。 降级会员：降级不会退还差价。 For first-time purchases: Refund requests within 7 days may be considered if no membership features have been used. Renewals are non-refundable once processed; please cancel beforehand. Downgrading membership will not trigger partial refunds."
+      "type": "list",
+      "items": [
+        "数字类产品（如个性化解读、分析报告、下载资源等）一经交付，通常视为最终交易，不支持退款。",
+        "以下情况可申请退款：重复付款、无法正常使用的技术问题、系统/平台错误扣款。"
+      ]
     },
     {
-      "type": "paragraph",
-      "text": "三、实物商品 Physical Products 可退条件：商品必须保持完好，未使用，原包装完整。通常需在 7–14 天内 申请。 不可退：定制/个性化商品、因个人原因损坏的商品、超过退货期限。 退货运费：质量问题由我们承担，个人原因退货由用户承担。 Eligible for return: Items must be unused, undamaged, and in original packaging. Requests should be made within 7–14 days. Non-returnable: Customized items, user-damaged items, or overdue returns. Return shipping: Covered by us if due to product defects; otherwise borne by the user."
+      "type": "list",
+      "items": [
+        "Digital products (such as personalized readings, reports, downloadable resources) are generally considered final once delivered and are non-refundable.",
+        "Refunds may be granted under special circumstances: duplicate payments, technical issues preventing access, or billing errors."
+      ]
     },
     {
-      "type": "paragraph",
-      "text": "四、特殊情况 Special Circumstances 预售/定制服务：确认后不可退款，除非存在严重质量或履约问题。 促销/清仓商品：通常不支持退款或退换。 不可抗力：因自然灾害、政策、清关延误等造成的影响，不构成全额退款义务。 Pre-orders/customized services are non-refundable once confirmed, except for major quality or fulfillment issues. Promotional/clearance items are generally non-refundable. Force majeure (e.g., natural disasters, customs delays, regulatory restrictions) does not guarantee full refunds."
+      "type": "heading",
+      "text": "二、会员与订阅服务 Membership & Subscriptions"
     },
     {
-      "type": "paragraph",
-      "text": "五、退款流程 Refund Process 申请方式：📧 shuyi.fn@gmail.com 请提供：注册邮箱、订单号（Apple/Google 订单号）、退款原因与凭证。 客服将在 3–5 个工作日 内回复； 审核通过后，退款将在 7 个工作日 内原路退回。 To apply: Email shuyi.fn@gmail.com with your registered email, order ID (Apple/Google), reason, and supporting evidence. Customer service will respond within 3–5 business days; Approved refunds will be returned to the original payment method within 7 business days."
+      "type": "list",
+      "items": [
+        "首次购买：在 7 天内 申请退款且未使用任何专属功能，可酌情处理。",
+        "续费订单：自动续订成功后不予退款，请提前取消。",
+        "降级会员：降级不会退还差价。"
+      ]
     },
     {
-      "type": "paragraph",
-      "text": "六、审核与限制 Review & Limitations 频繁退款或恶意行为账户可能被限制服务。 若发现欺诈、滥用政策等情况，我们有权拒绝退款并追究责任。 Accounts with frequent or malicious refund requests may face service restrictions. Fraudulent activity or abuse of this policy may result in denial of refunds and potential legal action."
+      "type": "list",
+      "items": [
+        "For first-time purchases: Refund requests within 7 days may be considered if no membership features have been used.",
+        "Renewals are non-refundable once processed; please cancel beforehand.",
+        "Downgrading membership will not trigger partial refunds."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "三、实物商品 Physical Products"
+    },
+    {
+      "type": "list",
+      "items": [
+        "可退条件：商品必须保持完好，未使用，原包装完整。通常需在 7–14 天内 申请。",
+        "不可退：定制/个性化商品、因个人原因损坏的商品、超过退货期限。",
+        "退货运费：质量问题由我们承担，个人原因退货由用户承担。"
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Eligible for return: Items must be unused, undamaged, and in original packaging. Requests should be made within 7–14 days.",
+        "Non-returnable: Customized items, user-damaged items, or overdue returns.",
+        "Return shipping: Covered by us if due to product defects; otherwise borne by the user."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "四、特殊情况 Special Circumstances"
+    },
+    {
+      "type": "list",
+      "items": [
+        "预售/定制服务：确认后不可退款，除非存在严重质量或履约问题。",
+        "促销/清仓商品：通常不支持退款或退换。",
+        "不可抗力：因自然灾害、政策、清关延误等造成的影响，不构成全额退款义务。"
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Pre-orders/customized services are non-refundable once confirmed, except for major quality or fulfillment issues.",
+        "Promotional/clearance items are generally non-refundable.",
+        "Force majeure (e.g., natural disasters, customs delays, regulatory restrictions) does not guarantee full refunds."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "五、退款流程 Refund Process"
+    },
+    {
+      "type": "list",
+      "items": [
+        "申请方式：📧 shuyi.fn@gmail.com",
+        "请提供：注册邮箱、订单号（Apple/Google 订单号）、退款原因与凭证。",
+        "客服将在 3–5 个工作日 内回复；",
+        "审核通过后，退款将在 7 个工作日 内原路退回。"
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "To apply: Email shuyi.fn@gmail.com with your registered email, order ID (Apple/Google), reason, and supporting evidence.",
+        "Customer service will respond within 3–5 business days;",
+        "Approved refunds will be returned to the original payment method within 7 business days."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "六、审核与限制 Review & Limitations"
+    },
+    {
+      "type": "list",
+      "items": [
+        "频繁退款或恶意行为账户可能被限制服务。",
+        "若发现欺诈、滥用政策等情况，我们有权拒绝退款并追究责任。"
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Accounts with frequent or malicious refund requests may face service restrictions.",
+        "Fraudulent activity or abuse of this policy may result in denial of refunds and potential legal action."
+      ]
     }
   ]
 }

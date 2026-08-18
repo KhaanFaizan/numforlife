@@ -1,15 +1,11 @@
 /**
- * Theme resolution.
+ * Theme resolution for the public site.
  *
- * The chosen theme is stored in a plain (non-httpOnly) cookie so that BOTH the
- * server and the client can read it:
- *   - the server reads it in the root layout and stamps `data-theme` on <html>,
- *     so the correct palette is in the very first byte of HTML and there is no
- *     flash of the wrong theme on load;
- *   - the client reads/writes it in the toggle for an instant response with no
- *     server round-trip.
+ * Demo / original WordPress use a two-state darkmode.js invert (class
+ * `darkmode--activated`), not a separate light palette. The cookie still
+ * stores the choice so the server can stamp that class on first paint.
  *
- * It is a display preference, not a secret, so a readable cookie is correct here.
+ * Admin keeps its own `data-theme` handling.
  */
 
 export const THEME_COOKIE = "shuyi-theme";

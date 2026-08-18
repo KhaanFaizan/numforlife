@@ -50,7 +50,7 @@ export default async function MembershipPage() {
               在 App 开通会员
             </Link>
             <Link
-              href="/celue/number"
+              href="/celue/number?calc=1"
               className="focus-accent inline-flex min-h-[44px] items-center justify-center rounded-full border border-border px-6 py-3 font-sans text-sm font-semibold text-fg transition-colors hover:border-accent"
             >
               先体验简版测算

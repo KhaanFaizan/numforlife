@@ -47,7 +47,7 @@ export function LayoutShell({
       <main
         id="main-content"
         data-show-app-cta={showAppDownloadCta ? "true" : "false"}
-        className={pathname === "/" ? "marketing-page" : undefined}
+        className={pathname === "/" ? "site-main marketing-page" : "site-main"}
       >
         {children}
       </main>

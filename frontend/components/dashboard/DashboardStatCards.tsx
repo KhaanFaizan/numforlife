@@ -44,13 +44,13 @@ export function DashboardQuickActions() {
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <Link
-        href="/celue/number"
+              href="/celue/number?calc=1"
         className="focus-accent rounded-2xl border border-border bg-surface px-4 py-4 font-sans text-sm font-semibold text-fg transition-colors hover:border-accent"
       >
         数字生命测算
       </Link>
       <Link
-        href="/shop"
+        href="/shopping"
         className="focus-accent rounded-2xl border border-border bg-surface px-4 py-4 font-sans text-sm font-semibold text-fg transition-colors hover:border-accent"
       >
         浏览商店

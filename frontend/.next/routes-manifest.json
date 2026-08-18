@@ -100,6 +100,12 @@
       "namedRegex": "^/dashboard(?:/)?$"
     },
     {
+      "page": "/eastern-divination",
+      "regex": "^/eastern\\-divination(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/eastern\\-divination(?:/)?$"
+    },
+    {
       "page": "/faq",
       "regex": "^/faq(?:/)?$",
       "routeKeys": {},
@@ -122,6 +128,18 @@
       "regex": "^/membership(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/membership(?:/)?$"
+    },
+    {
+      "page": "/name",
+      "regex": "^/name(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/name(?:/)?$"
+    },
+    {
+      "page": "/number",
+      "regex": "^/number(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/number(?:/)?$"
     },
     {
       "page": "/portfolio",
@@ -170,6 +188,12 @@
       "regex": "^/sitemap\\.xml(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/tarot",
+      "regex": "^/tarot(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/tarot(?:/)?$"
     },
     {
       "page": "/terms-of-use",
